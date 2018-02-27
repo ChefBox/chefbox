@@ -12,6 +12,7 @@
 const db = require('../server/db')
 const { User } = require('../server/db/models')
 const { Product } = require('../server/db/models')
+const { ProductImages } = require('../server/db/models')
 console.log('product: ', User.create);
 async function seed () {
   await db.sync({force: true})
@@ -25,6 +26,7 @@ async function seed () {
   ]);
 
   console.log(`seeded ${users.length} users`);
+
 
   const products = await Promise.all([
     Product.create({name: 'Fish Tacos', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 45, calories: 750}),
@@ -42,9 +44,21 @@ async function seed () {
 
 
   ]);
+  console.log(`seeded ${products.length} products`)
+
+  const productImages = await Promise.all([
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/1.jpeg', altCaption: 'im not sure what this is, TRY IT!'}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/2.jpeg', altCaption: 'ewwwwww'}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/3.jpeg', altCaption: 'Looks weird, i think'}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/4.jpeg', altCaption: ''}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/5.jpeg', altCaption: `I'm a teepot short and stout`}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/6.jpeg', altCaption: ''}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/7.jpeg', altCaption: ''}),
+    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/8.jpeg', altCaption: ''}),
+  ])
+  console.log(`seeded ${productImages.length} productsImages`)
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
 }
 
