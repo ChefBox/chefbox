@@ -10,9 +10,9 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db')
-const {User} = require('../server/db/models')
-const {Product} = require('../server/db/models')
-
+const { User } = require('../server/db/models')
+const { Product } = require('../server/db/models')
+console.log('product: ', User.create);
 async function seed () {
   await db.sync({force: true})
   console.log('db synced!')
@@ -21,15 +21,18 @@ async function seed () {
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-    Product.create(({}))
-  ])
+    User.create({email: 'murphy@email.com', password: '123'}),
+  ]);
+
+  console.log(`seeded ${users.length} users`);
+
+  const products = await Promise.all([
+    Product.create({name: 'Fish Tacos', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timePrep: 30, availabilty: 'pending', numberInStock: 45, calories: 755})
+  ]);
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${products.length} products`)
   console.log(`seeded successfully`)
-
-
 }
 
 // Execute the `seed` function
