@@ -14,7 +14,7 @@ describe('Product model', () => {
     expect(Product.attributes.description).to.be.an('object');
     expect(Product.attributes.ingredients).to.be.an('object');
     expect(Product.attributes.timeToPrep).to.be.an('object');
-    expect(Product.attributes.availabiliy).to.be.an('object');
+    expect(Product.attributes.availability).to.be.an('object');
     expect(Product.attributes.calories).to.be.an('object');
     expect(Product.attributes.numberInStock).to.be.an('object');
 
