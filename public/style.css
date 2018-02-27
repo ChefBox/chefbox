@@ -19,3 +19,10 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  background: red;
+  align-items: center;
+}
