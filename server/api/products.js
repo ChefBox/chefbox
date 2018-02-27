@@ -32,7 +32,7 @@ router.put('/:productId', (req, res, next) => {
         returning: true,
     })
         .then(([rowsUpdate, [product]]) => 
-            res.json(campus)
+            res.json(product)
         )
         .catch(next)
 })
