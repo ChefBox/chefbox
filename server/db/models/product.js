@@ -41,7 +41,7 @@ const Product = db.define('product', {
         }
     },
     availabiliy: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM(true, false),
         allowNull: false,
         defaultValue: false
     },
