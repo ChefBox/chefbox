@@ -18,7 +18,7 @@ const Product = db.define('product', {
         }
     },
     ingredients: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
         allowNull: false,
         validate: {
             notEmpty: true
@@ -62,3 +62,7 @@ const Product = db.define('product', {
         }
     }
 })
+
+module.exports = {
+    Product
+}
