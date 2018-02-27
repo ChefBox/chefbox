@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const db = require('../index')
+const db = require('../db')
 
 
 const Product = db.define('product', {
@@ -18,7 +18,7 @@ const Product = db.define('product', {
         }
     },
     ingredients: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
         allowNull: false,
         validate: {
             notEmpty: true
@@ -41,9 +41,9 @@ const Product = db.define('product', {
         }
     },
     availabiliy: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM('true', 'pending', 'false'),
         allowNull: false,
-        defaultValue: false
+        defaultValue: 'false'
     },
     numberInStock: {
         type: Sequelize.INTEGER,
@@ -62,3 +62,7 @@ const Product = db.define('product', {
         }
     }
 })
+
+module.exports = {
+    Product
+}
