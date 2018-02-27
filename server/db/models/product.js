@@ -40,10 +40,10 @@ const Product = db.define('product', {
             min: 0
         }
     },
-    availabiliy: {
-        type: Sequelize.ENUM('true', 'pending', 'false'), // eslint-disable-line new-cap
+    availability: {
+        type: Sequelize.ENUM('available', 'pending', 'out of stack'), // eslint-disable-line new-cap
         allowNull: false,
-        defaultValue: 'false'
+        defaultValue: 'pending'
     },
     numberInStock: {
         type: Sequelize.INTEGER,
