@@ -41,7 +41,7 @@ const Product = db.define('product', {
         }
     },
     availabiliy: {
-        type: Sequelize.ENUM('true', 'pending', 'false'),
+        type: Sequelize.ENUM('true', 'pending', 'false'), // eslint-disable-line new-cap
         allowNull: false,
         defaultValue: 'false'
     },
@@ -63,6 +63,4 @@ const Product = db.define('product', {
     }
 })
 
-module.exports = {
-    Product
-}
+module.exports = Product
