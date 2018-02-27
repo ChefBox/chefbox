@@ -46,7 +46,7 @@ const deleteProduct = (id) => {
 
 export function fetchProducts () {
   return function thunk (dispatch) {
-    axios.get('/api/products')
+    return axios.get('/api/products')
     .then(res => res.data)
     .then(products => dispatch(getProducts(products)))
     .catch(err => console.error('Fetching products unsuccesful.', err))
