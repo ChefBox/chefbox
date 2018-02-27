@@ -41,9 +41,9 @@ const Product = db.define('product', {
         }
     },
     availabiliy: {
-        type: Sequelize.ENUM(true, 'pending', false),
+        type: Sequelize.ENUM('true', 'pending', 'false'),
         allowNull: false,
-        defaultValue: false
+        defaultValue: 'false'
     },
     numberInStock: {
         type: Sequelize.INTEGER,
