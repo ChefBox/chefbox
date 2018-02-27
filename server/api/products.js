@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId
-    Product.findById()
+    Product.findById(id)
         .then(product => res.json(product))
         .catch(next)
 })
@@ -44,5 +44,4 @@ router.delete('/:productId', (req, res, next) => {
     })
         .then(() => res.sendStatus(204))
         .catch(next)
-
 })
