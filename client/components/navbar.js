@@ -8,6 +8,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
     <h1>BOILERMAKER</h1>
     <nav>
+      <div>
+        {/* <img src= "../../public/static-images/shopping-cart.png" className="cart" /> */}
+      </div>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
