@@ -108,18 +108,31 @@ describe('Product routes without a seed data', () => {
                     expect(res.body.description).to.equal(fakeProduct.description)
             })
         })
-        
-        beforeEach(() => {
-            return Product.update({
-                availability: true
-            }, {
-                where: { id }
+
+        describe('PUT & DELETE `/api/products/:productId` URI', () => {
+
+            beforeEach(() => {
+                return Product.update({
+                    availability: 'available'
+                }, {
+                    where: { id: 1 }
+                })
+            })
+    
+            it('PUT update a specitic product', () => {
+                return request(app)
+                    .put('/api/products/1')
+                    .expect(200)
+                    .expect(res => {
+                        expect(res.body.availability).to.equal('available')
+                })
+            })
+
+            it('DELETE remove a specitic product', () => {
+                return request(app)
+                    .delete('/api/products/1')
+                    .expect(204)
             })
         })
-
-        it('PUT update a specitic product', () => {
-            return request(app)
-                .put('')
-        })
-    })
+    })    
 })
