@@ -7,51 +7,58 @@ const Product = db.define('product', {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true
         }
     },
     description: {
         type: Sequelize.TEXT,
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true
         }
     },
     ingredients: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true
         }
     },
     price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true,
+            min: 0
         }
     },
     timeToPrep: {
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true,
+            min: 0
         }
     },
     availabiliy: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.ENUM,
         allowNull: false,
         defaultValue: false
     },
-    averageRating:  {
-        type: Sequelize.INTEGER,
-        allowNull: true
-    },
-    numberOfReviews: {
+    numberInStock: {
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
-            notEmpty: false
+            notEmpty: true,
+            min: 0
+        }
+    },
+    calories: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            min: 0
         }
     }
 })
