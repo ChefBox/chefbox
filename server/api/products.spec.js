@@ -74,6 +74,8 @@ describe('Product routes without a seed data', () => {
                     expect(res.body.numberInStock).to.equal(otherProduct.numberInStock)
                     expect(res.body.timeToPrep).to.equal(otherProduct.timeToPrep)
                     expect(res.body.ingredients[0]).to.equal(otherProduct.ingredients[0])
+                    // for agreement with team member
+                    expect(res.body.availability).to.equal('pending') 
             })
         })
     })
@@ -105,6 +107,19 @@ describe('Product routes without a seed data', () => {
                     expect(res.body.calories).to.equal(fakeProduct.calories)
                     expect(res.body.description).to.equal(fakeProduct.description)
             })
+        })
+        
+        beforeEach(() => {
+            return Product.update({
+                availability: true
+            }, {
+                where: { id }
+            })
+        })
+
+        it('PUT update a specitic product', () => {
+            return request(app)
+                .put('')
         })
     })
 })
