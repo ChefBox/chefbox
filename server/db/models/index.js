@@ -1,6 +1,15 @@
 const User = require('./user')
 const Product = require('./product')
 const ProductImages = require('./productImages')
+const Categories = require('./category')
+
+
+//ASSOCIATIONS
+
+Product.hasMany(ProductImages)
+Product.belongsToMany(Categories, {through: "Product_Categories"})
+Categories.belongsToMany(Product, {through: "Product_Categories"})
+
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -19,4 +28,5 @@ module.exports = {
   User,
   Product,
   ProductImages,
+  Categories
 }
