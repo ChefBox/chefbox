@@ -5,9 +5,9 @@ const db = require('../db')
 const ProductImages = db.define('productImages', {
   imageUrl: {
     type: Sequelize.STRING,
+    allowNull: false,
     validate: {
-      allowNull: false,
-      isUrl: true,
+      isUrl: {msg: 'Invalid URL, try again'}
     }
   },
   altCaption: {
