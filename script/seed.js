@@ -14,65 +14,105 @@ const { User } = require('../server/db/models')
 const { Product } = require('../server/db/models')
 const { ProductImages } = require('../server/db/models')
 const { Category } = require('../server/db/models')
-const chance = require('chance')
-console.log('product: ', User.create);
-async function seed () {
-  await db.sync({force: true})
+const { Review } = require('../server/db/models')
+const Chance = require('chance')
+
+const chance = new Chance(2378) //seeding value for predictable randomness
+const maxReviews = 5 //per product
+
+const generateReview = () => {
+  let title = chance.word()
+  let titleLength = chance.integer({min: 0, max: 3})
+  for (let i = 0; i < titleLength; i++){
+    title += ' ' + chance.word()
+  }
+  return {
+    title,
+    content: chance.paragraph(chance.integer({min: 1, max: 3})),
+    rating: chance.integer({min: 1, max: 5}),
+  }
+}
+
+async function seed() {
+  await db.sync({ force: true })
   console.log('db synced!')
   // Whoa! Because we `await` the promgit sise that db.sync returns, the next line will not be
   // executed until that promise resolves!
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'}),
+    User.create({ email: 'cody@email.com', password: '123' }),
+    User.create({ email: 'murphy@email.com', password: '123' }),
   ]);
 
   console.log(`seeded ${users.length} users`);
 
   const categories = await Promise.all([
-    {name: 'American', description: 'Its from America!'},
-    {name: 'Chinese', description: 'Food with an asian flare from China'},
-    {name: 'BBQ', description: 'Southern American Cuisine'},
-    {name: 'Sushi', description: 'Raw Fish'},
-    {name: 'Vegitarian', description: 'Has no meat'},
-    {name: 'seafood', description: 'fish and shellfish'},
-    {name: 'Thai', description: 'Food from thailand'},
-    {name: 'Deli', description: 'sandwiches made of meat'},
-    {name: 'Brazilian', description: 'Food from the country of brazil'},
+    Category.create({ name: 'American', description: 'Its from America!' }),
+    Category.create({ name: 'Chinese', description: 'Food with an asian flare from China' }),
+    Category.create({ name: 'BBQ', description: 'Southern American Cuisine' }),
+    Category.create({ name: 'Sushi', description: 'Raw Fish' }),
+    Category.create({ name: 'Vegitarian', description: 'Has no meat' }),
+    Category.create({ name: 'seafood', description: 'fish and shellfish' }),
+    Category.create({ name: 'Thai', description: 'Food from thailand' }),
+    Category.create({ name: 'Deli', description: 'sandwiches made of meat' }),
+    Category.create({ name: 'Brazilian', description: 'Food from the country of brazil' }),
   ])
+  console.log(`seeded ${categories.length} categories`)
 
 
   const products = await Promise.all([
-    Product.create({name: 'Fish Tacos', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 45, calories: 750}),
-    Product.create({name: 'Jalapeno', description: 'Amazingly yummy', ingredients: ['ground beef', 'bun', 'onion', 'spice mix', 'pickles', 'jack cheese', 'ketchup' ], price: 19.00, timeToPrep: 35, availabilty: 'pending', numberInStock: 45, calories: 650}),
-    Product.create({name: 'Asian Salad', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 2, availabilty: 'pending', numberInStock: 45, calories: 755}),
-    Product.create({name: 'Grandmas\'s Chicken Noodel Soup', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 60, availabilty: 'pending', numberInStock: 18, calories: 755}),
+    Product.create({ name: 'Fish Tacos', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 45, calories: 750 }),
+    Product.create({ name: 'Jalapeno', description: 'Amazingly yummy', ingredients: ['ground beef', 'bun', 'onion', 'spice mix', 'pickles', 'jack cheese', 'ketchup'], price: 19.00, timeToPrep: 35, availabilty: 'pending', numberInStock: 45, calories: 650 }),
+    Product.create({ name: 'Asian Salad', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 2, availabilty: 'pending', numberInStock: 45, calories: 755 }),
+    Product.create({ name: 'Grandmas\'s Chicken Noodel Soup', description: 'Amazingly yummy', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 60, availabilty: 'pending', numberInStock: 18, calories: 755 }),
 
-    Product.create({name: 'Shrimp Scampi with Pasta', description: 'Well-rounded seafood and pasta dish. Good with any pasta.', ingredients: ['shrimp', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 120, calories: 850}),
+    Product.create({ name: 'Shrimp Scampi with Pasta', description: 'Well-rounded seafood and pasta dish. Good with any pasta.', ingredients: ['shrimp', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 120, calories: 850 }),
 
-    Product.create({name: 'Rigatoni alla Genovese', description: 'Slow-simmered perfection! Sure, this old school recipe flies in the face of the convention that recipes must be, above all, quick, but the proof is in the process—and it’s an easy one! After rendering some pork fat from pancetta, brown your beef chuck in the fat, then add celery and carrot and seasonings, a little white wine, and finally, count them, 6 pounds of sliced onions! Everything gets cooked down and reduced over 10 hours until all the intermingled flavors become something akin to pure poetry in a pasta sauce. Serve with rigatoni or your favorite pasta. Get the recipe for Rigatoni alla Genovese.', ingredients: ['pancetta', 'beef chuck', 'celery', 'carrot', 'tomato paste'], price: 11.00, timeToPrep: 35, availabilty: 'pending', numberInStock: 64, calories: 800}),
+    Product.create({ name: 'Rigatoni alla Genovese', description: 'Slow-simmered perfection! Sure, this old school recipe flies in the face of the convention that recipes must be, above all, quick, but the proof is in the process—and it’s an easy one! After rendering some pork fat from pancetta, brown your beef chuck in the fat, then add celery and carrot and seasonings, a little white wine, and finally, count them, 6 pounds of sliced onions! Everything gets cooked down and reduced over 10 hours until all the intermingled flavors become something akin to pure poetry in a pasta sauce. Serve with rigatoni or your favorite pasta. Get the recipe for Rigatoni alla Genovese.', ingredients: ['pancetta', 'beef chuck', 'celery', 'carrot', 'tomato paste'], price: 11.00, timeToPrep: 35, availabilty: 'pending', numberInStock: 64, calories: 800 }),
 
-    Product.create({name: 'Arroz Con Pollo', description: 'Wonderful homey chicken dish. This is a recipe from a relative in Panama. Fluff the rice carefully.', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 45, calories: 755}),
+    Product.create({ name: 'Arroz Con Pollo', description: 'Wonderful homey chicken dish. This is a recipe from a relative in Panama. Fluff the rice carefully.', ingredients: ['tacos', 'fish'], price: 19.00, timeToPrep: 30, availabilty: 'pending', numberInStock: 45, calories: 755 }),
 
-    Product.create({name: 'Roasted Asparagus Salda with Feta Cheese', description: 'Yummy.', ingredients: ['tacos', 'fish'], price: 8.00, timeToPrep: 25, availabilty: 'pending', numberInStock: 53, calories: 600}),
+    Product.create({ name: 'Roasted Asparagus Salda with Feta Cheese', description: 'Yummy.', ingredients: ['tacos', 'fish'], price: 8.00, timeToPrep: 25, availabilty: 'pending', numberInStock: 53, calories: 600 }),
 
 
   ]);
   console.log(`seeded ${products.length} products`)
 
   const productImages = await Promise.all([
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/1.jpeg', altCaption: 'im not sure what this is, TRY IT!'}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/2.jpeg', altCaption: 'ewwwwww'}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/3.jpeg', altCaption: 'Looks weird, i think'}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/4.jpeg', altCaption: ''}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/5.jpeg', altCaption: `I'm a teepot short and stout`}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/6.jpeg', altCaption: ''}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/7.jpeg', altCaption: ''}),
-    ProductImages.create({imageUrl: 'http://127.0.0.1:8080/seedMisc/img/8.jpeg', altCaption: ''}),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/1.jpeg', altCaption: 'im not sure what this is, TRY IT!' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/2.jpeg', altCaption: 'ewwwwww' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/3.jpeg', altCaption: 'Looks weird, i think' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/4.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/5.jpeg', altCaption: `I'm a teepot short and stout` }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/6.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/7.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/8.jpeg', altCaption: '' }),
   ])
   console.log(`seeded ${productImages.length} productsImages`)
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
+
+  console.log('Creating required associations')
+  const productImagesAssociations = []
+  let i = 0;
+  for (let product of products) {
+    productImagesAssociations.push(product.addProductImages(productImages[i]))
+    i++
+  }
+  await Promise.all(productImagesAssociations)
+  console.log(`Associated ${productImagesAssociations.length} productsImages`)
+
+  const productReviewAssociations = []
+  for (let product of products){
+    for (i = 0; i < maxReviews; i++){
+      const randomUser = users[chance.integer({min: 0, max: users.length - 1})]
+      const newReview = await Review.create(generateReview())
+      productReviewAssociations.push(randomUser.addReviews(newReview))
+      productReviewAssociations.push(product.addReviews(newReview))
+    }
+  }
+  await Promise.all(productReviewAssociations)
+  console.log(`Made ${productReviewAssociations.length} associations for product reviews`)
   console.log(`seeded successfully`)
 }
 
