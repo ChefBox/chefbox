@@ -41,7 +41,7 @@ const Product = db.define('product', {
         }
     },
     availability: {
-        type: Sequelize.ENUM('available', 'pending', 'out of stack'), // eslint-disable-line new-cap
+        type: Sequelize.ENUM('available', 'pending', 'out of stock'), // eslint-disable-line new-cap
         allowNull: false,
         defaultValue: 'pending'
     },

@@ -1,21 +1,26 @@
 const User = require('./user')
 const Product = require('./product')
 const ProductImages = require('./productImages')
-const Categories = require('./category')
+const Category = require('./category')
 const Review = require('./review')
-const Cart = require('./cart')
+
+
+const Order = require('./order')
+const LineItem = require('./lineItem')
 
 
 //ASSOCIATIONS
 Product.hasMany(ProductImages)
 Product.hasMany(Review)
 
-Product.belongsToMany(Categories, {through: "Product_Categories"})
-Categories.belongsToMany(Product, {through: "Product_Categories"})
+Product.belongsToMany(Category, {through: 'Product_Category'})
+Category.belongsToMany(Product, {through: 'Product_Category'})
 
 User.hasMany(Review)
 
-Cart.belongsTo(User);
+Order.hasMany(LineItem)
+Order.belongsToMany(Product, {through: LineItem})
+
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
@@ -33,6 +38,6 @@ module.exports = {
   User,
   Product,
   ProductImages,
-  Categories,
+  Category,
   Review,
 }
