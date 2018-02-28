@@ -13,11 +13,13 @@ const db = require('../server/db')
 const { User } = require('../server/db/models')
 const { Product } = require('../server/db/models')
 const { ProductImages } = require('../server/db/models')
+const { Category } = require('../server/db/models')
+const chance = require('chance')
 console.log('product: ', User.create);
 async function seed () {
   await db.sync({force: true})
   console.log('db synced!')
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
+  // Whoa! Because we `await` the promgit sise that db.sync returns, the next line will not be
   // executed until that promise resolves!
 
   const users = await Promise.all([
@@ -26,6 +28,18 @@ async function seed () {
   ]);
 
   console.log(`seeded ${users.length} users`);
+
+  const categories = await Promise.all([
+    {name: 'American', description: 'Its from America!'},
+    {name: 'Chinese', description: 'Food with an asian flare from China'},
+    {name: 'BBQ', description: 'Southern American Cuisine'},
+    {name: 'Sushi', description: 'Raw Fish'},
+    {name: 'Vegitarian', description: 'Has no meat'},
+    {name: 'seafood', description: 'fish and shellfish'},
+    {name: 'Thai', description: 'Food from thailand'},
+    {name: 'Deli', description: 'sandwiches made of meat'},
+    {name: 'Brazilian', description: 'Food from the country of brazil'},
+  ])
 
 
   const products = await Promise.all([
