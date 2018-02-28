@@ -3,6 +3,7 @@ const Product = require('./product')
 const ProductImages = require('./productImages')
 const Categories = require('./category')
 const Review = require('./review')
+const Cart = require('./cart')
 
 
 //ASSOCIATIONS
@@ -14,6 +15,7 @@ Categories.belongsToMany(Product, {through: "Product_Categories"})
 
 User.hasMany(Review)
 
+Cart.belongsTo(User);
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
