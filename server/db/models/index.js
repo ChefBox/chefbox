@@ -18,8 +18,10 @@ Category.belongsToMany(Product, {through: 'Product_Category'})
 
 User.hasMany(Review)
 
+
 Order.hasMany(LineItem)
 Order.belongsToMany(Product, {through: LineItem})
+Order.belongsTo(User)
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -40,4 +42,5 @@ module.exports = {
   ProductImages,
   Category,
   Review,
+  Order
 }

@@ -1,12 +1,8 @@
 const { expect } = require('chai')
 const db = require('../index')
 const ProductImages = db.model('productImages')
-<<<<<<< HEAD
-const ProductCategories = db.model('Product_Categories')
-const Cart = db.model('cart')
-=======
+const Order = db.model('order')
 const ProductCategory = db.model('Product_Category')
->>>>>>> master
 
 
 describe('Product Categories are associated with product and category', () => {
@@ -31,11 +27,11 @@ describe('Product Images are associated with the product', () => {
   });
 });
 
-describe('Carts are associated with users', () => {
+describe('Orders are associated with users', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
   it('has a userId object', () => {
-    expect(Cart.attributes.userId).to.be.an('object');
+    expect(Order.attributes.userId).to.be.an('object');
   });
 });
