@@ -10,11 +10,16 @@ router.get('/', (req, res, next) => {
         .catch(next)
 })
 
+// Possibly for the future, or for other routes,
+// you can use router.param:
+router.param('productId', (req, res, next) =>
+    Product.findById(req.params.productId)
+        .then(product => req.product = product)
+        .then(() => next)
+        .catch(next))
+
 router.get('/:productId', (req, res, next) => {
-    const id = req.params.productId
-    Product.findById(id)
-        .then(product => res.json(product))
-        .catch(next)
+    res.json(req.product)
 })
 
 router.post('/', (req, res, next) => {
@@ -27,6 +32,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:productId', (req, res, next) => {
     const id = req.params.productId
+    
     Product.update(req.body, {
         where: { id },
         returning: true,

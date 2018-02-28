@@ -4,6 +4,29 @@ const ProductImages = require('./productImages')
 const Category = require('./category')
 const Review = require('./review')
 
+//***** Outline of order associations ******//
+const db = require('../db')
+
+const Order = db.define('orders', {
+  // status: ENUM('cart', 'paid', 'delivered')
+})
+const LineItem = db.define('lineItem', {
+  // qty: Whatever
+})
+
+Order.hasMany(LineItem)
+LineItem.belongsTo(Product)
+LineItem.belongsTo(Order)
+
+Order.belongsToMany(Product, {through: LineItem})
+
+async function doSomethingToAnOrder() {
+  const order = await Order.findById(2)
+  order.addProduct(someProduct, {qty: 1})
+}
+//***** End sketchy outline ******//
+
+
 
 //ASSOCIATIONS
 Product.hasMany(ProductImages)

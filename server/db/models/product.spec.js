@@ -2,6 +2,7 @@
 
 const { expect } = require('chai')
 const db = require('../index')
+const {STRING, INTEGER} = require('sequelize')
 const Product = db.model('product')
 
 describe('Product model', () => {
@@ -10,6 +11,8 @@ describe('Product model', () => {
   })
 
   it('has the expected schema definition', () => {
+    expect(Product.attributes.name.type)
+      .to.be.an.instanceOf(STRING)
     expect(Product.attributes.name).to.be.an('object');
     expect(Product.attributes.description).to.be.an('object');
     expect(Product.attributes.ingredients).to.be.an('object');
