@@ -26,7 +26,7 @@ module.exports = {
     watchContentBase: true,
     proxy: [ // allows redirect of requests to webpack-dev-server to another destination
       {
-        context: ['/api/tickle', '/api/test'],  // can have multiple
+        context: ['/api', '/auth'],  // can have multiple
         target: 'http://localhost:8080', //server and port to redirect to
         secure: false,
       },
