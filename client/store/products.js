@@ -55,7 +55,7 @@ export function fetchProducts () {
 
 export function addProduct (product) {
   return function thunk (dispatch) {
-    axios.post('/api/products', product)
+    return axios.post('/api/products', product)
     .then(res => res.data)
     .then(newProduct => dispatch(createProduct(newProduct)))
     .catch(err => console.error(`Creating product ${product} unsuccesful.`, err))
@@ -64,7 +64,8 @@ export function addProduct (product) {
 
 export function editProduct (product, id) {
   return function thunk (dispatch) {
-    axios.put(`/api/products/:${id}`, product)
+    console.log('route', `/api/products/${id}`);
+    return axios.put(`/api/products/${id}`, product)
     .then(res => res.data)
     .then(editedProduct => dispatch(updateProduct(editedProduct)))
     .catch(err => console.error(`Updating product ${product} unsuccesful.`, err))
@@ -73,7 +74,7 @@ export function editProduct (product, id) {
 
 export function removeProduct (id) {
   return function thunk (dispatch) {
-    axios.delete(`/api/products/:${id}`)
+    return axios.delete(`/api/products/${id}`)
     .then(() => dispatch(deleteProduct(id)))
     .catch(err => console.error(`Deleting product (id: ${id}) unsuccesful.`, err))
   }
