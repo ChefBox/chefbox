@@ -64,7 +64,6 @@ export function addProduct (product) {
 
 export function editProduct (product, id) {
   return function thunk (dispatch) {
-    console.log('route', `/api/products/${id}`);
     return axios.put(`/api/products/${id}`, product)
     .then(res => res.data)
     .then(editedProduct => dispatch(updateProduct(editedProduct)))
