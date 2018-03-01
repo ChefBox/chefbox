@@ -13,13 +13,12 @@ describe('Product routes without a seed data', () => {
 
     describe('`/api/products` URI', () => {
         it('GET responds with an empty array at first', () => {
-            // when we make requests to `/api/products` we will get back an empty array
             return request(app)
                 .get('/api/products')
                 .expect(200)
-                .expect('Content-Type', /json/) // tests response header
+                .expect('Content-Type', /json/)
                 .then(res => {
-                    expect(res.body).to.eql([]) // tests response body
+                    expect(res.body).to.eql([])
             })
         })
     })
@@ -52,7 +51,7 @@ describe('Product routes without a seed data', () => {
             return request(app)
                 .get('/api/products')
                 .expect(200)
-                .expect('Content-Type', /json/) // tests response header
+                .expect('Content-Type', /json/)
                 .then(res => {
                     expect(res.body).to.be.an('array')
                     expect(res.body[0].name).to.be.equal(fakeProduct.name)
@@ -74,7 +73,6 @@ describe('Product routes without a seed data', () => {
                     expect(res.body.numberInStock).to.equal(otherProduct.numberInStock)
                     expect(res.body.timeToPrep).to.equal(otherProduct.timeToPrep)
                     expect(res.body.ingredients[0]).to.equal(otherProduct.ingredients[0])
-                    // for agreement with team member
                     expect(res.body.availability).to.equal('pending') 
             })
         })

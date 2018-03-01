@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
 class ProductDetail extends React.Component {
     constructor(props){
         super(props)
-
+        this.state = []
     }
 
     render(){
@@ -67,6 +67,6 @@ export default connect(mapState, mapDispatch)(ProductDetail)
 /**
  * PROP TYPES
  */
-ProductDetail.PropTypes = {
+// ProductDetail.PropTypes = {
 
-}
+// }
