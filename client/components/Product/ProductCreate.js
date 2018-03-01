@@ -174,10 +174,3 @@ const mapDispatch = (dispatch, ownProps) => ({
 })
 
 export default connect(mapState, mapDispatch)(ProductCreate)
-
-/**
- * PROP TYPES
- */
-// ProductEdit.PropTypes = {
-
-// }
