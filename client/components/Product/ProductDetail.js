@@ -14,6 +14,7 @@ class ProductDetail extends React.Component {
         this.state = {
             quantity: 0
         }
+        console.log(props)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -55,7 +56,7 @@ class ProductDetail extends React.Component {
                             <h5>{product.timeToPrep} minutes</h5>
                             <h5>{product.calories} kcal</h5>
                             <h4>$ {product.price} + tax</h4>
-                            <h4>{product.availability}</h4>
+                            <h3>{product.availability}</h3>
                             <p>{product.description}</p>
                             <div>
                                 {
