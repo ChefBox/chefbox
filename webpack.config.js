@@ -34,7 +34,7 @@ module.exports = {
     port: 3000, // port webpack-dev-server listens to, defaults to 8080
     overlay: { // Shows a full-screen overlay in the browser when there are compiler errors or warnings
       warnings: false, // defaults to false
-      errors: false, // defaults to false
+      errors: true, // defaults to false
     },
   },
 }
