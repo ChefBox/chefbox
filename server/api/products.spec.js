@@ -67,7 +67,7 @@ describe('Product routes without a seed data', () => {
                 .expect(res => {
                     expect(res.body).to.be.an('object')
                     expect(res.body.name).to.equal(otherProduct.name)
-                    expect(res.body.price).to.equal(otherProduct.price)
+                    expect(res.body.price).to.equal(otherProduct.price.toFixed(2))
                     expect(res.body.calories).to.equal(otherProduct.calories)
                     expect(res.body.description).to.equal(otherProduct.description)
                     expect(res.body.numberInStock).to.equal(otherProduct.numberInStock)
@@ -101,7 +101,7 @@ describe('Product routes without a seed data', () => {
                 .then(res => {
                     expect(res.body).to.be.an('object')
                     expect(res.body.name).to.equal(fakeProduct.name)
-                    expect(res.body.price).to.equal(fakeProduct.price)
+                    expect(res.body.price).to.equal(fakeProduct.price.toFixed(2))
                     expect(res.body.calories).to.equal(fakeProduct.calories)
                     expect(res.body.description).to.equal(fakeProduct.description)
             })

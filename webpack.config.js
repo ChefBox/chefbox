@@ -26,7 +26,7 @@ module.exports = {
     watchContentBase: true,
     proxy: [ // allows redirect of requests to webpack-dev-server to another destination
       {
-        context: ['/api', '/auth'],  // can have multiple
+        context: ['/api', '/auth', '/socket.io'],  // can have multiple
         target: 'http://localhost:8080', //server and port to redirect to
         secure: false,
       },
@@ -34,7 +34,7 @@ module.exports = {
     port: 3000, // port webpack-dev-server listens to, defaults to 8080
     overlay: { // Shows a full-screen overlay in the browser when there are compiler errors or warnings
       warnings: false, // defaults to false
-      errors: false, // defaults to false
+      errors: true, // defaults to false
     },
   },
 }
