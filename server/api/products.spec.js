@@ -13,13 +13,12 @@ describe('Product routes without a seed data', () => {
 
     describe('`/api/products` URI', () => {
         it('GET responds with an empty array at first', () => {
-            // when we make requests to `/api/products` we will get back an empty array
             return request(app)
                 .get('/api/products')
                 .expect(200)
-                .expect('Content-Type', /json/) // tests response header
+                .expect('Content-Type', /json/)
                 .then(res => {
-                    expect(res.body).to.eql([]) // tests response body
+                    expect(res.body).to.eql([])
             })
         })
     })
@@ -52,7 +51,7 @@ describe('Product routes without a seed data', () => {
             return request(app)
                 .get('/api/products')
                 .expect(200)
-                .expect('Content-Type', /json/) // tests response header
+                .expect('Content-Type', /json/)
                 .then(res => {
                     expect(res.body).to.be.an('array')
                     expect(res.body[0].name).to.be.equal(fakeProduct.name)
@@ -68,13 +67,12 @@ describe('Product routes without a seed data', () => {
                 .expect(res => {
                     expect(res.body).to.be.an('object')
                     expect(res.body.name).to.equal(otherProduct.name)
-                    expect(res.body.price).to.equal(otherProduct.price)
+                    expect(res.body.price).to.equal(otherProduct.price.toFixed(2))
                     expect(res.body.calories).to.equal(otherProduct.calories)
                     expect(res.body.description).to.equal(otherProduct.description)
                     expect(res.body.numberInStock).to.equal(otherProduct.numberInStock)
                     expect(res.body.timeToPrep).to.equal(otherProduct.timeToPrep)
                     expect(res.body.ingredients[0]).to.equal(otherProduct.ingredients[0])
-                    // for agreement with team member
                     expect(res.body.availability).to.equal('pending') 
             })
         })
@@ -103,7 +101,7 @@ describe('Product routes without a seed data', () => {
                 .then(res => {
                     expect(res.body).to.be.an('object')
                     expect(res.body.name).to.equal(fakeProduct.name)
-                    expect(res.body.price).to.equal(fakeProduct.price)
+                    expect(res.body.price).to.equal(fakeProduct.price.toFixed(2))
                     expect(res.body.calories).to.equal(fakeProduct.calories)
                     expect(res.body.description).to.equal(fakeProduct.description)
             })

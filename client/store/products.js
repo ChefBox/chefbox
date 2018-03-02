@@ -53,18 +53,18 @@ export function fetchProducts () {
   }
 }
 
-export function addProduct (product) {
+export function addProduct (product, history) {
+  //console.log(product)
   return function thunk (dispatch) {
     return axios.post('/api/products', product)
     .then(res => res.data)
-    .then(newProduct => dispatch(createProduct(newProduct)))
+    .then(newProduct => addProductAndRedirect(newProduct, history, dispatch))
     .catch(err => console.error(`Creating product ${product} unsuccesful.`, err))
   }
 }
 
 export function editProduct (product, id) {
   return function thunk (dispatch) {
-    console.log('route', `/api/products/${id}`);
     return axios.put(`/api/products/${id}`, product)
     .then(res => res.data)
     .then(editedProduct => dispatch(updateProduct(editedProduct)))
@@ -97,3 +97,8 @@ export default function reducer(products = [], action) {
   }
 }
 
+// helper function
+function addProductAndRedirect(product, history, dispatch){
+  dispatch(createProduct(product))
+  history.push(`/products/${product.id}`)
+}

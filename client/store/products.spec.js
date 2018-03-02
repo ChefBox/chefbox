@@ -93,7 +93,6 @@ describe('Thunk creators:', () => {
       return store.dispatch(editProduct(fakeProduct, 1))
         .then(() => {
           const actions = store.getActions()
-          console.log('actions: ', actions);
           expect(actions[0].type).to.be.equal('UPDATE_PRODUCT')
           expect(actions[0].product).to.be.deep.equal(fakeProduct)
         })

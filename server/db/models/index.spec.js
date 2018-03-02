@@ -1,6 +1,7 @@
 const { expect } = require('chai')
 const db = require('../index')
 const ProductImages = db.model('productImages')
+const Order = db.model('order')
 const ProductCategory = db.model('Product_Category')
 
 
@@ -23,5 +24,14 @@ describe('Product Images are associated with the product', () => {
   });
   it('has a productId object', () => {
     expect(ProductImages.attributes.productId).to.be.an('object');
+  });
+});
+
+describe('Orders are associated with users', () => {
+  beforeEach(() => {
+    return db.sync({ force: true });
+  });
+  it('has a userId object', () => {
+    expect(Order.attributes.userId).to.be.an('object');
   });
 });
