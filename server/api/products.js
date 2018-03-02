@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
   Product.findAll({
     include: [
       {
-        attributes: ['rating'],
+        attributes: ['rating', 'title', 'content', 'createdAt'],
         model: Review,
       },
       {
