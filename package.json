@@ -21,8 +21,8 @@
     "wds": "webpack-dev-server --inline --hot",
     "start-wds": "NODE_ENV='development' npm run wds & npm run start-server"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Fullstack Academy of Code",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "^1.16.1",
