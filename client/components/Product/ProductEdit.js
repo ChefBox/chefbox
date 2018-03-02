@@ -60,6 +60,10 @@ class ProductEdit extends React.Component {
                         />
                     </h3>
                     <h3>
+                        Product Categories
+                        
+                    </h3>
+                    <h3>
                         Product ingredients
                         <input
                             onChange={event =>
@@ -137,7 +141,7 @@ class ProductEdit extends React.Component {
                         Product Catagory
                         {/* <form  >
                             {
-                                this.state.Catagories
+                                this.state.Categories
                                     .map(option => 
                                         <div
                                             key={option.id}
