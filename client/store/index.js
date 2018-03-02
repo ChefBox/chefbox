@@ -19,7 +19,7 @@ const initialState = localStorage.initialState
 const store = createStore(reducer, initialState, middleware)
 
 store.subscribe(() => {
-localStorage.state = JSON.stringify.getState()
+localStorage.state = JSON.stringify(store.getState())
 });
 
 export default store
