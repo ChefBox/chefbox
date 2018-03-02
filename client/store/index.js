@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import products from './products'
+import categories from './categories'
 
 const reducer = combineReducers({user, products})
 const middleware = composeWithDevTools(applyMiddleware(
@@ -24,3 +25,4 @@ localStorage.state = JSON.stringify.getState()
 export default store
 export * from './user'
 export * from './products'
+export * from './categories'
