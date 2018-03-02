@@ -47,7 +47,7 @@ router.put('/:userId', (req, res, next) => {
   .catch(next)
 })
 
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:userId', (req, res, next) => {
   const id = req.params.userId
   User.destroy({
     where: { id }

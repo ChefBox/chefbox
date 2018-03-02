@@ -10,7 +10,16 @@ const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({collapsed: true})
 ))
-const store = createStore(reducer, middleware)
+
+const initialState = localStorage.initialState
+  ? JSON.parse(localStorage.state)
+  : undefined
+
+const store = createStore(reducer, initialState, middleware)
+
+store.subscribe(() => {
+localStorage.state = JSON.stringify.getState()
+});
 
 export default store
 export * from './user'

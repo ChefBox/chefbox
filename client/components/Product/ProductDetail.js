@@ -20,6 +20,7 @@ class ProductDetail extends React.Component {
     }
 
     render(){
+        console.log(this.props.product)
         const product = this.props.product
         // const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
