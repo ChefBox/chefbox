@@ -32,7 +32,17 @@ const generateReview = () => {
     rating: chance.integer({min: 1, max: 5}),
   }
 }
-
+const associateCategories = (categories, products) => {
+  const productCategoryAssociations = []
+  for (let product of products){
+    const randomInt = chance.integer({
+      min: 0,
+      max: categories.length - 1
+    })
+    productCategoryAssociations.push(product.setCategories(categories[randomInt]))
+  }
+  return productCategoryAssociations
+}
 async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
@@ -113,6 +123,9 @@ async function seed() {
   }
   await Promise.all(productReviewAssociations)
   console.log(`Made ${productReviewAssociations.length} associations for product reviews`)
+  const associatedCategories =  await Promise.all(associateCategories(categories, products))
+  console.log(`Made ${associatedCategories.length} associations for categories.`)
+
   console.log(`seeded successfully`)
 }
 
