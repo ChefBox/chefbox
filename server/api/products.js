@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
   Product.findAll({
     include: [
       {
-        attributes: ['rating'],
+        attributes: ['rating', 'title', 'content', 'createdAt'],
         model: Review,
       },
       {
@@ -32,7 +32,21 @@ router.get('/', (req, res, next) => {
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
-  Product.findById(id)
+  Product.findById(id, {
+    include: [
+      {
+        attributes: ['rating', 'title', 'content', 'createdAt'],
+        model: Review,
+      },
+      {
+        model: ProductImages
+      }
+
+    ]
+  })
+    .then(product =>
+        product.dataValues.averageRating = product.getAverageRating()
+    )
     .then(product => res.json(product))
     .catch(next)
 })
@@ -50,8 +64,21 @@ router.put('/:productId', (req, res, next) => {
   Product.update(req.body, {
     where: { id },
     returning: true,
+    include: [
+      {
+        attributes: ['rating', 'title', 'content', 'createdAt'],
+        model: Review,
+      },
+      {
+        model: ProductImages
+      }
+
+    ]
   })
-    .then(([rowsUpdate, [product]]) =>
+    .then(([rowsUpdate, [product]]) => 
+        product.dataValues.averageRating = product.getAverageRating()
+    )
+    .then(product => 
       res.json(product)
     )
     .catch(next)
