@@ -3,6 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom';
 
 /**
  * COMPONENT
@@ -11,14 +12,15 @@ class ProductDetail extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            
+            quantity: 0
         }
+        console.log(props)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     render(){
         const product = this.props.product
-        console.log(product)
         // const reviewsForOne = this.props.reviewsForOne
         return(
             <div>
@@ -28,7 +30,14 @@ class ProductDetail extends React.Component {
                     <div>
                         {/* <img scr={product.imageUrl} /> */}
                         <div>
-                            <h1>{product.name}</h1>
+                            <div>
+                                <h1>{product.name}</h1>
+                                <Link
+                                    to={`/products/${product.id}/edit`}
+                                >
+                                    <button>Edit</button>
+                                </Link>
+                            </div>
                             {/* <h4>
                                 <div>
                                     {reviewsForOne.map(review => {
@@ -47,17 +56,48 @@ class ProductDetail extends React.Component {
                             <h5>{product.timeToPrep} minutes</h5>
                             <h5>{product.calories} kcal</h5>
                             <h4>$ {product.price} + tax</h4>
-                            <h4>{product.availability}</h4>
+                            <h3>{product.availability}</h3>
                             <p>{product.description}</p>
-                            <button onClick={this.handleSubmit} >
-                                Add to Cart
-                            </button>
+                            <div>
+                                {
+                                    product.availability === "available" ?
+                                    (
+                                        <form onChange={this.handleChange} >
+                                            <select name="quantity" >
+                                                {
+                                                    this.numberToBuy(product.numberInStock)
+                                                }
+                                            </select>
+                                            <button onClick={this.handleSubmit}>
+                                                Add to Cart
+                                            </button>
+                                        </form>
+                                    ) : (
+                                        <div />
+                                    )
+                                }
+                                
+                            </div>
                         </div>
                     </div>
                     )
                 }
             </div>
         )
+    }
+
+
+    numberToBuy(num){
+        let result = []
+        for(var i = 0; i <= num; i++){
+            result.push(<option key={i} >{i}</option>)
+        }
+        return result
+    }
+
+    handleChange(event){
+        const quantity = event.target.quantity.value
+        this.setState({ quantity })
     }
 
     handleSubmit(event){
