@@ -25,7 +25,7 @@ const Product = db.define('product', {
         }
     },
     price: {
-        type: Sequelize.DECIMAL(10,2),
+        type: Sequelize.DECIMAL(10, 2),  // eslint-disable-line new-cap
         allowNull: false,
         validate: {
             notEmpty: true,
@@ -62,5 +62,15 @@ const Product = db.define('product', {
         }
     }
 })
+
+Product.prototype.getAverageRating = function(){
+  if (this.reviews === undefined){
+    return undefined
+  } else if (!this.reviews.length){
+    return null
+  }
+  const avg = this.reviews.reduce((sum, review) => sum + review.rating, 0) / this.reviews.length
+  return avg.toFixed(1)
+}
 
 module.exports = Product
