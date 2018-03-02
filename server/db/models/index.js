@@ -19,10 +19,10 @@ Category.belongsToMany(Product, {through: 'Product_Category'})
 User.hasMany(Review)
 
 
-// Order.belongsToMany(Product, {through: LineItem})
+Order.belongsToMany(Product, {through: LineItem})
 Order.belongsTo(User)
 LineItem.belongsTo(Order)
-// Order.hasMany(LineItem)
+Order.hasMany(LineItem)
 
 /**
  * If we had any associations to make, this would be a great place to put them!
