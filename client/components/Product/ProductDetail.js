@@ -120,7 +120,7 @@ class ProductDetail extends React.Component {
                     {
                         reviewsForOne
                             .reduce((accu, curr, index, array) =>
-                                (accu  + (curr/array.length)), 0)
+                                (accu + (curr / array.length)), 0)
                             .toFixed(1)
                     }
                 </div>
