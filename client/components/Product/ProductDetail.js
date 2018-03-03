@@ -117,10 +117,11 @@ class ProductDetail extends React.Component {
         return (
             <div>
                 <div>
-                    {reviewsForOne
-                        .reduce((accu, curr, index, array) =>
-                            (accu  + (curr/array.length)), 0)
-                        .toFixed(1)
+                    {
+                        reviewsForOne
+                            .reduce((accu, curr, index, array) =>
+                                (accu  + (curr/array.length)), 0)
+                            .toFixed(1)
                     }
                 </div>
                 <div>{reviewsForOne.length} customer reviews</div>
@@ -155,7 +156,7 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }, ownProps) => { 
+const mapState = ({ products, user }, ownProps) => {
     // <=== need review, cart, categories as well
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
