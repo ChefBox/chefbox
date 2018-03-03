@@ -4,9 +4,6 @@ import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import { fetchCategories } from '../../store/categories';
 
-
-
-
 class AllCategories extends React.Component {
     constructor(props){
         super(props)
@@ -18,7 +15,6 @@ class AllCategories extends React.Component {
     }
 
     handleClick(event){
-        //console.log(this.event.target.key)
         this.setState({
             activeCategory: event.target.key
         })
@@ -29,9 +25,7 @@ class AllCategories extends React.Component {
     }
 
     render(){
-        //const category = this.props.categories
-        console.log('rendered!')
-        console.log('this.props.categories: ', this.props.categories);
+
         return (
             <div>
                 {
@@ -54,6 +48,5 @@ class AllCategories extends React.Component {
 const mapState = ({categories, products}) => ({categories, products})
 const mapDispatch = {fetchCategories}
 const comp = connect(mapState, mapDispatch)(AllCategories)
-console.log('comp: ', comp);
 
 export default comp
