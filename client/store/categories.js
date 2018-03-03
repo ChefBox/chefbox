@@ -68,8 +68,12 @@ export function editCategory(category, id){
 
 export function removeCategory(id){
     return function thunk(dispatch){
+        console.log(id)
         return axios.delete(`/api/categories/${id}`)
-        .then(() => dispatch(deleteCategory(id)))
+        .then(() => 
+        {
+            return dispatch(deleteCategory(id))
+        })
         .catch(err => console.error(`Failed to delete Category ${id}`, err))
     }
 }
@@ -86,7 +90,8 @@ export default function reducer(categories = [], action) {
           return category.id === action.category.id ? action.category : category
         });
       case DELETE:
-        return categories.filter(category => category.id !== action.category.id);
+        return categories.filter(category => {console.log(category) 
+        return category.id !== action.id});
       default:
         return categories;
     }
