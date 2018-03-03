@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import { addCategory } from '../../store'
 
 
-class createCategory extends React.Component{
+class CreateCategory extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -64,4 +64,4 @@ const mapDispatch = (dispatch, ownProps) => ({
 })
 
 
-export default connect(mapState, mapDispatch)(createCategory)
+export default connect(mapState, mapDispatch)(CreateCategory)

@@ -25,7 +25,7 @@ class ProductDetail extends React.Component {
         const product = this.props.product
         // const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
-        return(
+        return (
             <div>
                 {
                     this.props.product === undefined ?
