@@ -40,7 +40,7 @@ class AllCategories extends React.Component {
                  <div>
                      <div onClick = {this.handleClick}>
                      {this.props.categories.map((category)=>
-                     <div key= {`${category.id}`}> {category.name + ' (' + category.description + ')'}</div>
+                     <div key= {`${category.id}`}> {`${category.name} (${category.description})`}</div>
                 )}
                 </div>
                 </div>

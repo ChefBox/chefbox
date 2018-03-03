@@ -1,9 +1,20 @@
 'use strict';
 const router = require('express').Router()
-const { Category } = require('../db/models')
+const { Category, Product } = require('../db/models')
 
 router.get('/', (req, res, next) => {
-    Category.findAll()
+    Category.findAll({
+
+      include: [
+        {
+          attributes: ['id'],
+          model: Product,
+          through: {
+            attributes:  []
+          },
+        }
+      ]
+    })
         .then(categories => res.json(categories))
         .catch(next)
 })
