@@ -19,6 +19,7 @@ const Chance = require('chance')
 
 const chance = new Chance(2378) //seeding value for predictable randomness
 const maxReviews = 5 //per product
+const numOfUsersToGen = 20;
 
 const generateReview = () => {
   let title = chance.word()
@@ -32,17 +33,63 @@ const generateReview = () => {
     rating: chance.integer({min: 1, max: 5}),
   }
 }
-
+const associateCategories = (categories, products) => {
+  const productCategoryAssociations = []
+  for (let product of products){
+    const randomInt = chance.integer({
+      min: 0,
+      max: categories.length - 1
+    })
+    productCategoryAssociations.push(product.setCategories(categories[randomInt]))
+  }
+  return productCategoryAssociations
+}
+const createUsers = numOfUsers => {
+  const users = [
+    {
+      firstName: 'Cody',
+      lastName: 'Doe',
+      email: 'cody@email.com',
+      password: '123',
+      role: 'admin',
+      address: chance.address(),
+      city: chance.city(),
+      state: chance.state({ full: true}),
+      zip: chance.zip(),
+    },
+    {
+      firstName: 'Murphy',
+      lastName: 'Smith',
+      email: 'murphy@email.com',
+      password: '123',
+      address: chance.address(),
+      city: chance.city(),
+      state: chance.state({ full: true}),
+      zip: chance.zip(),
+    }
+  ]
+  const emails = chance.unique(chance.email, numOfUsers)
+  for (let i = users.length; i <= numOfUsers; i++){
+    users.push({
+      firstName: chance.first(),
+      lastName: chance.last(),
+      email: emails.pop(),
+      password: chance.string(),
+      address: chance.address(),
+      city: chance.city(),
+      state: chance.state({ full: true}),
+      zip: chance.zip(),
+    })
+  }
+  return users
+}  /* eslint-disable max-statements */
 async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
   // Whoa! Because we `await` the promgit sise that db.sync returns, the next line will not be
   // executed until that promise resolves!
-
-  const users = await Promise.all([
-    User.create({ email: 'cody@email.com', password: '123' }),
-    User.create({ email: 'murphy@email.com', password: '123' }),
-  ]);
+  const userList = createUsers(numOfUsersToGen)
+  const users = await Promise.all(userList.map(user => User.create(user)));
 
   console.log(`seeded ${users.length} users`);
 
@@ -113,6 +160,9 @@ async function seed() {
   }
   await Promise.all(productReviewAssociations)
   console.log(`Made ${productReviewAssociations.length} associations for product reviews`)
+  const associatedCategories =  await Promise.all(associateCategories(categories, products))
+  console.log(`Made ${associatedCategories.length} associations for categories.`)
+
   console.log(`seeded successfully`)
 }
 
