@@ -26,7 +26,7 @@ class ProductList extends React.Component {
                 </div>
                 {
                     this.props.products[0] === undefined ?
-                    <p>There are no Products registered in the database.</p> : 
+                    <p>There are no Products registered in the database.</p> :
                     this.renderWithProducts()
                 }
             </div>

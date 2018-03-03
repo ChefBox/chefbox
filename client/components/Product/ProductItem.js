@@ -8,7 +8,11 @@ import { Link } from 'react-router-dom';
  * COMPONENT
  */
 class ProductItem extends React.Component {
-    
+    constructor(props){
+        super(props)
+        this.handleClick = this.handleClick.bind(this)
+    }
+
     render(){
         const product = this.props.product
         return (
@@ -18,8 +22,15 @@ class ProductItem extends React.Component {
                     <h3>{product.name}</h3>
                     <p>Ingredients: {product.ingredients}</p>
                 </Link>
+                <button onClick={this.handleClick} >Delete</button>
             </div>
         )
+    }
+
+    handleClick(event){
+        event.preventDefault()
+        const { removeProduct, product } = this.props
+        removeProduct(product.id)
     }
 }
 
@@ -28,4 +39,8 @@ class ProductItem extends React.Component {
  */
 const mapState = null
 
-export default connect(mapState)(ProductItem)
+const mapDispatch = dispatch => ({
+    removeProduct: id => dispatch(removeProduct(id))
+})
+
+export default connect(mapState, mapDispatch)(ProductItem)
