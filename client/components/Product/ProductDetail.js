@@ -22,7 +22,6 @@ class ProductDetail extends React.Component {
     render(){
         console.log(this.props.product)
         const product = this.props.product
-        // const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
         return(
             <div>
@@ -30,7 +29,7 @@ class ProductDetail extends React.Component {
                     this.props.product === undefined ?
                     <div /> : (
                     <div>
-                        {/* <img scr={product.imageUrl} /> */}
+                        <img src={product.productImages[0].imageUrl} />
                         <div>
                             <div>
                                 <div>
@@ -79,9 +78,9 @@ class ProductDetail extends React.Component {
                             <div>
                                 <h3>Customer Reviews</h3>
                                 {
-                                    this.props.reviewsForOne === undefined ?
+                                    product.reviews === undefined ?
                                     <p>There are no customer reviews yet.</p> :
-                                    this.renderWithReviews(this.props.reviewsForOne)
+                                    this.renderWithReviews(product)
                                 }
                             </div>
                         </div>
@@ -112,29 +111,27 @@ class ProductDetail extends React.Component {
         // updateCart(this.state)
     }
 
-    renderWithReviews(reviews){
+    renderWithReviews(product){
         return (
             <div>
                 <div>{product.averageRating}</div>
-                <div>{reviews.length} customer reviews</div>
+                <div>{product.reviews.length} customer reviews</div>
                 <ul>
                     {
-                        reviews.map((review, index) => {
-                            if(index < 5){
-                                return(
+                        product.reviews
+                            .sort((a, b) => a.createdAt - b.createdAt)
+                            .slice(0, 5)
+                            .map((review, index) =>
                                     <li key={index}>
-                                        <div>
+                                        {/* <div>
                                             <div>{review.rating}</div>
                                             <div>{review.title}</div>
                                         </div>
                                         <div>{review.createdAt}</div>
                                         <div>Verified Purchase</div>
-                                        <div>{review.content}</div>
+                                        <div>{review.content}</div> */}
                                     </li>
-                                )
-                            }
-                            
-                        })
+                        )
                     }
                 </ul>
                 <Link to={`/products/${product.id}/reviews`}>
@@ -149,14 +146,12 @@ class ProductDetail extends React.Component {
  * CONTAINER
  */
 const mapState = ({ products, user }, ownProps) => { 
-    // <=== need review, cart, categories as well
+    // <=== need cart, categories as well
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
-    // const reviewsForOne = reviews.filter(review => review.`someId` === paramId)
     return {
         user,
         product,
-        // reviewsForOne,
         // categoriesForOne,
     }
 }
