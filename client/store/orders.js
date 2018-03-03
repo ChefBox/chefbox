@@ -63,6 +63,7 @@ const deleteOrder = (id) => {
 export function createItem (item) {
   return function thunk (dispatch) {
     return axios.post('api/cart', item)
+    .then(res => res.data)
     .then(item => dispatch(addToCart))
   }
 }
@@ -70,6 +71,7 @@ export function createItem (item) {
 export function deleteItem (itemId) {
   return function thunk (dispatch) {
     return axios.delete('api/cart')
+    .then(item => dispatch(deleteFromCart(itemId)))
   }
 }
 
@@ -107,11 +109,4 @@ export function removeOrder (id) {
     }
   }
 
-export default function reducer(state = [], action) {
-  switch (action.type) {
-    case ADD_TO_CART:
-      return [...state, action.order]
-    default:
-    return state;
-  }
-}
+
