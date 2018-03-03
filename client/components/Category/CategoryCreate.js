@@ -12,6 +12,7 @@ class createCategory extends React.Component{
             name: '',
             description: ''
         }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit(event){
@@ -22,11 +23,12 @@ class createCategory extends React.Component{
 
 
     render(){
-        return(
+        return (
             <div>
-                <form>
+                <form onSubmit= {this.handleSubmit}>
                     <h3>
                         Category Name
+                        {'  '}
                         <input 
                         onChange = {event =>
                         this.setState({name: event.target.value})
@@ -37,7 +39,8 @@ class createCategory extends React.Component{
                     />
                     </h3>
                     <h3>
-                        Category description
+                        Category Description
+                        {'  '}
                         <input
                             onChange= {event =>
                             this.setState({description: event.target.value})}
@@ -46,16 +49,14 @@ class createCategory extends React.Component{
                             placeholder = "Description name"
                             />
                     </h3>
+                    <button> Submit Category </button>
                 </form>
             </div>
         )
     }
 }
 
-
-
 const mapState = null
-
 
 const mapDispatch = (dispatch, ownProps) => ({
     addCategory: (category) =>
