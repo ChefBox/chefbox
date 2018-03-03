@@ -4,6 +4,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
+import AllCategories from '../Category/AllCategories'
+console.log('AllCategories: ', AllCategories);
 
 /**
  * COMPONENT
@@ -20,7 +22,6 @@ class ProductDetail extends React.Component {
     }
 
     render(){
-        console.log(this.props.product)
         const product = this.props.product
         // const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
@@ -85,6 +86,7 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
+                        <AllCategories />
                     </div>
                     )
                 }
@@ -140,6 +142,7 @@ class ProductDetail extends React.Component {
                 <Link to={`/products/${product.id}/reviews`}>
                     See all 66 reviews
                 </Link>
+                <AllCategories />
             </div>
         )
     }
