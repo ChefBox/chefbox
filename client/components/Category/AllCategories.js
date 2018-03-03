@@ -18,7 +18,6 @@ class AllCategories extends React.Component {
     }
 
     handleClick(event){
-        //console.log(this.event.target.key)
         this.setState({
             activeCategory: event.target.key
         })
@@ -29,7 +28,6 @@ class AllCategories extends React.Component {
     }
 
     render(){
-        //const category = this.props.categories
         console.log('rendered!')
         console.log('this.props.categories: ', this.props.categories);
         return (
