@@ -40,7 +40,10 @@ export function fetchCategories() {
     return function thunk(dispatch){
         return axios.get('/api/categories')
         .then(res => res.data)
-        .then(categories => dispatch(getCategories(categories)))
+        .then(categories => {
+            console.log('categories: ', categories);
+            return dispatch(getCategories(categories))
+        })
         .catch(err => console.error('Fetching categories failed', err))
     }
 }
@@ -72,6 +75,7 @@ export function removeCategory(id){
 }
 
 export default function reducer(categories = [], action) {
+    console.log('action: ', action);
     switch (action.type) {
       case GET:
         return action.categories;
