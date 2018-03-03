@@ -4,6 +4,8 @@ import axios from 'axios';
  * ACTION TYPES
  */
 
+const ADD_TO_CART = 'ADD_TO_CART';
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const GET_ORDER = 'GET_ORDER';
 const CREATE_ORDER = 'CREATE_ORDER';
 const UPDATE_ORDER = 'UPDATE_ORDER';
@@ -12,6 +14,20 @@ const DELETE_ORDER = 'DELETE_ORDER';
 /**
  * ACTION CREATORS
  */
+
+const addToCart = (product) => {
+  return {
+    type: ADD_TO_CART,
+    product
+  }
+}
+
+const removeFromCart = (productId) => {
+  return {
+    type: removeFromCart,
+    productId
+  }
+}
 
 const getOrder = (order) => {
   return {
@@ -43,6 +59,19 @@ const deleteOrder = (id) => {
 /**
  * THUNK CREATORS
  */
+
+export function createItem (item) {
+  return function thunk (dispatch) {
+    return axios.post('api/cart', item)
+    .then(item => dispatch(addToCart))
+  }
+}
+
+export function deleteItem (itemId) {
+  return function thunk (dispatch) {
+    return axios.delete('api/cart')
+  }
+}
 
 export function fetchOrder (id) {
   return function thunk (dispatch) {
@@ -78,3 +107,10 @@ export function removeOrder (id) {
     }
   }
 
+export default function reducer(state = [], action) {
+  switch (action.type) {
+    case ADD_TO_CART:
+      return [...state, action.order]
+    case R
+  }
+}
