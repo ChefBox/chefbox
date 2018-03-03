@@ -11,6 +11,5 @@ export {Login, Signup} from './auth-form'
 export {default as ProductDetail} from './Product/ProductDetail'
 export {default as ProductEdit} from './Product/ProductEdit'
 export {default as ProductCreate} from './Product/ProductCreate'
-export {default as ProductItem} from './Product/ProductItem'
-export {default as ProductList} from './Product/ProductList'
 export {default as AllCategories} from './Category/AllCategories';
+export {default as CategoryCreate} from './Category/CategoryCreate'

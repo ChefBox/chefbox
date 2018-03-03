@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList} from './components'
 import {me, fetchCategories, fetchProducts} from './store'
+import CategoryCreate from './components/Category/CategoryCreate';
 /**
  * COMPONENT
  */
@@ -23,6 +24,8 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:productId" component={ProductDetail} />
+        <Route path="/products/:productId/edit" component={ProductEdit} />
+        <Route path = "/addcategory" component = {CategoryCreate} />
         {
           isLoggedIn &&
             <Switch>
