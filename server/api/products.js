@@ -15,7 +15,6 @@ router.get('/', (req, res, next) => {
       {
         model: ProductImages
       }
-
     ]
   })
     .then(products => {
@@ -50,6 +49,11 @@ router.put('/:productId', (req, res, next) => {
   Product.update(req.body, {
     where: { id },
     returning: true,
+    include: [
+      {
+        model: ProductImages
+      }
+    ]
   })
     .then(([rowsUpdate, [product]]) =>
       res.json(product)
