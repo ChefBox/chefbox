@@ -113,14 +113,21 @@ class ProductDetail extends React.Component {
 
     renderWithReviews(){
         const reviewsForOne = this.props.reviewsForOne
+        const product = this.props.product
         return (
             <div>
-                <div>{product.averageRating}</div>
+                <div>
+                    {reviewsForOne
+                        .reduce((accu, curr, index, array) =>
+                            (accu  + (curr/array.length)), 0)
+                        .toFixed(1)
+                    }
+                </div>
                 <div>{reviewsForOne.length} customer reviews</div>
                 <ul>
                     {
                         reviewsForOne
-                            .sort((a, b) => a.createdAt - b.createdAt)
+                            .sort((pre, next) => pre.createdAt - next.createdAt)
                             .slice(0, 5)
                             .map(review => (
                                     <li key={review.id}>
