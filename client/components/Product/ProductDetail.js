@@ -3,6 +3,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
+import AllCategories from '../Category/AllCategories'
+console.log('AllCategories: ', AllCategories);
 
 /**
  * COMPONENT
@@ -83,6 +85,7 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
+                        <AllCategories />
                     </div>
                     )
                 }
@@ -148,6 +151,7 @@ class ProductDetail extends React.Component {
                 <Link to={`/products/${product.id}/reviews`}>
                     See all 66 reviews
                 </Link>
+                <AllCategories />
             </div>
         )
     }

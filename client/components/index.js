@@ -1,3 +1,5 @@
+
+
 /**
  * `components/index.js` exists simply as a 'central export' for our components.
  * This way, we can import all of our components from the same place, rather than
@@ -11,3 +13,4 @@ export {default as ProductEdit} from './Product/ProductEdit'
 export {default as ProductCreate} from './Product/ProductCreate'
 export {default as ProductItem} from './Product/ProductItem'
 export {default as ProductList} from './Product/ProductList'
+export {default as AllCategories} from './Category/AllCategories';
