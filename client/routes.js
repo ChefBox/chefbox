@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList} from './components'
 import {me, fetchCategories, fetchProducts} from './store'
 import CategoryCreate from './components/Category/CategoryCreate';
+import RemoveCategory from './components/Category/RemoveCategory';
 /**
  * COMPONENT
  */
@@ -26,6 +27,8 @@ class Routes extends Component {
         <Route exact path="/products/:productId" component={ProductDetail} />
         <Route path="/products/:productId/edit" component={ProductEdit} />
         <Route path = "/addcategory" component = {CategoryCreate} />
+        <Route path = "/removecategory" component = {RemoveCategory}>
+        </Route>
         {
           isLoggedIn &&
             <Switch>
