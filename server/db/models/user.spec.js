@@ -8,13 +8,29 @@ describe('User model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
+  it('has the expected schema definition', () => {
+    expect(User.attributes.email).to.be.an('object');
+    expect(User.attributes.password).to.be.an('object');
+    expect(User.attributes.salt).to.be.an('object');
+    expect(User.attributes.googleId).to.be.an('object');
+    expect(User.attributes.role).to.be.an('object');
+    expect(User.attributes.active).to.be.an('object');
+    expect(User.attributes.address).to.be.an('object');
+    expect(User.attributes.city).to.be.an('object');
+    expect(User.attributes.state).to.be.an('object');
+    expect(User.attributes.zip).to.be.an('object');
+    expect(User.attributes.firstName).to.be.an('object');
+    expect(User.attributes.lastName).to.be.an('object');
 
+  });
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
 
       beforeEach(() => {
         return User.create({
+          firstName: 'Cody',
+          lastName: 'Doe',
           email: 'cody@puppybook.com',
           password: 'bones'
         })

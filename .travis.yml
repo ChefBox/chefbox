@@ -17,12 +17,12 @@ install:
 before_script:
   - psql -c 'create database "chefBox-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy:
+  - npm run build-client # make the bundle
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: chef-box # see README
+  api_key:
+    secure: "oMCfvGsmqieRA/6b5noZeAs/GDtOykUa5Rev/P/rLaHBNuhm+YoOi8ivWvfPNoelXdHHC4NFP37PqW0q5xyTr2psFZrfxtfsQ1TsfK30+5/ysFn9wP/z3PJ3W+lnhWGE57yR6xxsKNPxOLm5rTE3bBmeYYhF3LXekBsjcTZuGVIPUTwZdaFKS+q3BLApN0ptOZXfPS3HwY5UTQKNl80A8FbCpxyYst//ULDAOW/AuN0i3Y/7DC6DVPujYjQ81bp6MXXVUX8W80NI0Sn4ON+jyr+bY2FNUzZ0PVKs9T8woMoMmcOfMSPg2bbnIR0hG22N1nT7/Rkvuck3wwJst5i/nrAN1vbymvewPZxQfI0tf1/Yus1zjM5Br9jzSEhaO+zI+TYUPydtKJhB7ZD1AOEDALWefAOa/QBQp84nw5TgCrDh6UzuhtaToMPpWNqNtsLLIhrmZCNbDfhIwS5W8I2vvg4i3YZa8GIY0J5akYpudkiYcQRy3Fj+oYiUepV2I6ai4Up9Z+yIvIxuosbNppiQ71yLbJtbmkjJ7zNG8LRUOoznRxfDRKH3UwCwUS+6r49eYCj+7rybHaX3Xvyyyl7qbysRMnCDopAMbjg1jCmnoN3dIrwK/FQt5U3oyyti1NPCHhWTVyIksaHQM4IKWlxyk0BN7x93PRncyt4WDc2tviA=" # see README

@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import { addProduct } from '../../store'
@@ -31,8 +30,7 @@ class ProductCreate extends React.Component {
             'available',
             'out of stock'
         ]
-        const product = this.state
-        return(
+        return (
             <div>
                 <form onSubmit={this.handleSubmit} >
                     <h3>
@@ -67,7 +65,6 @@ class ProductCreate extends React.Component {
                             name="ingredients"
                             required
                             placeholder="Product Ingredients"
-                            
                         />
                     </h3>
                     <h3>
@@ -105,18 +102,16 @@ class ProductCreate extends React.Component {
                     </h3>
                     <h3>
                         Product Availability
-
                         <select
                             onChange={event => 
-                                    this.setState({ availability: event.target.value })
+                                this.setState({ availability: event.target.value })
                             }
                         >
                             {
                                 availability
-                                    .map((option, index) => 
-                                        <option key={index}>
-                                            {option}
-                                        </option>
+                                    .map((option, index) => (
+                                        <option key={index}>{option}</option>
+                                    )
                                 )
                             }
                         </select>

@@ -85,7 +85,6 @@ describe('Thunk creators:', () => {
       return store.dispatch(removeCategory(1))
         .then(() => {
           const actions = store.getActions()
-          console.log('ACTIONS', actions)
           expect(actions[0].type).to.be.equal('DELETE_CATEGORY')
         })
     })

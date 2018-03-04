@@ -40,7 +40,10 @@ export function fetchCategories() {
     return function thunk(dispatch){
         return axios.get('/api/categories')
         .then(res => res.data)
-        .then(categories => dispatch(getCategories(categories)))
+        .then(categories => {
+            console.log('categories: ', categories);
+            return dispatch(getCategories(categories))
+        })
         .catch(err => console.error('Fetching categories failed', err))
     }
 }
@@ -65,13 +68,18 @@ export function editCategory(category, id){
 
 export function removeCategory(id){
     return function thunk(dispatch){
+        console.log(id)
         return axios.delete(`/api/categories/${id}`)
-        .then(() => dispatch(deleteCategory(id)))
+        .then(() => 
+        {
+            return dispatch(deleteCategory(id))
+        })
         .catch(err => console.error(`Failed to delete Category ${id}`, err))
     }
 }
 
 export default function reducer(categories = [], action) {
+    console.log('action: ', action);
     switch (action.type) {
       case GET:
         return action.categories;
@@ -82,7 +90,8 @@ export default function reducer(categories = [], action) {
           return category.id === action.category.id ? action.category : category
         });
       case DELETE:
-        return categories.filter(category => category.id !== action.category.id);
+        return categories.filter(category => {console.log(category) 
+        return category.id !== action.id});
       default:
         return categories;
     }

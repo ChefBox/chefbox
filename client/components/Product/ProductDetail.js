@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
+import AllCategories from '../Category/AllCategories'
 
 /**
  * COMPONENT
@@ -17,20 +17,20 @@ class ProductDetail extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.renderWithReviews = this.renderWithReviews.bind(this)
+        this.numberToBuy = this.numberToBuy.bind(this)
     }
 
     render(){
-        console.log(this.props.product)
         const product = this.props.product
         // const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
-        return(
+        return (
             <div>
                 {
                     this.props.product === undefined ?
                     <div /> : (
                     <div>
-                        {/* <img scr={product.imageUrl} /> */}
+                        <img src={product.productImages[0].imageUrl} />
                         <div>
                             <div>
                                 <div>
@@ -46,8 +46,8 @@ class ProductDetail extends React.Component {
                             </div>
                             <ul>
                                 {product.ingredients
-                                    .map((ingredient, index) =>
-                                        <li key={index}>{ingredient}</li>
+                                    .map(ingredient =>
+                                        <li key={ingredient}>{ingredient}</li>
                                     )
                                 }
                             </ul>
@@ -58,12 +58,12 @@ class ProductDetail extends React.Component {
                             <p>{product.description}</p>
                             <div>
                                 {
-                                    product.availability === "available" ?
+                                    product.availability === 'available' ?
                                     (
                                         <form onChange={this.handleChange} >
                                             <select name="quantity" >
                                                 {
-                                                    this.numberToBuy(product.numberInStock)
+                                                    this.numberToBuy()
                                                 }
                                             </select>
                                             <button onClick={this.handleSubmit}>
@@ -74,14 +74,13 @@ class ProductDetail extends React.Component {
                                         <div />
                                     )
                                 }
-                                
                             </div>
                             <div>
                                 <h3>Customer Reviews</h3>
                                 {
                                     this.props.reviewsForOne === undefined ?
                                     <p>There are no customer reviews yet.</p> :
-                                    this.renderWithReviews(this.props.reviewsForOne)
+                                    this.renderWithReviews()
                                 }
                             </div>
                         </div>
@@ -93,9 +92,10 @@ class ProductDetail extends React.Component {
     }
 
 
-    numberToBuy(num){
+    numberToBuy(){
+        const num = this.props.product.numberInStock
         let result = []
-        for(var i = 0; i <= num; i++){
+        for (var i = 0; i <= num; i++){
             result.push(<option key={i} >{i}</option>)
         }
         return result
@@ -112,17 +112,27 @@ class ProductDetail extends React.Component {
         // updateCart(this.state)
     }
 
-    renderWithReviews(reviews){
+    renderWithReviews(){
+        const reviewsForOne = this.props.reviewsForOne
+        const product = this.props.product
         return (
             <div>
-                <div>{product.averageRating}</div>
-                <div>{reviews.length} customer reviews</div>
+                <div>
+                    {
+                        reviewsForOne
+                            .reduce((accu, curr, index, array) =>
+                                (accu + (curr / array.length)), 0)
+                            .toFixed(1)
+                    }
+                </div>
+                <div>{reviewsForOne.length} customer reviews</div>
                 <ul>
                     {
-                        reviews.map((review, index) => {
-                            if(index < 5){
-                                return(
-                                    <li key={index}>
+                        reviewsForOne
+                            .sort((pre, next) => pre.createdAt - next.createdAt)
+                            .slice(0, 5)
+                            .map(review => (
+                                    <li key={review.id}>
                                         <div>
                                             <div>{review.rating}</div>
                                             <div>{review.title}</div>
@@ -131,15 +141,15 @@ class ProductDetail extends React.Component {
                                         <div>Verified Purchase</div>
                                         <div>{review.content}</div>
                                     </li>
-                                )
+                                ))
                             }
-                            
                         })
                     }
                 </ul>
                 <Link to={`/products/${product.id}/reviews`}>
                     See all 66 reviews
                 </Link>
+                <AllCategories />
             </div>
         )
     }
@@ -148,11 +158,11 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }, ownProps) => { 
+const mapState = ({ products, user }, ownProps) => {
     // <=== need review, cart, categories as well
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
-    // const reviewsForOne = reviews.filter(review => review.`someId` === paramId)
+    // const reviewsForOne = reviews.filter(review => review.productId === paramId)
     return {
         user,
         product,
@@ -165,10 +175,3 @@ const mapState = ({ products, user }, ownProps) => {
 // }
 
 export default connect(mapState)(ProductDetail)
-
-/**
- * PROP TYPES
- */
-// ProductDetail.PropTypes = {
-
-// }
