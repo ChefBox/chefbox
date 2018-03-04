@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+const GET_ORDERS = 'GET_ORDERS';
 const GET_ORDER = 'GET_ORDER';
 const CREATE_ORDER = 'CREATE_ORDER';
 const UPDATE_ORDER = 'UPDATE_ORDER';
@@ -29,6 +30,12 @@ const removeFromCart = (productId) => {
   }
 }
 
+const getOrders = (orders) => {
+  return {
+    type: GET_ORDERS,
+    orders
+  }
+}
 const getOrder = (order) => {
   return {
     type: GET_ORDER,
@@ -75,6 +82,15 @@ export function deleteItem (itemId) {
   }
 }
 
+export function fetchOrders() {
+  return function thunk(dispatch) {
+    return axios.get('api/order')
+    .then(res => res.data)
+    .then(orders => dispatch(getOrders(orders)))
+    .catch(err => console.error('Fetching orders failed.', err))
+  }
+}
+
 export function fetchOrder (id) {
   return function thunk (dispatch) {
     return axios.get(`api/order/${id}`)
@@ -110,3 +126,11 @@ export function removeOrder (id) {
   }
 
 
+export default function reducer (state = [], action) {
+  switch (action.type) {
+    case GET_ORDERS:
+      return action.orders
+    default:
+      return state
+  }
+}

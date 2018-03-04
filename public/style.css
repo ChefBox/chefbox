@@ -1,3 +1,6 @@
+
+
+
 body {
   font-family: sans-serif;
 }
@@ -25,4 +28,37 @@ form div {
   justify-content: space-around;
   background: rgb(161, 228, 161);
   align-items: center;
+}
+
+
+
+.cart {
+  width: 60vw;
+  margin: auto;
+}
+
+.cart td {
+  padding: 0.5rem
+}
+
+.cart .cart-name-col {
+  width: 25rem;
+}
+
+.cart thead {
+  background-color: lightgrey;
+  border: none;
+
+}
+
+.cart tfoot {
+  font-weight: bold;
+}
+
+.cart-line-price, .cart-line-quantity, .cart-line-total {
+  text-align: right;
+}
+
+.cart .car-price-col, .car-total-col {
+  width: 10vw;
 }

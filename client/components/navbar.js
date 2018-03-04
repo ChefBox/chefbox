@@ -22,10 +22,12 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <div>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-          <div className = "fas fa-shopping-cart" />
           </div>
+          </div>
+        )}
+        <div>
+        <Link to="/checkout"><div className = "fas fa-shopping-cart" /></Link>
         </div>
-      )}
     </nav>
     {/* <hr /> */}
   </div>

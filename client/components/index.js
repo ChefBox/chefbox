@@ -14,3 +14,4 @@ export {default as ProductCreate} from './Product/ProductCreate'
 export {default as AllCategories} from './Category/AllCategories';
 export {default as CategoryCreate} from './Category/CategoryCreate'
 export {default as RemoveCategory} from './Category/RemoveCategory'
+export {default as Cart} from './cart'

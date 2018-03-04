@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList} from './components'
-import {me, fetchCategories, fetchProducts} from './store'
+import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList, Cart} from './components'
+import {me, fetchCategories, fetchProducts, fetchOrders} from './store'
 import CategoryCreate from './components/Category/CategoryCreate';
 import RemoveCategory from './components/Category/RemoveCategory';
 /**
@@ -27,8 +27,8 @@ class Routes extends Component {
         <Route exact path="/products/:productId" component={ProductDetail} />
         <Route path="/products/:productId/edit" component={ProductEdit} />
         <Route path = "/addcategory" component = {CategoryCreate} />
-        <Route path = "/removecategory" component = {RemoveCategory}>
-        </Route>
+        <Route path = "/removecategory" component = {RemoveCategory} />
+        <Route path = "/checkout" component = {Cart} />
         {
           isLoggedIn &&
             <Switch>
@@ -62,6 +62,7 @@ const mapDispatch = (dispatch) => {
       dispatch(me())
       dispatch(fetchProducts())
       dispatch(fetchCategories())
+      dispatch(fetchOrders())
     }
   }
 }
