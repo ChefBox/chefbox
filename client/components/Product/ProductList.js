@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -53,6 +54,16 @@ class ProductList extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products }) => ({ products })
+const mapState = ({ products, user }) => {
+    const email = user.email || undefined
+    return { products, email }
+}
 
 export default connect(mapState)(ProductList)
+
+/**
+ * PROP TYPES
+ */
+ProductList.propTypes = {
+    email: PropTypes.string
+}
