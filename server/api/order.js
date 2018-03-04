@@ -1,26 +1,33 @@
 'use strict';
 
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, LineItem, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', (req, res, next) => {
-  Order.findAll()
+  Order.findAll({
+    include: [{
+      model: LineItem
+    }, {
+      model: Product
+    }]
+  })
     .then(order => res.json(order))
     .catch(next);
 });
 
-router.get('/:orderId', (req, res, next) => {
-  const orderId = req.params.orderId;
-  Order.findById(orderId)
-    .then(order => res.json(order))
-    .catch(next);
+router.get('/current', (req, res, next) => {
+  console.log('USER', typeof req.user.id);
+  const userId = req.user.Id;
+  Order.findOne({where: { userId }})
+  .then((order) => res.json(order))
+  .catch(next);
 });
 
 router.post('/', (req, res, next) => {
   Order.create(req.body)
-  .then(order => res.json(order))
-  .catch(next);
+    .then(order => res.json(order))
+    .catch(next);
 });
 
 router.put('/:orderId', (req, res, next) => {
@@ -29,10 +36,10 @@ router.put('/:orderId', (req, res, next) => {
     where: { id: orderId },
     returning: true
   })
-  .then(([rowsUpdate, [order]]) => {
-    res.json(order);
-  })
-  .catch(next);
+    .then(([rowsUpdate, [order]]) => {
+      res.json(order);
+    })
+    .catch(next);
 })
 
 router.delete('/:orderId', (req, res, next) => {
@@ -40,6 +47,6 @@ router.delete('/:orderId', (req, res, next) => {
   Order.destroy({
     where: { id: orderId }
   })
-  .then(() => res.sendStatus(200))
-  .catch(next);
+    .then(() => res.sendStatus(200))
+    .catch(next);
 })
