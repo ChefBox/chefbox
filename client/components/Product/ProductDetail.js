@@ -22,7 +22,7 @@ class ProductDetail extends React.Component {
 
     render(){
         const product = this.props.product
-        // const reviewsForOne = this.props.reviewsForOne
+        const reviewsForOne = this.props.reviewsForOne
         // const categoriesForOne = this.props.categoriesForOne
         return (
             <div>
@@ -121,7 +121,7 @@ class ProductDetail extends React.Component {
                     {
                         reviewsForOne
                             .reduce((accu, curr, index, array) =>
-                                (accu + (curr / array.length)), 0)
+                                (accu + (curr.rating / array.length)), 0)
                             .toFixed(1)
                     }
                 </div>
@@ -158,15 +158,15 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }, ownProps) => {
-    // <=== need review, cart, categories as well
+const mapState = ({ products, user, reviews }, ownProps) => {
+    // <=== need cart, categories as well
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
-    // const reviewsForOne = reviews.filter(review => review.productId === paramId)
+    const reviewsForOne = reviews.filter(review => review.productId === paramId)
     return {
         user,
         product,
-        // reviewsForOne,
+        reviewsForOne,
         // categoriesForOne,
     }
 }
