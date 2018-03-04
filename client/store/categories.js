@@ -41,7 +41,6 @@ export function fetchCategories() {
         return axios.get('/api/categories')
         .then(res => res.data)
         .then(categories => {
-            console.log('categories: ', categories);
             return dispatch(getCategories(categories))
         })
         .catch(err => console.error('Fetching categories failed', err))
@@ -79,7 +78,6 @@ export function removeCategory(id){
 }
 
 export default function reducer(categories = [], action) {
-    console.log('action: ', action);
     switch (action.type) {
       case GET:
         return action.categories;
@@ -87,7 +85,7 @@ export default function reducer(categories = [], action) {
         return [...categories, action.category];
       case UPDATE_CATEGORY:
         return categories.map(category => {
-          return category.id === action.category.id ? action.category : category
+          return category.id === action.id ? action.category : category
         });
       case DELETE:
         return categories.filter(category => {console.log(category) 
