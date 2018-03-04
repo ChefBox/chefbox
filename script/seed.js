@@ -20,7 +20,6 @@ const Chance = require('chance')
 const chance = new Chance(2378) //seeding value for predictable randomness
 const maxReviews = 5 //per product
 const numOfUsersToGen = 20;
-
 const generateReview = () => {
   let title = chance.word()
   let titleLength = chance.integer({min: 0, max: 3})
@@ -124,16 +123,16 @@ async function seed() {
 
   ]);
   console.log(`seeded ${products.length} products`)
-
+  const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:8080' : 'https://chef-box.herokuapp.com'
   const productImages = await Promise.all([
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/1.jpeg', altCaption: 'im not sure what this is, TRY IT!' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/2.jpeg', altCaption: 'ewwwwww' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/3.jpeg', altCaption: 'Looks weird, i think' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/4.jpeg', altCaption: '' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/5.jpeg', altCaption: `I'm a teepot short and stout` }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/6.jpeg', altCaption: '' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/7.jpeg', altCaption: '' }),
-    ProductImages.create({ imageUrl: 'http://127.0.0.1:8080/seedMisc/img/8.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/1.jpeg', altCaption: 'im not sure what this is, TRY IT!' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/2.jpeg', altCaption: 'ewwwwww' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/3.jpeg', altCaption: 'Looks weird, i think' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/4.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/5.jpeg', altCaption: `I'm a teepot short and stout` }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/6.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/7.jpeg', altCaption: '' }),
+    ProductImages.create({ imageUrl: baseUrl + '/seedMisc/img/8.jpeg', altCaption: '' }),
   ])
   console.log(`seeded ${productImages.length} productsImages`)
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
