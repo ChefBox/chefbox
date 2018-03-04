@@ -54,8 +54,11 @@ router.put('/:productId', (req, res, next) => {
       }
     ]
   })
-    .then(([rowsUpdate, [product]]) =>
+    .then(([rowsUpdate, [product]]) => {
+      console.log(product)
       res.json(product)
+    }
+      
     )
     .catch(next)
 })
