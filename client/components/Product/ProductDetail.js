@@ -173,7 +173,7 @@ class ProductDetail extends React.Component {
 const mapState = ({ user, product }) => {
     // <=== need cart as well
     return {
-        isAdmin: !!user ? user.role : null,
+        isAdmin: !user ? null : user.role,
         product,
     }
 }

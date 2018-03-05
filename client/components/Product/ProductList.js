@@ -61,7 +61,7 @@ class ProductList extends React.Component {
 const mapState = ({ products, user }) => {
     return {
         products,
-        isAdmin: !!user ? user.role : null
+        isAdmin: !user ? null : user.role
     }
 }
 
