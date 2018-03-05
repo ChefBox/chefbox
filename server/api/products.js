@@ -30,7 +30,12 @@ router.get('/', (req, res, next) => {
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
-  Product.findById(id)
+  Product.findById(id, {
+    include: [
+      { model: Review },
+      { model: ProductImages }
+    ]
+  })
     .then(product => res.json(product))
     .catch(next)
 })
@@ -49,12 +54,10 @@ router.put('/:productId', (req, res, next) => {
     where: { id },
     returning: true,
   })
-    // .then(([rowsUpdate, [product]]) => {
-    //   res.json(product)
-    // })
     .then(() => {
       return Product.findById(id, {
         include: [
+          { model: Review },
           { model: ProductImages }
         ]
       })

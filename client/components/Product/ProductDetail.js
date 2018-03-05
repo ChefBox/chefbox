@@ -172,7 +172,6 @@ class ProductDetail extends React.Component {
                 <button onClick={event => this.setState({ bool: !this.state.bool })}>
                     {seeReviews}
                 </button>
-                <AllCategories />
             </div>
         )
     }
@@ -181,9 +180,9 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, users, reviews, categories }, ownProps) => {
+const mapState = ({ products, user, reviews, categories }, ownProps) => {
     // <=== need cart as well
-    const isAdmin = !!users ? users.role : null
+    const isAdmin = !!user ? user.role : null
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
     const reviewsForOne = reviews.filter(review => review.productId === paramId)

@@ -17,6 +17,7 @@ class ProductList extends React.Component {
 
     render(){
         console.log(this.props)
+        console.log("isAdmin", this.props.isAdmin)
         return (
             <div>
                 <div>
@@ -59,8 +60,8 @@ class ProductList extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, users }) => {
-    const isAdmin = !!users ? users.role : null
+const mapState = ({ products, user }) => {
+    const isAdmin = !!user ? user.role : null
     return { products, isAdmin }
 }
 
