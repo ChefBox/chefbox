@@ -32,17 +32,6 @@ function withCart(req, res, next) {
 
   } else {
     makeCart(req, next)
-    // console.log('CART ID IS NOT ON SESSION ROUTE')
-    // const cartResult = Order.cartForUser(req.user)
-    // console.log('cartResult: ', cartResult);
-    // cartResult.then((cart) => {
-    //   console.log('cart: ', cart);
-
-    //   req.cart = Array.isArray(cart) ? cart[0] : cart
-
-    //   req.session.cartId = req.cart.id
-    //   next()
-    // })
   }
 
 }
@@ -72,10 +61,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.delete('/item/:productId', (req, res, next) => {
+  // console.log('*** DELETE:', req.cart.id)
   const productId = req.params.productId
   const orderId = req.cart.id
+  //const orderId = 1//for testing
+
   LineItem.destroy({ where: { productId, orderId } })
-    .then(() => res.sendStatus(204))
+    .then(() => {
+      console.log({productId, orderId})
+      res.status(204).send('Item deleted successfully. ' + productId + ' ' + orderId)})
     .catch(next)
 })
 /// get my cart id
