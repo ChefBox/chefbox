@@ -13,7 +13,6 @@ const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({collapsed: true})
 ))
-console.log("localStorage", localStorage)
 const initialState = localStorage.initialState
   ? JSON.parse(localStorage.state)
   : undefined

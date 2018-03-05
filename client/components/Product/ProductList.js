@@ -16,13 +16,14 @@ class ProductList extends React.Component {
     }
 
     render(){
+        console.log(this.props)
         return (
             <div>
                 <div>
                     <h1>All Boxes</h1>
                     {
-                        this.props.email === '' ?
-                        <div /> : (
+                        this.props.isAdmin !== 'admin' ?
+                        null : (
                         <Link to="/products/create">
                             <button>Add Box</button>
                         </Link>
@@ -58,9 +59,9 @@ class ProductList extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }) => {
-    const email = user.email || ''
-    return { products, email }
+const mapState = ({ products, users }) => {
+    const isAdmin = !!users ? users.role : null
+    return { products, isAdmin }
 }
 
 export default connect(mapState)(ProductList)
