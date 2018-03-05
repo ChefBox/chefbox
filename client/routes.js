@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList, Cart} from './components'
-import {me, fetchCategories, fetchProducts, fetchOrders, fetchReviews} from './store'
+import {me, fetchCategories, fetchProducts, fetchCart, fetchReviews} from './store'
 import CategoryCreate from './components/Category/CategoryCreate';
 import RemoveCategory from './components/Category/RemoveCategory';
 
@@ -63,7 +63,7 @@ const mapDispatch = (dispatch) => {
       dispatch(me())
       dispatch(fetchProducts())
       dispatch(fetchCategories())
-      dispatch(fetchOrders())
+      dispatch(fetchCart())
       dispatch(fetchReviews())
     }
   }
