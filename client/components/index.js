@@ -7,7 +7,7 @@
  */
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
-export {Login, Signup} from './auth-form'
+export { Login } from './auth-form'
 export {default as ProductDetail} from './Product/ProductDetail'
 export {default as ProductEdit} from './Product/ProductEdit'
 export {default as ProductCreate} from './Product/ProductCreate'
@@ -17,3 +17,4 @@ export {default as RemoveCategory} from './Category/RemoveCategory'
 export {default as Cart} from './cart'
 export {default as ProductList} from './Product/ProductList'
 export {default as ProductItem} from './Product/ProductItem'
+export {default as Signup} from './signup';
