@@ -29,7 +29,7 @@ class Routes extends Component {
         <Route path="/removecategory" component={RemoveCategory} />
         <Route path="/checkout" component={Cart} />
         <Route exact path="/products/:productId" component={ProductDetail} />
-        <Route exact path= "/editcategory" component = {EditCategories} />
+        <Route exact path= "/editcategory/:id" component = {EditCategories} />
         {
           isLoggedIn &&
             <Switch>
