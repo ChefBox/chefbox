@@ -27,6 +27,7 @@ class ProductDetail extends React.Component {
         const reviewsForOne = this.props.reviewsForOne
         return (
             <div>
+                <AllCategories />
                 {
                     product === undefined ?
                     <div>from ProductDetail</div> : (
@@ -98,6 +99,7 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
+                        <AllCategories />
                     </div>
                     )
                 }
@@ -172,7 +174,6 @@ class ProductDetail extends React.Component {
                 <button onClick={event => this.setState({ bool: !this.state.bool })}>
                     {seeReviews}
                 </button>
-                <AllCategories />
             </div>
         )
     }
