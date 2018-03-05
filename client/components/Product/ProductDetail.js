@@ -31,7 +31,7 @@ class ProductDetail extends React.Component {
             <div>
                 {
                     !product.name ?
-                    <div>from ProductDetail</div> : (
+                    null : (
                     <div>
                         <img src={product.productImages[0].imageUrl} />
                         <div>

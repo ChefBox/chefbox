@@ -25,7 +25,6 @@ class ProductCreate extends React.Component {
     }
 
     render(){
-        console.log('i am here')
         const availability = [
             'pending',
             'available',
@@ -130,24 +129,32 @@ class ProductCreate extends React.Component {
                     </h3>
                     <h3>
                         Product Category
-                        {/* <form  >
+                        <div>
                             {
-                                this.state.Catagories
-                                    .map(option => 
-                                        <div
-                                            key={option.id}
-                                            name="option"
-                                        >
-                                            <input type="checkbox"/>
-                                            {option.name}
-                                        </div>
-                                )
+                                !this.props.categories ?
+                                <p>There is no Category.</p> : this.renderWithCategories()
                             }
-                        </form> */}
+                        </div>
                     </h3>
                     <button>Add Product</button>
                 </form>
             </div>
+        )
+    }
+
+    renderWithCategories(){
+        const {categories} = this.props
+        return categories.map(category => (
+                <div
+                    key={category.id}
+                    name={category.name}
+                >
+                    <input
+                        type="checkbox"
+                    />
+                    {category.name}
+                </div>
+            )
         )
     }
 
@@ -161,7 +168,7 @@ class ProductCreate extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = null
+const mapState = ({ categories }) => ({ categories })
 
 const mapDispatch = (dispatch, ownProps) => ({
     addProduct: (product) =>
