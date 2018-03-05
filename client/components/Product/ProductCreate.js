@@ -25,6 +25,7 @@ class ProductCreate extends React.Component {
     }
 
     render(){
+        console.log('i am here')
         const availability = [
             'pending',
             'available',

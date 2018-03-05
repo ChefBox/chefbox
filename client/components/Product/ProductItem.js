@@ -11,10 +11,11 @@ import { removeProduct } from '../../store'
 class ProductItem extends React.Component {
     constructor(props){
         super(props)
-        this.handleClick = this.handleClick.bind(this)
+        this.removeProductCallback = this.removeProductCallback.bind(this)
     }
 
     render(){
+        console.log(this.props)
         const product = this.props.product
         return (
             <div>
@@ -23,12 +24,15 @@ class ProductItem extends React.Component {
                     <h3>{product.name}</h3>
                     <p>Ingredients: {product.ingredients}</p>
                 </Link>
-                <button onClick={this.handleClick} >Delete</button>
+                {
+                    this.props.email === '' ?
+                    <div /> : <button onClick={this.removeProductCallback} >Delete</button>
+                }
             </div>
         )
     }
 
-    handleClick(event){
+    removeProductCallback(event){
         event.preventDefault()
         const { removeProduct, product } = this.props
         removeProduct(product.id)
@@ -38,10 +42,13 @@ class ProductItem extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = null
+const mapState = ({ user }) => {
+    const email = user.email || ''
+    return { email }
+}
 
 const mapDispatch = dispatch => ({
-    removeProduct: id => dispatch(removeProduct(id))
+    removeProduct: ProductId => dispatch(removeProduct(ProductId))
 })
 
 export default connect(mapState, mapDispatch)(ProductItem)

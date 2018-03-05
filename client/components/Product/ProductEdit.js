@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import { editProduct } from '../../store'
@@ -13,16 +13,23 @@ class ProductEdit extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            product: props.product
+            product: props.product,
+            categories: props.categories
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.productUpdate = this.productUpdate.bind(this)
+        this.renderWithCategories = this.renderWithCategories.bind(this)
     }
 
     componentWillReceiveProps(newProps, oldProps){
         if(newProps.product !== oldProps){
             this.setState({
                 product: newProps.product
+            })
+        }
+        if(newProps.categories !== oldProps){
+            this.setState({
+                categories: newProps.categories
             })
         }
     }
@@ -33,8 +40,8 @@ class ProductEdit extends React.Component {
             'pending',
             'out of stock'
         ]
-        const product = this.state.product
-        return(
+        const {product, categories} = this.state
+        return (
             <div>
                 <form onSubmit={this.handleSubmit} >
                     <h3>
@@ -139,24 +146,48 @@ class ProductEdit extends React.Component {
                     </h3>
                     <h3>
                         Product Catagory
-                        {/* <form  >
-                            {
-                                this.state.Categories
-                                    .map(option => 
-                                        <div
-                                            key={option.id}
-                                            name="option"
-                                        >
-                                            <input type="checkbox"/>
-                                            {option.name}
-                                        </div>
-                                )
-                            }
-                        </form> */}
+                        <div>
+                            {this.renderWithCategories()}
+                        </div>
                     </h3>
                     <button>Save Change</button>
                 </form>
             </div>
+        )
+    }
+
+    renderWithCategories(){
+        const {product, categories} = this.state
+        return categories.map(category => {
+                const isMatch = category.products.findIndex(select => {
+                    return select === undefined ? false : select.id === product.id})
+                if(isMatch < 0){
+                    return (
+                        <div
+                            key={category.id}
+                            name={category.name}
+                        >
+                            <input
+                                type="checkbox"
+                            />
+                            {category.name}
+                        </div>
+                    )
+                } else {
+                    return (
+                        <div
+                            key={category.id}
+                            name={category.name}
+                        >
+                            <input
+                                type="checkbox"
+                                defaultChecked
+                            />
+                            {category.name}
+                        </div>
+                    )
+                }
+            }
         )
     }
 
@@ -178,14 +209,13 @@ class ProductEdit extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }, ownProps) => { 
-    // <=== need catagory as well
+const mapState = ({ products, user, categories }, ownProps) => { 
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
     return {
         user,
         product,
-        //catagory
+        categories
     }
 }
 

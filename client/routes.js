@@ -25,18 +25,17 @@ class Routes extends Component {
         <Route exact path="/products" component={ProductList} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/addcategory" component={CategoryCreate} />
+        <Route path="/removecategory" component={RemoveCategory} />
+        <Route path="/checkout" component={Cart} />
         <Route exact path="/products/:productId" component={ProductDetail} />
-        <Route path="/products/:productId/edit" component={ProductEdit} />
-        <Route path = "/addcategory" component = {CategoryCreate} />
-        <Route path = "/removecategory" component = {RemoveCategory} />
-        <Route path = "/checkout" component = {Cart} />
         {
           isLoggedIn &&
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
-              <Route path="/products/create" component={ProductCreate} />
-              <Route path="/products/:productId/edit" component={ProductEdit} />
+              <Route exact path="/products/create" component={ProductCreate} />
+              <Route exact path="/products/:productId/edit" component={ProductEdit} />
             </Switch>
         }
         {/* Displays our Login component as a fallback */}
