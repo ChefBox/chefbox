@@ -3,7 +3,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom';
-import AllCategories from '../Category/AllCategories'
 import {fetchProduct} from '../../store'
 
 /**
@@ -26,7 +25,7 @@ class ProductDetail extends React.Component {
         this.props.fetchProduct()
     }
 
-    render(){        
+    render(){
         const { product, isAdmin } = this.props
         return (
             <div>
@@ -56,7 +55,6 @@ class ProductDetail extends React.Component {
                                         )
                                     }
                                 </div>
-                                
                             </div>
                             <ul>
                                 {product.ingredients
@@ -161,7 +159,7 @@ class ProductDetail extends React.Component {
                         })
                     }
                 </ul>
-                <button onClick={event => this.setState({ bool: !this.state.bool })}>
+                <button onClick={() => this.setState({ bool: !this.state.bool })}>
                     {seeReviews}
                 </button>
             </div>
@@ -172,12 +170,10 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ user, product }, ownProps) => {
+const mapState = ({ user, product }) => {
     // <=== need cart as well
-    const isAdmin = !!user ? user.role : null
-    const paramId = Number(ownProps.match.params.productId)
     return {
-        isAdmin,
+        isAdmin: !!user ? user.role : null,
         product,
     }
 }

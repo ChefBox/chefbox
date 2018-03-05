@@ -16,7 +16,6 @@ class ProductList extends React.Component {
     }
 
     render(){
-        console.log(this.props)
         return (
             <div>
                 <div>
@@ -60,8 +59,10 @@ class ProductList extends React.Component {
  * CONTAINER
  */
 const mapState = ({ products, user }) => {
-    const isAdmin = !!user ? user.role : null
-    return { products, isAdmin }
+    return {
+        products,
+        isAdmin: !!user ? user.role : null
+    }
 }
 
 export default connect(mapState)(ProductList)

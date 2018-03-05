@@ -42,8 +42,7 @@ class ProductItem extends React.Component {
  * CONTAINER
  */
 const mapState = ({ user }) => {
-    const isAdmin = !!user ? user.role : null
-    return { isAdmin }
+    return { isAdmin: !!user ? user.role : null }
 }
 
 const mapDispatch = dispatch => ({
