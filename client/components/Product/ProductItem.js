@@ -24,8 +24,8 @@ class ProductItem extends React.Component {
                     <p>Ingredients: {product.ingredients}</p>
                 </Link>
                 {
-                    this.props.email === '' ?
-                    <div /> : <button onClick={this.removeProductCallback} >Delete</button>
+                    this.props.isAdmin !== 'admin' ?
+                    null : <button onClick={this.removeProductCallback} >Delete</button>
                 }
             </div>
         )
@@ -41,9 +41,9 @@ class ProductItem extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ user }) => {
-    const email = user.email || ''
-    return { email }
+const mapState = ({ users }) => {
+    const isAdmin = !!users ? users.role : null
+    return { isAdmin }
 }
 
 const mapDispatch = dispatch => ({
