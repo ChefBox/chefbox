@@ -9,27 +9,21 @@ const Order = db.define('order', {
     validate: {
       notEmpty: true
     }
-  },
-  sessionId: {
-    type: Sequelize.STRING
   }
 });
 
-Order.cartForUser = function(user, sessionId) {
-  console.log('cart for user')
+Order.cartForUser = function (user) {
+  //console.log('cart for user', user);
   if (!user) {
+    return Order.create();
+  } else {
     return Order.findOrCreate({
       where: {
-        sessionId: sessionId
+        userId: user.id,
+        status: 'cart',
       }
     })
   }
-  return Order.findOrCreate({
-    where: {
-      userId: user.id,
-      status: 'cart',
-    }
-  })
 }
 
 module.exports = Order

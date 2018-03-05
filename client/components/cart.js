@@ -9,22 +9,13 @@ import { connect } from 'react-redux'
 */
 
 function Cart(props) {
-  // console.log('LOCAL STORAGE.STATE', localStorage.state);
-  //localStorage.cart = [{ product: 'Bananas', price: 2.99, quantity: 3 }];
-
-  const currentCart = findUsersCart(props)
-  console.log(currentCart)
-  console.log('CURRENT CART', currentCart)
-  // const structuredCart = structureCart(currentCart)
-  // // console.log('CART', currentCart)
-  // console.log('STRUCTURED CART', structuredCart)
-
+ const cart = props.cart
 
   return (
 
     <div className="cart">
       <h1>Your Cart</h1>
-      {!props.user ? (<p>Your cart is empty.</p>) :
+      {!cart.lineItems || (cart.lineItems === 0) ? (<p>Your cart is empty.</p>) :
         (
           <table>
             <thead>
@@ -33,19 +24,19 @@ function Cart(props) {
               </tr>
             </thead>
             <tbody>
-              {currentCart && currentCart.lineItems.map(i => (
+              {cart.lineItems && cart.lineItems.map(i => (
                 <tr key={`${i.productId}-${i.orderId}`}>
-                  <td className="cart-line-name">{currentCart.products.find(p => p.id === i.productId).name}</td>
-                  <td className="cart-line-price">{currentCart.products.find(p => p.id === i.productId).price}</td>
+                  <td className="cart-line-name">{cart.products.find(p => p.id === i.productId).name}</td>
+                  <td className="cart-line-price">${cart.products.find(p => p.id === i.productId).price}</td>
                   <td className="cart-line-quantity">{i.quantity}</td>
-                  <td className="cart-line-total">{((currentCart.products.find(p => p.id === i.productId)).price * i.quantity).toFixed(2)}</td>
+                  <td className="cart-line-total">${((cart.products.find(p => p.id === i.productId)).price * i.quantity).toFixed(2)}</td>
                 </tr>
               )
               )}
             </tbody>
             <tfoot>
               <tr>
-                <td>TOTAL</td><td /><td /><td>{currentCart && grandTotal(currentCart).toFixed(2)}
+                <td>TOTAL</td><td /><td /><td>${cart.lineItems && grandTotal(cart).toFixed(2)}
                 </td>
               </tr>
             </tfoot>
@@ -58,39 +49,19 @@ function Cart(props) {
 /**
  * CONTAINER
  */
-const mapState = ({ orders, user }) => {
+const mapState = ({ orders, user, cart }) => {
   return {
     user,
-    orders
+    orders,
+    cart
   }
-}
-
-function findUsersCart(props) {
-  if (props.user || props.orders.find(ord => ord.userId === props.user.id)) {
-    return props.orders.find(ord => ord.userId === props.user.id)
-  }
-  // if (props.orders.find(ord => ord.userId === props.user.id)) {
-  // }
-}
-
-function structureCart(cart) {
-  console.log('CART IN STRUCTURED', cart)
-  return cart.lineItem.map(i => {
-    const prod = cart.products.find(p => p.id === i.productId)
-    return {
-      name: prod.name,
-      quanity: i.quantity,
-      price: prod.price
-    }
-  })
 }
 
 function grandTotal(c) {
-  console.log('GRAND TOTAL items', c.lineItems)
   return c.lineItems.reduce((total, li) =>  {
     const prodPrice = c.products.find(p => p.id === li.productId).price
-    console.log('PordPrice', prodPrice)
-    return  total += li.quantity * prodPrice
+    total += li.quantity * prodPrice
+    return total
   }, 0)
 }
 
