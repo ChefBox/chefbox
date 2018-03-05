@@ -6,6 +6,8 @@ import {auth} from '../store'
  * COMPONENT
  */
 const ZIP_PATTERN = '^([0-9]){5}(([ ]|[-])?([0-9]){4})?$'
+const zipRegex = new RegExp(ZIP_PATTERN)
+const emailValidRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const passwordLength = 3
 const InputGroup = (props) => (
   <div>
@@ -92,10 +94,10 @@ class Signup extends React.Component {
         isValid = value.length >= passwordLength
         break
       case 'email':
-        isValid = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value)
+        isValid = emailValidRegex.test(value)
         break
       case 'zip':
-        isValid = RegExp(ZIP_PATTERN).test(value)
+        isValid = zipRegex.test(value)
         break
       default:
         isValid = false
