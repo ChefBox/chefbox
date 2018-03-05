@@ -25,7 +25,7 @@ class RemoveCategory extends React.Component{
             <div>
                 {categories.map((singleCategory) =>
                 (<li key= {singleCategory.id} > {singleCategory.name}
-                <button 
+                <button
                 value = {singleCategory.id}
                 id = "RemoveButton"
                 onClick= {this.handleClick} 
@@ -33,7 +33,7 @@ class RemoveCategory extends React.Component{
                  Remove Category </button>
                  {singleCategory.products.count ?
                  'Cannot delete a category with products' :
-                 ' '}
+                 null}
                 </li>)
                 )}
                 }

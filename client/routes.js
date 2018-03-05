@@ -6,7 +6,11 @@ import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, Prod
 import {me, fetchCategories, fetchProducts, fetchCart, fetchReviews} from './store'
 import CategoryCreate from './components/Category/CategoryCreate';
 import RemoveCategory from './components/Category/RemoveCategory';
+<<<<<<< Updated upstream
 
+=======
+import EditCategories from './components/Category/EditCategories';
+>>>>>>> Stashed changes
 /**
  * COMPONENT
  */
@@ -29,6 +33,13 @@ class Routes extends Component {
         <Route path="/removecategory" component={RemoveCategory} />
         <Route path="/checkout" component={Cart} />
         <Route exact path="/products/:productId" component={ProductDetail} />
+<<<<<<< Updated upstream
+=======
+        <Route path="/products/:productId/edit" component={ProductEdit} />
+        <Route path = "/addcategory" component = {CategoryCreate} />
+        <Route path = "/removecategory" component = {RemoveCategory} />
+        <Route path = "/editcategory" component = {EditCategories} />
+>>>>>>> Stashed changes
         {
           isLoggedIn &&
             <Switch>
