@@ -23,6 +23,8 @@ class ProductDetail extends React.Component {
     }
 
     render(){
+        console.log(this.props)
+        
         const { product, categories, isAdmin } = this.props
         const reviewsForOne = this.props.reviewsForOne
         return (

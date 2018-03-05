@@ -4,6 +4,7 @@ import axios from 'axios';
  * ACTION TYPES
  */
 const GET_PRODUCTS = 'GET_PRODUCTS';
+const GET_PRODUCT = 'GET_PRODUCT';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
@@ -18,6 +19,8 @@ const getProducts = (products) => {
     products
   }
 }
+
+const getProduct = product => ({ type: GET_PRODUCT, product})
 
 const createProduct = (product) => {
   return {
@@ -53,6 +56,12 @@ export function fetchProducts () {
   }
 }
 
+export const fetchProduct = id => dispatch =>
+  axios.get(`/api/products/${id}`)
+    .then(res => res.data)
+    .then(product => dispatch(getProduct(product)))
+    .catch(err => console.error(`Fetching product ${id} unsuccesful.`, err))
+
 export function addProduct (product, history) {
   //console.log(product)
   return function thunk (dispatch) {
@@ -84,6 +93,8 @@ export default function reducer(products = [], action) {
   switch (action.type) {
     case GET_PRODUCTS:
       return action.products;
+    case GET_PRODUCT:
+      return products.find(product => product.id === action.id)
     case CREATE_PRODUCT:
       return [...products, action.product];
     case UPDATE_PRODUCT:

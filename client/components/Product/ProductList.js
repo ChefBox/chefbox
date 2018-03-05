@@ -17,7 +17,6 @@ class ProductList extends React.Component {
 
     render(){
         console.log(this.props)
-        console.log("isAdmin", this.props.isAdmin)
         return (
             <div>
                 <div>
