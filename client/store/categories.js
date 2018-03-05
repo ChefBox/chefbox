@@ -58,7 +58,7 @@ export function addCategory(category){
 
 export function editCategory(category, id){
     return function thunk(dispatch){
-        return axios.put(`/api/categories/${id}`)
+        return axios.put(`/api/categories/${id}`, category)
         .then(res => res.data)
         .then(updatedCategory => dispatch(updateCategory(updatedCategory)))
         .catch(err => console.error(`Updating Category ${category} unsuccessful`, err))

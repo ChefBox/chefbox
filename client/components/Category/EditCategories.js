@@ -12,6 +12,9 @@ class EditCategories extends React.Component{
         this.state = {
             category: props.categories
         }
+        this.categoryUpdate = this.categoryUpdate.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     categoryUpdate(categoryUpdateObj) {
@@ -22,8 +25,7 @@ class EditCategories extends React.Component{
 
 
     handleChange(event){
-        console.log(event.target.name)
-        this.categoryUpdate({ name: event.target.value})
+        // this.categoryUpdate({ name: event.target.value})
     }
 
     handleSubmit(event){
@@ -41,7 +43,7 @@ class EditCategories extends React.Component{
                 <h3>
                         Category Name
                         <input
-                            onChange={this.handleChange( event.target.name.value )
+                            onChange={this.handleChange( event.target.name )
                             }
                             name="name"
                             required
@@ -50,8 +52,8 @@ class EditCategories extends React.Component{
                     </h3>
                     <h3>
                             Category Description
-                            <input
-                                onChange = {this.handleChange(event.target.name.value)}
+                            <textarea
+                                onChange = {this.handleChange(event.target.name)}
                                 name = "description"
                                 required
                                 value = {categories === undefined ? null : categories.description}

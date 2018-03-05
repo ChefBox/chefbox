@@ -2,27 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-import { fetchCategories } from '../../store/categories';
+import { editCategory } from '../../store/';
 
 class AllCategories extends React.Component {
     constructor(props){
         super(props)
-        this.state = {
-            activeCategory: null
-        }
+        this.state = {}
         this.handleClick = this.handleClick.bind(this)
         
     }
 
     handleClick(event){
-        this.setState({
-            activeCategory: event.target.key
+        event.preventDefault()
+        const { editCategory, categories } = this.props
+        categories.map((category) => {
+            if(category.name === event.target.value){
+                editCategory({active: true}, category.id)
+            } else {
+                editCategory({active: false}, category.id)
+            }
         })
     }
 
-    componentDidMount(){
-        this.props.fetchCategories()
-    }
 
     render(){
 
@@ -32,11 +33,9 @@ class AllCategories extends React.Component {
                     this.props.categories === undefined ?
                     <div /> : (
                  <div>
-                     <div onClick = {this.handleClick}>
                      {this.props.categories.map((category)=>
-                     <div key= {`${category.id}`}> {`${category.name} (${category.description})`}</div>
+                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`}</div>
                 )}
-                </div>
                 </div>
                     )
                 }
@@ -46,7 +45,5 @@ class AllCategories extends React.Component {
 }
 
 const mapState = ({categories, products}) => ({categories, products})
-const mapDispatch = {fetchCategories}
-const comp = connect(mapState, mapDispatch)(AllCategories)
 
-export default comp
+export default connect(mapState)(AllCategories)
