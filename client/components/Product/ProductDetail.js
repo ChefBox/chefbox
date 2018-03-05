@@ -12,23 +12,24 @@ class ProductDetail extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            quantity: 0
+            quantity: 0,
+            bool: true
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.renderWithReviews = this.renderWithReviews.bind(this)
         this.numberToBuy = this.numberToBuy.bind(this)
+        this.whatCategories = this.whatCategories.bind(this)
     }
 
     render(){
-        const product = this.props.product
+        const { product, categories, email } = this.props
         const reviewsForOne = this.props.reviewsForOne
-        // const categoriesForOne = this.props.categoriesForOne
         return (
             <div>
                 {
-                    this.props.product === undefined ?
-                    <div /> : (
+                    product === undefined ?
+                    <div>from ProductDetail</div> : (
                     <div>
                         <img src={product.productImages[0].imageUrl} />
                         <div>
@@ -37,12 +38,25 @@ class ProductDetail extends React.Component {
                                     <h1>{product.name}</h1>
                                     <span>{product.numberInStock} Available</span>
                                 </div>
-                                {/* <h2>{categoriesForOne}</h2> */}
-                                <Link
-                                    to={`/products/${product.id}/edit`}
-                                >
-                                    <button>Edit</button>
-                                </Link>
+                                <h2>
+                                    {
+                                        categories[0] === undefined ?
+                                        <div /> : this.whatCategories()
+                                    }
+                                </h2>
+                                <div>
+                                    {
+                                        email === '' ?
+                                        <div /> : (
+                                        <Link
+                                            to={`/products/${product.id}/edit`}
+                                        >
+                                            <button>Edit</button>
+                                        </Link>
+                                        )
+                                    }
+                                </div>
+                                
                             </div>
                             <ul>
                                 {product.ingredients
@@ -91,6 +105,13 @@ class ProductDetail extends React.Component {
         )
     }
 
+    whatCategories(){
+        const { product, categories } = this.props
+        const categoriesForOne = categories.filter(category =>
+            category.products.find(select =>
+                select === undefined ? false : select.id === product.id))
+        return categoriesForOne.map(category => category.name)
+    }
 
     numberToBuy(){
         const num = this.props.product.numberInStock
@@ -113,8 +134,10 @@ class ProductDetail extends React.Component {
     }
 
     renderWithReviews(){
-        const reviewsForOne = this.props.reviewsForOne
-        const product = this.props.product
+        const { reviewsForOne, product } = this.props
+        const max = this.state.bool ? 3 : reviewsForOne.length
+        const seeReviews = this.state.bool ?
+            `See all ${reviewsForOne.length} reviews` : 'See less'
         return (
             <div>
                 <div>
@@ -129,26 +152,26 @@ class ProductDetail extends React.Component {
                 <ul>
                     {
                         reviewsForOne
-                            .sort((pre, next) => pre.createdAt - next.createdAt)
-                            .slice(0, 5)
+                            .sort((pre, next) => next.id - pre.id)
+                            .slice(0, max)
                             .map(review => (
                                     <li key={review.id}>
                                         <div>
                                             <div>{review.rating}</div>
-                                            <div>{review.title}</div>
+                                            <h4>{review.title}</h4>
                                         </div>
-                                        <div>{review.createdAt}</div>
+                                        <div>{Date(review.createdAt)}</div>
                                         <div>Verified Purchase</div>
-                                        <div>{review.content}</div>
+                                        <p>{review.content}</p>
                                     </li>
                                 ))
                             }
                         })
                     }
                 </ul>
-                <Link to={`/products/${product.id}/reviews`}>
-                    See all 66 reviews
-                </Link>
+                <button onClick={event => this.setState({ bool: !this.state.bool })}>
+                    {seeReviews}
+                </button>
                 <AllCategories />
             </div>
         )
@@ -158,16 +181,17 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user, reviews }, ownProps) => {
-    // <=== need cart, categories as well
+const mapState = ({ products, user, reviews, categories }, ownProps) => {
+    // <=== need cart as well
+    const email = user.email || ''
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
     const reviewsForOne = reviews.filter(review => review.productId === paramId)
     return {
-        user,
+        email,
         product,
         reviewsForOne,
-        // categoriesForOne,
+        categories,
     }
 }
 
