@@ -2,8 +2,9 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import AllCategories from '../Category/AllCategories'
+import {fetchProduct} from '../../store'
 
 /**
  * COMPONENT
@@ -19,18 +20,18 @@ class ProductDetail extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.renderWithReviews = this.renderWithReviews.bind(this)
         this.numberToBuy = this.numberToBuy.bind(this)
-        this.whatCategories = this.whatCategories.bind(this)
     }
 
-    render(){
-        console.log(this.props)
-        
-        const { product, categories, isAdmin } = this.props
-        const reviewsForOne = this.props.reviewsForOne
+    componentDidMount(){
+        this.props.fetchProduct()
+    }
+
+    render(){        
+        const { product, isAdmin } = this.props
         return (
             <div>
                 {
-                    product === undefined ?
+                    !product.name ?
                     <div>from ProductDetail</div> : (
                     <div>
                         <img src={product.productImages[0].imageUrl} />
@@ -41,10 +42,7 @@ class ProductDetail extends React.Component {
                                     <span>{product.numberInStock} Available</span>
                                 </div>
                                 <h2>
-                                    {
-                                        categories[0] === undefined ?
-                                        <div /> : this.whatCategories()
-                                    }
+                                    {product.categories.map(category => category.name)}
                                 </h2>
                                 <div>
                                     {
@@ -94,7 +92,7 @@ class ProductDetail extends React.Component {
                             <div>
                                 <h3>Customer Reviews</h3>
                                 {
-                                    this.props.reviewsForOne === undefined ?
+                                    !product.reviews ?
                                     <p>There are no customer reviews yet.</p> :
                                     this.renderWithReviews()
                                 }
@@ -105,14 +103,6 @@ class ProductDetail extends React.Component {
                 }
             </div>
         )
-    }
-
-    whatCategories(){
-        const { product, categories } = this.props
-        const categoriesForOne = categories.filter(category =>
-            category.products.find(select =>
-                select === undefined ? false : select.id === product.id))
-        return categoriesForOne.map(category => category.name)
     }
 
     numberToBuy(){
@@ -136,24 +126,24 @@ class ProductDetail extends React.Component {
     }
 
     renderWithReviews(){
-        const { reviewsForOne, product } = this.props
-        const max = this.state.bool ? 3 : reviewsForOne.length
+        const product = this.props.product
+        const max = this.state.bool ? 3 : product.reviews.length
         const seeReviews = this.state.bool ?
-            `See all ${reviewsForOne.length} reviews` : 'See less'
+            `See all ${product.reviews.length} reviews` : 'See less'
         return (
             <div>
                 <div>
                     {
-                        reviewsForOne
+                        product.reviews
                             .reduce((accu, curr, index, array) =>
                                 (accu + (curr.rating / array.length)), 0)
                             .toFixed(1)
                     }
                 </div>
-                <div>{reviewsForOne.length} customer reviews</div>
+                <div>{product.reviews.length} customer reviews</div>
                 <ul>
                     {
-                        reviewsForOne
+                        product.reviews
                             .sort((pre, next) => next.id - pre.id)
                             .slice(0, max)
                             .map(review => (
@@ -182,21 +172,21 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user, reviews, categories }, ownProps) => {
+const mapState = ({ user, product }, ownProps) => {
     // <=== need cart as well
     const isAdmin = !!user ? user.role : null
     const paramId = Number(ownProps.match.params.productId)
-    const product = products.find(product => product.id === paramId)
-    const reviewsForOne = reviews.filter(review => review.productId === paramId)
     return {
         isAdmin,
         product,
-        reviewsForOne,
-        categories,
     }
 }
 
-// const mapDispatch = dispatch => {
-// }
+const mapDispatch = (dispatch, ownProps) => {
+    const paramId = ownProps.match.params.productId
+    return {
+        fetchProduct: () => dispatch(fetchProduct(paramId))
+    }
+}
 
-export default connect(mapState)(ProductDetail)
+export default connect(mapState, mapDispatch)(ProductDetail)
