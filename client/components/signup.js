@@ -9,6 +9,7 @@ const ZIP_PATTERN = '^([0-9]){5}(([ ]|[-])?([0-9]){4})?$'
 const passwordLength = 3
 const InputGroup = (props) => (
   <div>
+  {props.invalid ? <small>{props.invalid}</small> : null}
   <label htmlFor={props.id}>{props.title + ': '}
     <input
       id={props.id}
@@ -23,7 +24,6 @@ const InputGroup = (props) => (
       placeholder={props.placeholder}
     />
   </label>
-  {props.invalid ? <small>{props.invalid}</small> : null}
   </div>
 )
 
