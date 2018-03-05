@@ -129,7 +129,7 @@ class ProductCreate extends React.Component {
                         />
                     </h3>
                     <h3>
-                        Product Catagory
+                        Product Category
                         {/* <form  >
                             {
                                 this.state.Catagories
