@@ -43,7 +43,6 @@ const deleteProduct = (id) => {
 /**
  * THUNK CREATORS
  */
-
 export function fetchProducts () {
   return function thunk (dispatch) {
     return axios.get('/api/products')

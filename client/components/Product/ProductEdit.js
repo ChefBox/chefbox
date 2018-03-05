@@ -22,12 +22,12 @@ class ProductEdit extends React.Component {
     }
 
     componentWillReceiveProps(newProps, oldProps){
-        if(newProps.product !== oldProps){
+        if (newProps.product !== oldProps){
             this.setState({
                 product: newProps.product
             })
         }
-        if(newProps.categories !== oldProps){
+        if (newProps.categories !== oldProps){
             this.setState({
                 categories: newProps.categories
             })
@@ -68,7 +68,6 @@ class ProductEdit extends React.Component {
                     </h3>
                     <h3>
                         Product Categories
-                        
                     </h3>
                     <h3>
                         Product ingredients
