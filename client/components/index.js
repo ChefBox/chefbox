@@ -6,6 +6,7 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
+export {default as Footer} from './footer'
 export {default as UserHome} from './user-home'
 export { Login } from './auth-form'
 export {default as ProductDetail} from './Product/ProductDetail'

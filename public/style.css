@@ -1,8 +1,9 @@
 
-
-
 body {
+  padding: 0;
+  margin: 0;
   font-family: sans-serif;
+
 }
 
 a {
@@ -61,4 +62,19 @@ form div {
 
 .cart .car-price-col, .car-total-col {
   width: 10vw;
+}
+
+
+.footer {
+  display: flex;
+  background: rgb(161, 228, 161);
+  justify-content: space-around;
+  margin-top: 3em;
+  padding: 2em 15em;
+}
+
+
+.footer li {
+  list-style: none;
+  padding: 0.2em 0;
 }
