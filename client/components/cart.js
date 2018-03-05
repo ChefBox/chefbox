@@ -15,7 +15,7 @@ function Cart(props) {
 
     <div className="cart">
       <h1>Your Cart</h1>
-      {!cart.lineItems || (cart.lineItems === 0) ? (<p>Your cart is empty.</p>) :
+      {!cart.lineItems || (cart.lineItems.length === 0) ? (<p>Your cart is empty.</p>) :
         (
           <table>
             <thead>
