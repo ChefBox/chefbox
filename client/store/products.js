@@ -91,7 +91,7 @@ export default function reducer(products = [], action) {
         return product.id === action.product.id ? action.product : product
       });
     case DELETE_PRODUCT:
-      return products.filter(product => product.id !== action.product.id);
+      return products.filter(product => product.id !== action.id);
     default:
       return products;
   }

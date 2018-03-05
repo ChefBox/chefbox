@@ -20,9 +20,14 @@ class ProductList extends React.Component {
             <div>
                 <div>
                     <h1>All Boxes</h1>
-                    <Link to="/products/create">
-                        <button>Add Box</button>
-                    </Link>
+                    {
+                        this.props.email === '' ?
+                        <div /> : (
+                        <Link to="/products/create">
+                            <button>Add Box</button>
+                        </Link>
+                        )
+                    }
                 </div>
                 {
                     this.props.products[0] === undefined ?
@@ -53,6 +58,9 @@ class ProductList extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products }) => ({ products })
+const mapState = ({ products, user }) => {
+    const email = user.email || ''
+    return { products, email }
+}
 
 export default connect(mapState)(ProductList)

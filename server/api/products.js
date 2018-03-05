@@ -48,15 +48,20 @@ router.put('/:productId', (req, res, next) => {
   Product.update(req.body, {
     where: { id },
     returning: true,
-    include: [
-      {
-        model: ProductImages
-      }
-    ]
   })
-    .then(([rowsUpdate, [product]]) =>
-      res.json(product)
-    )
+    // .then(([rowsUpdate, [product]]) => {
+    //   res.json(product)
+    // })
+    .then(() => {
+      return Product.findById(id, {
+        include: [
+          { model: ProductImages }
+        ]
+      })
+        .then(product => {
+          res.json(product)
+        })
+    })
     .catch(next)
 })
 
