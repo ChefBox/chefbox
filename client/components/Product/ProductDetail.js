@@ -29,6 +29,7 @@ class ProductDetail extends React.Component {
         const { product, isAdmin } = this.props
         return (
             <div>
+                <AllCategories />
                 {
                     !product.name ?
                     <div>from ProductDetail</div> : (
@@ -96,6 +97,7 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
+                        <AllCategories />
                     </div>
                     )
                 }

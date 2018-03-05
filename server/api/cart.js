@@ -3,29 +3,35 @@ const { Order, LineItem, Product } = require('../db/models')
 
 module.exports = router
 
+function makeCart(req, next) {
+  const cartResult = Order.cartForUser(req.user)
+  cartResult.then((cart) => {
+    req.cart = Array.isArray(cart) ? cart[0] : cart
+    req.session.cartId = req.cart.id
+    return next()
+  })
+}
+
 function withCart(req, res, next) {
 
   if (req.cart) return next()
 
   if (req.session.cartId) {
+    console.log('CART ID IS ON SESSION ROUTE')
     const order = Order.findById(req.session.cartId)
     order.then(cart => {
-      req.cart = cart
-      next()
+      if (cart === null) {
+        req.session.cartId = undefined;
+        return makeCart(req, next)
+      } else {
+        req.cart = cart
+        return next()
+      }
     })
+    .catch(next)
 
   } else {
-    console.log('ON SESSION', req.session.cartId);
-    const cartResult = Order.cartForUser(req.user)
-    console.log('cartResult: ', cartResult);
-    cartResult.then((cart) => {
-      console.log('cart: ', cart);
-
-      req.cart = Array.isArray(cart) ? cart[0] : cart
-
-      req.session.cartId = req.cart.id
-      next()
-    })
+    makeCart(req, next)
   }
 
 }
@@ -42,8 +48,8 @@ router.get('/', (req, res, next) => {
       model: Product
     }]
   })
-  .then(cart => res.json(cart))
-  .catch(next)
+    .then(cart => res.json(cart))
+    .catch(next)
 })
 
 router.post('/', (req, res, next) => {
@@ -55,10 +61,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.delete('/item/:productId', (req, res, next) => {
+  // console.log('*** DELETE:', req.cart.id)
   const productId = req.params.productId
   const orderId = req.cart.id
+  //const orderId = 1//for testing
+
   LineItem.destroy({ where: { productId, orderId } })
-    .then(() => res.sendStatus(204))
+    .then(() => {
+      console.log({productId, orderId})
+      res.status(204).send('Item deleted successfully. ' + productId + ' ' + orderId)})
     .catch(next)
 })
 /// get my cart id
