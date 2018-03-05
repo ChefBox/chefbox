@@ -29,7 +29,6 @@ class ProductDetail extends React.Component {
         const { product, isAdmin } = this.props
         return (
             <div>
-                <AllCategories />
                 {
                     !product.name ?
                     <div>from ProductDetail</div> : (
@@ -49,7 +48,7 @@ class ProductDetail extends React.Component {
                                         isAdmin !== 'admin' ?
                                         null : (
                                         <Link
-                                            to={`/products/${product.id}/edit`}
+                                            to={`/products/${product.id}/admin/edit`}
                                         >
                                             <button>Edit</button>
                                         </Link>
@@ -97,7 +96,6 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
-                        <AllCategories />
                     </div>
                     )
                 }

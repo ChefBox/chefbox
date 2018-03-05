@@ -23,7 +23,7 @@ class ProductList extends React.Component {
                     {
                         this.props.isAdmin !== 'admin' ?
                         null : (
-                        <Link to="/products/create">
+                        <Link to="/products/admin/create">
                             <button>Add Box</button>
                         </Link>
                         )
