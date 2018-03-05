@@ -23,7 +23,7 @@ class ProductDetail extends React.Component {
     }
 
     render(){
-        const { product, categories, email } = this.props
+        const { product, categories, isAdmin } = this.props
         const reviewsForOne = this.props.reviewsForOne
         return (
             <div>
@@ -46,8 +46,8 @@ class ProductDetail extends React.Component {
                                 </h2>
                                 <div>
                                     {
-                                        email === '' ?
-                                        <div /> : (
+                                        isAdmin !== 'admin' ?
+                                        null : (
                                         <Link
                                             to={`/products/${product.id}/edit`}
                                         >
@@ -181,14 +181,14 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user, reviews, categories }, ownProps) => {
+const mapState = ({ products, users, reviews, categories }, ownProps) => {
     // <=== need cart as well
-    const email = user.email || ''
+    const isAdmin = !!users ? users.role : null
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
     const reviewsForOne = reviews.filter(review => review.productId === paramId)
     return {
-        email,
+        isAdmin,
         product,
         reviewsForOne,
         categories,
