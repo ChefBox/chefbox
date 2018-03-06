@@ -73,11 +73,11 @@ describe('Product routes without a seed data', () => {
                     expect(res.body.numberInStock).to.equal(otherProduct.numberInStock)
                     expect(res.body.timeToPrep).to.equal(otherProduct.timeToPrep)
                     expect(res.body.ingredients[0]).to.equal(otherProduct.ingredients[0])
-                    expect(res.body.availability).to.equal('pending') 
+                    expect(res.body.availability).to.equal('pending')
             })
         })
     })
-    
+
     describe('`/api/products/:productId` URI', () => {
         const fakeProduct = {
             name: 'yamiyami',
@@ -116,7 +116,7 @@ describe('Product routes without a seed data', () => {
                     where: { id: 1 }
                 })
             })
-    
+
             it('PUT update a specitic product', () => {
                 return request(app)
                     .put('/api/products/1')
@@ -132,5 +132,5 @@ describe('Product routes without a seed data', () => {
                     .expect(204)
             })
         })
-    })    
+    })
 })

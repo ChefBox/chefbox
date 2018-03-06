@@ -2,11 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, ProductDetail, ProductEdit, ProductCreate, ProductList, Cart} from './components'
+import {Login, Signup, UserHome, Cart, CategoryCreate, RemoveCategory, EditCategories} from './components'
+import {ProductReview, ProductDetail, ProductEdit, ProductCreate, ProductList} from './components'
 import {me, fetchCategories, fetchProducts, fetchCart, fetchReviews} from './store'
-import CategoryCreate from './components/Category/CategoryCreate';
-import RemoveCategory from './components/Category/RemoveCategory';
-import EditCategories from './components/Category/EditCategories';
+
 /**
  * COMPONENT
  */
@@ -25,18 +24,20 @@ class Routes extends Component {
         <Route exact path="/products" component={ProductList} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/addcategory" component={CategoryCreate} />
-        <Route path="/removecategory" component={RemoveCategory} />
         <Route path="/checkout" component={Cart} />
         <Route exact path="/products/:productId" component={ProductDetail} />
+        <Route path="/products/:productId/reviews" component={ProductReview} />
         <Route exact path= "/editcategory/:id" component = {EditCategories} />
         {
           isLoggedIn &&
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
-              <Route exact path="/products/create" component={ProductCreate} />
-              <Route exact path="/products/:productId/edit" component={ProductEdit} />
+              <Route path="/addcategory" component={CategoryCreate} />
+              <Route path="/editcategory" component={EditCategories} />
+              <Route path="/removecategory" component={RemoveCategory} />
+              <Route exact path="/products/admin/create" component={ProductCreate} />
+              <Route exact path="/products/:productId/admin/edit" component={ProductEdit} />
             </Switch>
         }
         {/* Displays our Login component as a fallback */}

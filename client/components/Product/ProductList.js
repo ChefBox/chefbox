@@ -2,7 +2,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {ProductItem} from '../'
 
@@ -23,7 +23,7 @@ class ProductList extends React.Component {
                     {
                         this.props.isAdmin !== 'admin' ?
                         null : (
-                        <Link to="/products/create">
+                        <Link to="/products/admin/create">
                             <button>Add Box</button>
                         </Link>
                         )
@@ -47,6 +47,7 @@ class ProductList extends React.Component {
                         <ProductItem
                             product={product}
                             key={product.id}
+                            showDeleteButton={true}
                         />
                     ))
                 }

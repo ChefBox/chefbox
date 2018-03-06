@@ -1,5 +1,5 @@
 'use strict ';
-const db = require('../db')
+
 const router = require('express').Router()
 const { Product, Review, ProductImages, Category } = require('../db/models')
 module.exports = router
@@ -50,8 +50,21 @@ router.get('/:productId', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Product.create(req.body)
     .then(product =>
-      res.status(201).json(product)
+      Product.findById(product.id, {
+        include: [
+          { model: Review },
+          { model: ProductImages },
+          {
+            attributes: ['name'],
+            model: Category,
+            through: {
+              attributes: []
+            }
+          }
+        ]
+      })
     )
+    .then(product => res.status(201).json(product))
     .catch(next)
 })
 

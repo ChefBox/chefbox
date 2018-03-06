@@ -13,7 +13,6 @@ class ProductDetail extends React.Component {
         super(props)
         this.state = {
             quantity: 0,
-            bool: true
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -29,10 +28,9 @@ class ProductDetail extends React.Component {
         const { product, isAdmin } = this.props
         return (
             <div>
-                <AllCategories />
                 {
                     !product.name ?
-                    <div>from ProductDetail</div> : (
+                    null : (
                     <div>
                         <img src={product.productImages[0].imageUrl} />
                         <div>
@@ -49,7 +47,7 @@ class ProductDetail extends React.Component {
                                         isAdmin !== 'admin' ?
                                         null : (
                                         <Link
-                                            to={`/products/${product.id}/edit`}
+                                            to={`/products/${product.id}/admin/edit`}
                                         >
                                             <button>Edit</button>
                                         </Link>
@@ -97,7 +95,6 @@ class ProductDetail extends React.Component {
                                 }
                             </div>
                         </div>
-                        <AllCategories />
                     </div>
                     )
                 }
@@ -127,9 +124,7 @@ class ProductDetail extends React.Component {
 
     renderWithReviews(){
         const product = this.props.product
-        const max = this.state.bool ? 3 : product.reviews.length
-        const seeReviews = this.state.bool ?
-            `See all ${product.reviews.length} reviews` : 'See less'
+        const maxReviewToShow = 3
         return (
             <div>
                 <div>
@@ -145,7 +140,7 @@ class ProductDetail extends React.Component {
                     {
                         product.reviews
                             .sort((pre, next) => next.id - pre.id)
-                            .slice(0, max)
+                            .slice(0, maxReviewToShow)
                             .map(review => (
                                     <li key={review.id}>
                                         <div>
@@ -161,9 +156,9 @@ class ProductDetail extends React.Component {
                         })
                     }
                 </ul>
-                <button onClick={() => this.setState({ bool: !this.state.bool })}>
-                    {seeReviews}
-                </button>
+                <Link to={`/products/${product.id}/reviews`}>
+                    <p>See all {product.reviews.length} reviews</p>
+                </Link>
             </div>
         )
     }

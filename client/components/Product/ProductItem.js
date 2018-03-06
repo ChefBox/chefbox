@@ -15,7 +15,7 @@ class ProductItem extends React.Component {
     }
 
     render(){
-        const product = this.props.product
+        const {product, isAdmin, showDeleteButton} = this.props
         return (
             <div>
                 <Link to={`/products/${product.id}`}>
@@ -24,7 +24,7 @@ class ProductItem extends React.Component {
                     <p>Ingredients: {product.ingredients}</p>
                 </Link>
                 {
-                    this.props.isAdmin !== 'admin' ?
+                    isAdmin !== 'admin' || !showDeleteButton ?
                     null : <button onClick={this.removeProductCallback} >Delete</button>
                 }
             </div>
