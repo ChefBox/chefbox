@@ -6,7 +6,7 @@ import { logout } from '../store'
 
 const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:8080' : 'https://chef-box.herokuapp.com'
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, cart}) => (
   <div className="header">
     <Link to="/">
       <div id="logo-container" >
@@ -31,8 +31,10 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
             <Link to="/signup">Sign Up</Link>
           </div>
         )}
-      <div id="cart-container">
+      <div className="cart-container">
         <Link to="/checkout"><div className="fas fa-shopping-cart" /></Link>
+        <span id="cart-counter">{cart && cart.lineItems && cart.lineItems.length}</span>
+
       </div>
     </nav>
     {/* <hr /> */}
@@ -44,7 +46,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    cart: state.cart
   }
 }
 
@@ -65,3 +68,9 @@ Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
+
+
+// const cartCounter = function (cart) {
+//   if (!cart) return 0
+//   return cart.lineItems.length
+// }
