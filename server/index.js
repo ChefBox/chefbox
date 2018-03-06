@@ -69,6 +69,8 @@ const createApp = () => {
     }
   })
 
+  app.use('/github', (req, res, next) => res.redirect('https://github.com/ChefBox/chefbox'))
+
   // sends index.html
   app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'))
