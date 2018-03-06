@@ -69,7 +69,7 @@ export function removeCategory(id){
     return function thunk(dispatch){
         console.log(id)
         return axios.delete(`/api/categories/${id}`)
-        .then(() => 
+        .then(() =>
         {
             return dispatch(deleteCategory(id))
         })
@@ -88,7 +88,7 @@ export default function reducer(categories = [], action) {
           return category.id === action.id ? action.category : category
         });
       case DELETE:
-        return categories.filter(category => {console.log(category) 
+        return categories.filter(category => {console.log(category)
         return category.id !== action.id});
       default:
         return categories;
