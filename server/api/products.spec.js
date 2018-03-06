@@ -40,7 +40,9 @@ describe('Product routes without a seed data', () => {
             timeToPrep: 3,
             numberInStock: 100,
             calories: 20,
-            description: 'mountain mushroom'
+            description: 'mountain mushroom',
+            categories: ['deli'],
+            imageUrl: 'https://www.macalester.edu/sustainability/wp-content/uploads/sites/90/2016/07/realfood.jpg'
         }
 
         beforeEach(() => {
