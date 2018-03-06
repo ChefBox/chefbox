@@ -3,17 +3,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-
 import {ProductItem} from '../'
 
 /**
  * COMPONENT
  */
-class ProductList extends React.Component {
+
+class ProductCategory extends React.Component {
     constructor(props){
         super(props)
         this.renderWithProducts = this.renderWithProducts.bind(this)
     }
+
 
     render(){
         return (
@@ -21,8 +22,8 @@ class ProductList extends React.Component {
                 <div>
                     <h1>All Boxes</h1>
                     {
-                        this.props.isAdmin !== 'admin' ?
-                        null : (
+                        this.props.email === '' ?
+                        <div /> : (
                         <Link to="/products/create">
                             <button>Add Box</button>
                         </Link>
@@ -58,11 +59,9 @@ class ProductList extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user }) => {
-    return {
-        products,
-        isAdmin: !user ? null : user.role
-    }
+const mapState = ({ products, categories }) => {
+    return { products, categories }
 }
 
-export default connect(mapState)(ProductList)
+export default connect(mapState)(ProductCategory)
+

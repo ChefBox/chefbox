@@ -1,7 +1,7 @@
 'use strict ';
 const db = require('../db')
 const router = require('express').Router()
-const { Product, Review, ProductImages } = require('../db/models')
+const { Product, Review, ProductImages, Category } = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
@@ -30,7 +30,19 @@ router.get('/', (req, res, next) => {
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
-  Product.findById(id)
+  Product.findById(id, {
+    include: [
+      { model: Review },
+      { model: ProductImages },
+      {
+        attributes: ['name'],
+        model: Category,
+        through: {
+          attributes: []
+        }
+      }
+    ]
+  })
     .then(product => res.json(product))
     .catch(next)
 })
@@ -49,13 +61,18 @@ router.put('/:productId', (req, res, next) => {
     where: { id },
     returning: true,
   })
-    // .then(([rowsUpdate, [product]]) => {
-    //   res.json(product)
-    // })
     .then(() => {
       return Product.findById(id, {
         include: [
-          { model: ProductImages }
+          { model: Review },
+          { model: ProductImages },
+          {
+            attributes: ['name'],
+            model: Category,
+            through: {
+              attributes: []
+            }
+          }
         ]
       })
         .then(product => {
