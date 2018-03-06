@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom';
 
 import {ProductItem} from '../'
+import AllCategories from '../Category/AllCategories';
 
 /**
  * COMPONENT
@@ -19,6 +20,7 @@ class ProductList extends React.Component {
         return (
             <div>
                 <div>
+                    <AllCategories />
                     <h1>All Boxes</h1>
                     {
                         this.props.isAdmin !== 'admin' ?

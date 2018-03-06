@@ -34,7 +34,10 @@ class AllCategories extends React.Component {
                     <div /> : (
                  <div>
                      {this.props.categories.map((category)=>
-                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`}</div>
+                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`} 
+                     <button> Edit </button>
+                     <Link to= {'/removecategory'} > <button> Remove </button> </Link>
+                     </div>
                 )}
                 </div>
                     )
