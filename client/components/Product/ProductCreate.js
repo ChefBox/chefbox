@@ -20,11 +20,14 @@ class ProductCreate extends React.Component {
             availability: 'pending',
             numberInStock: 0,
             calories: 0,
+            categories: [],
+            imageUrl: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     render(){
+        console.log(this.state)
         const availability = [
             'pending',
             'available',
@@ -48,12 +51,11 @@ class ProductCreate extends React.Component {
                         Product Image
                         <input
                             onChange={event =>
-                                this.setState({ image: event.target.value })
+                                this.setState({ imageUrl: event.target.value })
                             }
-                            name="Image"
-                            placeholder="Product Image"
-                            // required
-                            // value=
+                            name="imageUrl"
+                            placeholder="Product imageUrl"
+                            required
                         />
                     </h3>
                     <h3>
@@ -162,10 +164,11 @@ class ProductCreate extends React.Component {
         const {categories} = this.props
         return categories.map(category => (
                 <div
+                    onChange={event => this.setState({categories: [...this.state.categories, {id: event.target.name}]})}
                     key={category.id}
                     name={category.id}
                 >
-                    <input type="checkbox" /> {category.name}
+                    <input type="checkbox" name={category.id}/> {category.name}
                 </div>
             )
         )

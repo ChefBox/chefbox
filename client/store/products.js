@@ -53,7 +53,6 @@ export function fetchProducts () {
 }
 
 export function addProduct (product, history) {
-  //console.log(product)
   return function thunk (dispatch) {
     return axios.post('/api/products', product)
     .then(res => res.data)

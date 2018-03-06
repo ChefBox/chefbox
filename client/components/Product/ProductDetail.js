@@ -40,7 +40,7 @@ class ProductDetail extends React.Component {
                                     <span>{product.numberInStock} Available</span>
                                 </div>
                                 <h2>
-                                    {product.categories.map(category => category.name)}
+                                    {product.categories.map(category => category.name).join(' ')}
                                 </h2>
                                 <div>
                                     {
@@ -149,9 +149,8 @@ class ProductDetail extends React.Component {
                                         <div>Verified Purchase</div>
                                         <p>{review.content}</p>
                                     </li>
-                                ))
-                            }
-                        })
+                                )
+                            )
                     }
                 </ul>
                 <Link to={`/products/${product.id}/reviews`}>
