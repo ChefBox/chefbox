@@ -39,7 +39,6 @@ function withCart(req, res, next) {
 router.use('/', withCart)
 
 router.get('/', (req, res, next) => {
-  // res.json(req.cart)
   const cartId = req.cart.id
   Order.findById(cartId, {
     include: [{
@@ -56,15 +55,25 @@ router.post('/', (req, res, next) => {
   const orderId = req.cart.id
   const { productId, quantity } = req.body;
   LineItem.create({ productId, quantity, orderId })
-    .then(item => res.json(item))
+    .then(() => {
+      return Order.findById(orderId, {
+        include: [{
+          model: LineItem
+        }, {
+          model: Product
+        }]
+      })
+      .then(cart => {
+        res.json(cart)
+      })
+      .catch(next)
+    })
     .catch(next)
 });
 
 router.delete('/item/:productId', (req, res, next) => {
-  // console.log('*** DELETE:', req.cart.id)
   const productId = req.params.productId
   const orderId = req.cart.id
-  //const orderId = 1//for testing
 
   LineItem.destroy({ where: { productId, orderId } })
     .then(() => {
@@ -72,4 +81,3 @@ router.delete('/item/:productId', (req, res, next) => {
       res.status(204).send('Item deleted successfully. ' + productId + ' ' + orderId)})
     .catch(next)
 })
-/// get my cart id
