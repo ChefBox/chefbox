@@ -95,6 +95,13 @@ form div {
   width: 10vw;
 }
 
+.add-to-cart {
+  display: none;
+}
+
+.add-to-cart:active  {
+  display: contents;
+}
 
 .footer {
   display: flex;
