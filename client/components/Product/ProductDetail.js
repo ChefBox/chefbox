@@ -3,7 +3,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
-import AllCategories from '../Category/AllCategories'
 import store, { createItem, fetchProduct } from '../../store'
 
 /**
@@ -20,6 +19,10 @@ class ProductDetail extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.renderWithReviews = this.renderWithReviews.bind(this)
         this.numberToBuy = this.numberToBuy.bind(this)
+    }
+
+    componentDidMount(){
+        this.props.fetchProduct()
     }
 
     render(){
@@ -39,15 +42,12 @@ class ProductDetail extends React.Component {
                                     <span>{product.numberInStock} Available</span>
                                 </div>
                                 <h2>
-                                    {
-                                        categories[0] === undefined ?
-                                        <div /> : this.whatCategories()
-                                    }
+                                    {product.categories.map(category => category.name)}
                                 </h2>
                                 <div>
                                     {
-                                        email === '' ?
-                                        <div /> : (
+                                        isAdmin !== 'admin' ?
+                                        null : (
                                         <Link
                                             to={`/products/${product.id}/admin/edit`}
                                         >
@@ -56,7 +56,6 @@ class ProductDetail extends React.Component {
                                         )
                                     }
                                 </div>
-
                             </div>
                             <ul>
                                 {product.ingredients
@@ -106,22 +105,17 @@ class ProductDetail extends React.Component {
         )
     }
 
-    whatCategories(){
-        const { product, categories } = this.props
-        const categoriesForOne = categories.filter(category =>
-            category.products.find(select =>
-                select === undefined ? false : select.id === product.id))
-        return categoriesForOne.map(category => category.name)
-    }
+
 
     numberToBuy(){
         const num = this.props.product.numberInStock
         let result = []
         for (var i = 1; i <= num; i++){
-            result.push(<option key={i} value={i} >{i}</option>)
+            result.push(<option key={i} >{i}</option>)
         }
         return result
     }
+
 
     handleChange(event){
         const quantity = event.target.value
@@ -144,16 +138,16 @@ class ProductDetail extends React.Component {
             <div>
                 <div>
                     {
-                        reviewsForOne
+                        product.reviews
                             .reduce((accu, curr, index, array) =>
                                 (accu + (curr.rating / array.length)), 0)
                             .toFixed(1)
                     }
                 </div>
-                <div>{reviewsForOne.length} customer reviews</div>
+                <div>{product.reviews.length} customer reviews</div>
                 <ul>
                     {
-                        reviewsForOne
+                        product.reviews
                             .sort((pre, next) => next.id - pre.id)
                             .slice(0, maxReviewToShow)
                             .map(review => (
@@ -182,19 +176,10 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
-
-
-const mapState = ({ products, user, reviews, categories }, ownProps) => {
-    // <=== need cart as well
-    const email = user.email || ''
-    const paramId = Number(ownProps.match.params.productId)
-    const product = products.find(product => product.id === paramId)
-    const reviewsForOne = reviews.filter(review => review.productId === paramId)
+const mapState = ({ user, product }) => {
     return {
-        email,
         product,
-        reviewsForOne,
-        categories,
+        isAdmin: !user ? null : user.role,
     }
 }
 
@@ -205,4 +190,4 @@ const mapDispatch = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapState)(ProductDetail)
+export default connect(mapState, mapDispatch)(ProductDetail)

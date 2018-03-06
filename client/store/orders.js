@@ -49,8 +49,8 @@ export function createItem(item) {
   return function thunk(dispatch) {
     return axios.post('/api/cart', item)
       .then(res => res.data)
-      .then(({productId, quantity}) => {
-        dispatch(addToCart({ productId, quantity }))
+      .then(cart => {
+        dispatch(getCart(cart))
       })
   }
 }
@@ -67,7 +67,7 @@ export default function reducer(state = {}, action) {
     case GET_CART:
       return action.cart
     case ADD_TO_CART:
-      return { ...state, lineItems: [...state.lineItems, action.item] }
+      return action.cart
     case REMOVE_FROM_CART:
       const updatedItems = state.lineItems.filter(i => i.productId !== action.productId);
       return { ...state, lineItems: updatedItems }
