@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { Order, LineItem, Product } = require('../db/models')
+const nodemailer = require('nodemailer');
 
 module.exports = router
 
@@ -37,6 +38,28 @@ function withCart(req, res, next) {
 }
 
 router.use('/', withCart)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+         user: process.env.GMAIL_USERNAME,
+         pass: process.env.GMAIL_PASSWORD
+
+     }
+ });
+
+
+router.post('/checkout', (req, res, next) => {
+  const mailOptions = {
+    from: process.env.GMAIL_USERNAME, // sender address
+    to: 'brainomite@gmail.com', // list of receivers
+    subject: 'Subject of your email', // Subject line
+    html: `<p>${JSON.stringify(req.cart)}</p>`// plain text body
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {res.send(err)}
+    else {res.send(info);}
+  });
+})
 
 router.get('/', (req, res, next) => {
   const cartId = req.cart.id
