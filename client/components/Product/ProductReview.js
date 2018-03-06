@@ -29,6 +29,16 @@ class ProductReview extends React.Component {
                     <div>
                         <div>
                             <ProductItem product={product} />
+                            <p>$ {product.price} + tax</p>
+                            <div>
+                                {
+                                    product.reviews
+                                        .reduce((accu, curr, index, array) =>
+                                            (accu + (curr.rating / array.length)), 0)
+                                        .toFixed(1)
+                                }
+                            </div>
+                            <div>Total {product.reviews.length} customer reviews</div>
                         </div>
                         <ul>
                             {
