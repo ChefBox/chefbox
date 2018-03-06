@@ -13,6 +13,9 @@ router.get('/', (req, res, next) => {
       },
       {
         model: ProductImages
+      },
+      {
+        model: Category
       }
     ]
   })
@@ -27,6 +30,7 @@ router.get('/', (req, res, next) => {
     })
     .catch(next)
 })
+
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
