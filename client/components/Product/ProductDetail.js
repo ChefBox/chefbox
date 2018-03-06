@@ -4,6 +4,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import AllCategories from '../Category/AllCategories'
+import store, { createItem } from '../../store'
 
 /**
  * COMPONENT
@@ -12,8 +13,9 @@ class ProductDetail extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            quantity: 0,
-            bool: true
+            quantity: 1,
+            bool: true,
+            addedToCartMsgClss: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -25,6 +27,7 @@ class ProductDetail extends React.Component {
     render(){
         const { product, categories, email } = this.props
         const reviewsForOne = this.props.reviewsForOne
+        let addToCartMsgClss = 'hidden'
         return (
             <div>
                 {
@@ -56,7 +59,7 @@ class ProductDetail extends React.Component {
                                         )
                                     }
                                 </div>
-                                
+
                             </div>
                             <ul>
                                 {product.ingredients
@@ -83,6 +86,7 @@ class ProductDetail extends React.Component {
                                             <button onClick={this.handleSubmit}>
                                                 Add to Cart
                                             </button>
+                                            <div className={`add-to-cart${this.state.addedToCartMsgClss}`} >Added to Cart</div>
                                         </form>
                                     ) : (
                                         <div />
@@ -116,21 +120,24 @@ class ProductDetail extends React.Component {
     numberToBuy(){
         const num = this.props.product.numberInStock
         let result = []
-        for (var i = 0; i <= num; i++){
-            result.push(<option key={i} >{i}</option>)
+        for (var i = 1; i <= num; i++){
+            result.push(<option key={i} value={i} >{i}</option>)
         }
         return result
     }
 
     handleChange(event){
-        const quantity = event.target.quantity.value
+        const quantity = event.target.value
         this.setState({ quantity })
     }
 
     handleSubmit(event){
         event.preventDefault()
-        // const { updateCart } = this.props
-        // updateCart(this.state)
+
+        store.dispatch(createItem({ productId: this.props.product.id, quantity: this.state.quantity}))
+        this.setState({addedToCartMsgClss: ':active'})
+        const hideMsg = () => this.setState({addedToCartMsgClss: ''})
+        window.setTimeout(hideMsg, 2000)
     }
 
     renderWithReviews(){
@@ -181,6 +188,8 @@ class ProductDetail extends React.Component {
 /**
  * CONTAINER
  */
+
+
 const mapState = ({ products, user, reviews, categories }, ownProps) => {
     // <=== need cart as well
     const email = user.email || ''
@@ -195,7 +204,10 @@ const mapState = ({ products, user, reviews, categories }, ownProps) => {
     }
 }
 
-// const mapDispatch = dispatch => {
-// }
+// const mapDispatch = dispatch => ({
+//   createItem: dispatch(createItem(item))
+//   })
+
+
 
 export default connect(mapState)(ProductDetail)
