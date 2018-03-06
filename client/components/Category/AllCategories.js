@@ -29,16 +29,18 @@ class AllCategories extends React.Component {
 
         return (
             <div>
+                <h1> Categories </h1>
                 {
                     this.props.categories === undefined ?
                     <div /> : (
                  <div>
                      {this.props.categories.map((category)=>
                      <div onClick={this.handleClick} key= {category.id}> {`${category.name}`} 
-                     <button> Edit </button>
-                     <Link to= {'/removecategory'} > <button> Remove </button> </Link>
+                     <Link to= {`/editcategory/${category.id}`} ><button> Edit </button ></Link >
                      </div>
                 )}
+                <div><Link to = {'/addcategory'}> <button> Add a Category </button> </Link> </div>
+                <Link to= {'/removecategory'}> <button> Remove Categories </button> </Link >
                 </div>
                     )
                 }
