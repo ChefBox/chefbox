@@ -114,7 +114,7 @@ class ProductCreate extends React.Component {
                     <h3>
                         Product Availability
                         <select
-                            onChange={event => 
+                            onChange={event =>
                                 this.setState({ availability: event.target.value })
                             }>
                             {
