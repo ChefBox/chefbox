@@ -64,7 +64,7 @@ describe('Review routes without a seed data', () => {
             })
         })
     })
-    
+
     describe('`/api/reviews/:reviewId` URI', () => {
         const fakeReview = {
             title: 'Soo Good',
@@ -98,7 +98,7 @@ describe('Review routes without a seed data', () => {
                     where: { id: 1 }
                 })
             })
-    
+
             it('PUT update a specitic Review', () => {
                 return request(app)
                     .put('/api/reviews/1')
@@ -114,5 +114,5 @@ describe('Review routes without a seed data', () => {
                     .expect(204)
             })
         })
-    })    
+    })
 })

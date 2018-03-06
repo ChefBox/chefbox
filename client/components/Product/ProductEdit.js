@@ -115,19 +115,19 @@ class ProductEdit extends React.Component {
                     </h3>
                     <h3>
                         Product Availability
-
                         <select
-                            onChange={event => 
+                            onChange={event =>
                                     this.productUpdate({ availability: event.target.value })
                             }
                             value={product === undefined ? '' : product.availability}
                         >
                             {
                                 availability
-                                    .map((option, index) => 
+                                    .map((option, index) => (
                                         <option key={index}>
                                             {option}
                                         </option>
+                                    )
                                 )
                             }
                         </select>

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom';
 
 import {ProductItem} from '../'
 import {fetchProduct} from '../../store'
@@ -11,10 +10,6 @@ import {fetchProduct} from '../../store'
  * COMPONENT
  */
 class ProductReview extends React.Component {
-    constructor(props){
-        super(props)
-    }
-
     componentDidMount(){
         this.props.fetchProduct()
     }

@@ -1,5 +1,5 @@
 'use strict ';
-const db = require('../db')
+
 const router = require('express').Router()
 const { Product, Review, ProductImages, Category } = require('../db/models')
 module.exports = router

@@ -3,7 +3,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom';
-import {EditCategories, CategoryCreate} from '../'
 import {addProduct} from '../../store'
 
 /**
@@ -117,12 +116,11 @@ class ProductCreate extends React.Component {
                         <select
                             onChange={event => 
                                 this.setState({ availability: event.target.value })
-                            }
-                        >
+                            }>
                             {
                                 availability
-                                    .map((option, index) => (
-                                        <option key={index}>{option}</option>
+                                    .map(option => (
+                                        <option key={option}>{option}</option>
                                     )
                                 )
                             }
@@ -149,7 +147,7 @@ class ProductCreate extends React.Component {
                             }
                         </div>
                         <div>
-                            <Link to='/addcategory'>
+                            <Link to="/addcategory">
                                 <button>Add Category</button>
                             </Link>
                         </div>

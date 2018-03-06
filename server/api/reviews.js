@@ -1,6 +1,5 @@
 'use strict ';
 
-const db = require('../db')
 const router = require('express').Router()
 const { Review } = require('../db/models')
 module.exports = router
