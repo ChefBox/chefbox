@@ -52,6 +52,12 @@ export function fetchProducts () {
   }
 }
 
+// export function fetchProductsByCategory (product) {
+//   return function thunk (dispatch) {
+//     return axios.get(`/api/products/${product.categoryId}`)
+//   }
+// }
+
 export function addProduct (product, history) {
   return function thunk (dispatch) {
     return axios.post('/api/products', product)

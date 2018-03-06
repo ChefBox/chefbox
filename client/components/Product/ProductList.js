@@ -13,10 +13,28 @@ import AllCategories from '../Category/AllCategories';
 class ProductList extends React.Component {
     constructor(props){
         super(props)
+        this.state = {
+            products: ProductList.filterProducts(props)
+        }
         this.renderWithProducts = this.renderWithProducts.bind(this)
     }
 
+    static filterProducts(props){
+        if(!props.categoryName) return props.products
+        const categoryName = props.categoryName.toLowerCase()
+
+        return props.products
+            .filter(product => product.categories
+                .find(category => 
+                    category.name.toLowerCase() === categoryName))
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({products: ProductList.filterProducts(props)})
+    }
+
     render(){
+        console.log(this.props.categories)
         return (
             <div>
                 <div>
@@ -32,7 +50,7 @@ class ProductList extends React.Component {
                     }
                 </div>
                 {
-                    this.props.products[0] === undefined ?
+                    this.state.products[0] === undefined ?
                     <p>There are no Products registered in the database.</p> :
                     this.renderWithProducts()
                 }
@@ -41,7 +59,7 @@ class ProductList extends React.Component {
     }
 
     renderWithProducts(){
-        const products = this.props.products
+        const products = this.state.products
         return (
             <div>
                 {
