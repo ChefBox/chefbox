@@ -23,28 +23,35 @@ class ProductReview extends React.Component {
         const product = this.props.product
         return (
             <div>
-                <div>
-                    <ProductItem product={product} />
-                </div>
-                <ul>
-                    {
-                        product.reviews
-                            .sort((pre, next) => next.id - pre.id)
-                            .map(review => (
-                                    <li key={review.id}>
-                                        <div>
-                                            <div>{review.rating}</div>
-                                            <h4>{review.title}</h4>
-                                        </div>
-                                        <div>{Date(review.createdAt)}</div>
-                                        <div>Verified Purchase</div>
-                                        <p>{review.content}</p>
-                                    </li>
-                                ))
+                {
+                    !product.reviews ?
+                    null : (
+                    <div>
+                        <div>
+                            <ProductItem product={product} />
+                        </div>
+                        <ul>
+                            {
+                                product.reviews
+                                    .sort((pre, next) => next.id - pre.id)
+                                    .map(review => (
+                                            <li key={review.id}>
+                                                <div>
+                                                    <div>{review.rating}</div>
+                                                    <h4>{review.title}</h4>
+                                                </div>
+                                                <div>{Date(review.createdAt)}</div>
+                                                <div>Verified Purchase</div>
+                                                <p>{review.content}</p>
+                                            </li>
+                                        ))
+                                    }
+                                })
                             }
-                        })
-                    }
-                </ul>
+                        </ul>
+                    </div>
+                    )
+                }
             </div>
         )
     }

@@ -47,6 +47,7 @@ class ProductList extends React.Component {
                         <ProductItem
                             product={product}
                             key={product.id}
+                            showDeleteButton={true}
                         />
                     ))
                 }
