@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { Order, LineItem, Product } = require('../db/models')
 const nodemailer = require('nodemailer');
+const Op = require('sequelize').Op
 
 module.exports = router
 
@@ -18,8 +19,17 @@ function withCart(req, res, next) {
   if (req.cart) return next()
 
   if (req.session.cartId) {
-    console.log('CART ID IS ON SESSION ROUTE')
-    const order = Order.findById(req.session.cartId)
+
+    const order = Order.findOne( {
+      where: {
+        status: 'cart',
+        id: req.session.cartId,
+        },
+        include: [
+            Product
+        ]
+      }
+    )
     order.then(cart => {
       if (cart === null) {
         req.session.cartId = undefined;
@@ -49,15 +59,50 @@ const transporter = nodemailer.createTransport({
 
 
 router.post('/checkout', (req, res, next) => {
+  const body = req.cart.products.reduce((tableBody, product) => {
+    const lineItem = product.lineItem
+    return tableBody + `<tr><td>${product.name}</td><td>$${product.price}</td>${lineItem.quantity}<td></td><td>$${product.price * lineItem.quantity}</td></tr>\n`
+  }, '')
   const mailOptions = {
     from: process.env.GMAIL_USERNAME, // sender address
-    to: 'brainomite@gmail.com', // list of receivers
-    subject: 'Subject of your email', // Subject line
-    html: `<p>${JSON.stringify(req.cart)}</p>`// plain text body
+    to: req.user.email, // list of receivers
+    subject: 'Thank you for your order', // Subject line
+    html: ` You paid $${req.body.price}
+      <table>
+        <thead>
+          <tr>
+            <td>Box</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>SubTotal</td>
+          </tr>
+        </thead>
+        <tbody>
+          ${body}
+        </tbody>
+      </table>
+    `// plain text body
   };
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {res.send(err)}
-    else {res.send(info);}
+    else {
+      try {
+        console.log('tickle ');
+        // const result = req.user.setOrders(req.cart) //set to user
+        const result = req.cart.setUser(req.user)
+        console.log('RESULT', result)
+        result.then(() => req.cart.update({status: 'paid'})) //update paid
+        .then(() => {
+          console.log('req.cart: ', req.cart);
+          req.cart = undefined
+          req.session.cartId = undefined
+          return res.send(info)
+        })
+        .catch(console.error.bind(console, 'THERE WAS TOTALLY A PROBLEM'))
+      } catch (tErr) {
+        console.error(tErr)
+      }
+    }
   });
 })
 
