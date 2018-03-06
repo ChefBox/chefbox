@@ -17,8 +17,9 @@ class CreateCategory extends React.Component{
 
     handleSubmit(event){
         event.preventDefault()
-        const {addCategory} = this.props
+        const {addCategory, history} = this.props
         addCategory(this.state)
+        history.push('/products/admin/create')
     }
 
 

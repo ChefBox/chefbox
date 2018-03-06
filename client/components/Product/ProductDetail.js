@@ -28,8 +28,8 @@ class ProductDetail extends React.Component {
         return (
             <div>
                 {
-                    product === undefined ?
-                    <div>from ProductDetail</div> : (
+                    !product.name ?
+                    null : (
                     <div>
                         <img src={product.productImages[0].imageUrl} />
                         <div>
@@ -49,7 +49,7 @@ class ProductDetail extends React.Component {
                                         email === '' ?
                                         <div /> : (
                                         <Link
-                                            to={`/products/${product.id}/edit`}
+                                            to={`/products/${product.id}/admin/edit`}
                                         >
                                             <button>Edit</button>
                                         </Link>
@@ -138,10 +138,8 @@ class ProductDetail extends React.Component {
     }
 
     renderWithReviews(){
-        const { reviewsForOne, product } = this.props
-        const max = this.state.bool ? 3 : reviewsForOne.length
-        const seeReviews = this.state.bool ?
-            `See all ${reviewsForOne.length} reviews` : 'See less'
+        const product = this.props.product
+        const maxReviewToShow = 3
         return (
             <div>
                 <div>
@@ -157,7 +155,7 @@ class ProductDetail extends React.Component {
                     {
                         reviewsForOne
                             .sort((pre, next) => next.id - pre.id)
-                            .slice(0, max)
+                            .slice(0, maxReviewToShow)
                             .map(review => (
                                     <li key={review.id}>
                                         <div>
@@ -173,10 +171,9 @@ class ProductDetail extends React.Component {
                         })
                     }
                 </ul>
-                <button onClick={event => this.setState({ bool: !this.state.bool })}>
-                    {seeReviews}
-                </button>
-                <AllCategories />
+                <Link to={`/products/${product.id}/reviews`}>
+                    <p>See all {product.reviews.length} reviews</p>
+                </Link>
             </div>
         )
     }
@@ -201,10 +198,11 @@ const mapState = ({ products, user, reviews, categories }, ownProps) => {
     }
 }
 
-// const mapDispatch = dispatch => ({
-//   createItem: dispatch(createItem(item))
-//   })
-
-
+const mapDispatch = (dispatch, ownProps) => {
+    const paramId = ownProps.match.params.productId
+    return {
+        fetchProduct: () => dispatch(fetchProduct(paramId))
+    }
+}
 
 export default connect(mapState)(ProductDetail)

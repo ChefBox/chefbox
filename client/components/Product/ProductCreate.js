@@ -2,8 +2,8 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-
-import { addProduct } from '../../store'
+import {Link} from 'react-router-dom';
+import {addProduct} from '../../store'
 
 /**
  * COMPONENT
@@ -25,7 +25,6 @@ class ProductCreate extends React.Component {
     }
 
     render(){
-        console.log('i am here')
         const availability = [
             'pending',
             'available',
@@ -102,16 +101,26 @@ class ProductCreate extends React.Component {
                         />
                     </h3>
                     <h3>
+                        Product Number in Stock
+                        <input
+                            onChange={event =>
+                                this.setState({ numberInStock: event.target.value })
+                            }
+                            name="numberInStock"
+                            required
+                            placeholder="numberInStock"
+                        />
+                    </h3>
+                    <h3>
                         Product Availability
                         <select
-                            onChange={event => 
+                            onChange={event =>
                                 this.setState({ availability: event.target.value })
-                            }
-                        >
+                            }>
                             {
                                 availability
-                                    .map((option, index) => (
-                                        <option key={index}>{option}</option>
+                                    .map(option => (
+                                        <option key={option}>{option}</option>
                                     )
                                 )
                             }
@@ -130,24 +139,35 @@ class ProductCreate extends React.Component {
                     </h3>
                     <h3>
                         Product Category
-                        {/* <form  >
+                        <div>
                             {
-                                this.state.Catagories
-                                    .map(option => 
-                                        <div
-                                            key={option.id}
-                                            name="option"
-                                        >
-                                            <input type="checkbox"/>
-                                            {option.name}
-                                        </div>
-                                )
+                                !this.props.categories ?
+                                <p>There is no Category.</p> :
+                                this.renderWithCategories()
                             }
-                        </form> */}
+                        </div>
+                        <div>
+                            <Link to="/addcategory">
+                                <button>Add Category</button>
+                            </Link>
+                        </div>
                     </h3>
                     <button>Add Product</button>
                 </form>
             </div>
+        )
+    }
+
+    renderWithCategories(){
+        const {categories} = this.props
+        return categories.map(category => (
+                <div
+                    key={category.id}
+                    name={category.id}
+                >
+                    <input type="checkbox" /> {category.name}
+                </div>
+            )
         )
     }
 
@@ -161,7 +181,7 @@ class ProductCreate extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = null
+const mapState = ({ categories }) => ({ categories })
 
 const mapDispatch = (dispatch, ownProps) => ({
     addProduct: (product) =>

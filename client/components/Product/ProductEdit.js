@@ -115,19 +115,19 @@ class ProductEdit extends React.Component {
                     </h3>
                     <h3>
                         Product Availability
-
                         <select
-                            onChange={event => 
+                            onChange={event =>
                                     this.productUpdate({ availability: event.target.value })
                             }
                             value={product === undefined ? '' : product.availability}
                         >
                             {
                                 availability
-                                    .map((option, index) => 
-                                        <option key={index}>
+                                    .map(option => (
+                                        <option key={option}>
                                             {option}
                                         </option>
+                                    )
                                 )
                             }
                         </select>
@@ -160,7 +160,7 @@ class ProductEdit extends React.Component {
         return categories.map(category => {
                 const isMatch = category.products.findIndex(select => {
                     return select === undefined ? false : select.id === product.id})
-                if(isMatch < 0){
+                if (isMatch < 0){
                     return (
                         <div
                             key={category.id}
@@ -195,7 +195,7 @@ class ProductEdit extends React.Component {
             product: Object.assign({}, this.state.product, productUpdateObj)
         })
     }
-    
+
     handleSubmit(event){
         event.preventDefault()
         const { editProduct } = this.props
@@ -208,7 +208,7 @@ class ProductEdit extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = ({ products, user, categories }, ownProps) => { 
+const mapState = ({ products, user, categories }, ownProps) => {
     const paramId = Number(ownProps.match.params.productId)
     const product = products.find(product => product.id === paramId)
     return {
