@@ -91,7 +91,7 @@ class ProductDetail extends React.Component {
                             <div>
                                 <h3>Customer Reviews</h3>
                                 {
-                                    this.props.reviewsForOne === undefined ?
+                                    !product.reviews ?
                                     <p>There are no customer reviews yet.</p> :
                                     this.renderWithReviews()
                                 }
