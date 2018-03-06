@@ -48,6 +48,18 @@ router.get('/:productId', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
+
+  // Category.findAll({ 
+  //   where: {
+  //     name: req.body.categoryId
+  // }})
+  // .then(categories => {
+  //   Product.setCategories(categories)
+  // })
+
+  // ProductImages.create(req.body)
+  //   .then(picture => Product.setProduct(picture))
+  
   Product.create(req.body)
     .then(product =>
       Product.findById(product.id, {
