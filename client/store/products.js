@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history'
 
 /**
  * ACTION TYPES
@@ -52,11 +53,14 @@ export function fetchProducts () {
   }
 }
 
-export function addProduct (product, history) {
+export function addProduct (product) {
   return function thunk (dispatch) {
     return axios.post('/api/products', product)
     .then(res => res.data)
-    .then(newProduct => addProductAndRedirect(newProduct, history, dispatch))
+    .then(newProduct => {
+      dispatch(createProduct(newProduct))
+      history.push(`/products/${newProduct.id}`)
+    })
     .catch(err => console.error(`Creating product ${product} unsuccesful.`, err))
   }
 }
@@ -93,10 +97,4 @@ export default function reducer(products = [], action) {
     default:
       return products;
   }
-}
-
-// helper function
-function addProductAndRedirect(product, history, dispatch){
-  dispatch(createProduct(product))
-  history.push(`/products/${product.id}`)
 }

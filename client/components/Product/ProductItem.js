@@ -21,7 +21,7 @@ class ProductItem extends React.Component {
                 <Link to={`/products/${product.id}`}>
                     <img src={product.productImages[0].imageUrl} />
                     <h3>{product.name}</h3>
-                    <p>Ingredients: {product.ingredients}</p>
+                    <p>Ingredients: {product.ingredients.join(', ')}</p>
                 </Link>
                 {
                     isAdmin !== 'admin' || !showDeleteButton ?

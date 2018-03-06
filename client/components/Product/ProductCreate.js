@@ -164,7 +164,16 @@ class ProductCreate extends React.Component {
         const {categories} = this.props
         return categories.map(category => (
                 <div
-                    onChange={event => this.setState({categories: [...this.state.categories, {id: event.target.name}]})}
+                    onChange={event => {
+                        const isMatch = this.state.categories.findIndex(element => element.id === event.target.name)
+                        if (isMatch < 0){
+                            this.setState({categories: [...this.state.categories, {id: event.target.name}]})
+                        } else {
+                            this.setState({
+                                categories: this.state.categories.slice(0, isMatch).concat(this.state.categories.slice(isMatch+1)) 
+                            })
+                        }
+                    }}
                     key={category.id}
                     name={category.id}
                 >
@@ -186,9 +195,9 @@ class ProductCreate extends React.Component {
  */
 const mapState = ({ categories }) => ({ categories })
 
-const mapDispatch = (dispatch, ownProps) => ({
+const mapDispatch = (dispatch) => ({
     addProduct: (product) =>
-        dispatch(addProduct(product, ownProps.history)
+        dispatch(addProduct(product)
     )
 })
 
