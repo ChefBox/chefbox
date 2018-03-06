@@ -118,8 +118,6 @@ class ProductDetail extends React.Component {
 
     handleSubmit(event){
         event.preventDefault()
-        // const { updateCart } = this.props
-        // updateCart(this.state)
     }
 
     renderWithReviews(){
@@ -168,10 +166,9 @@ class ProductDetail extends React.Component {
  * CONTAINER
  */
 const mapState = ({ user, product }) => {
-    // <=== need cart as well
     return {
-        isAdmin: !user ? null : user.role,
         product,
+        isAdmin: !user ? null : user.role,
     }
 }
 
