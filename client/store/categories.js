@@ -67,7 +67,6 @@ export function editCategory(category, id){
 
 export function removeCategory(id){
     return function thunk(dispatch){
-        console.log(id)
         return axios.delete(`/api/categories/${id}`)
         .then(() =>
         {
@@ -88,8 +87,9 @@ export default function reducer(categories = [], action) {
           return category.id === action.id ? action.category : category
         });
       case DELETE:
-        return categories.filter(category => {console.log(category)
-        return category.id !== action.id});
+        return categories.filter(category => {
+            return category.id !== action.id
+        });
       default:
         return categories;
     }
