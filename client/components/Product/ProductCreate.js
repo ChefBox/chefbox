@@ -102,6 +102,17 @@ class ProductCreate extends React.Component {
                         />
                     </h3>
                     <h3>
+                        Product Number in Stock
+                        <input
+                            onChange={event =>
+                                this.setState({ numberInStock: event.target.value })
+                            }
+                            name="numberInStock"
+                            required
+                            placeholder="numberInStock"
+                        />
+                    </h3>
+                    <h3>
                         Product Availability
                         <select
                             onChange={event => 
