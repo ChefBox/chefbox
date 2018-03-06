@@ -27,7 +27,6 @@ class ProductDetail extends React.Component {
 
     render(){
         const { product, isAdmin } = this.props
-        let addToCartMsgClss = 'hidden'
         return (
             <div>
                 {
