@@ -4,7 +4,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 import AllCategories from '../Category/AllCategories'
-import store, { createItem } from '../../store'
+import store, { createItem, fetchProduct } from '../../store'
 
 /**
  * COMPONENT
@@ -14,19 +14,16 @@ class ProductDetail extends React.Component {
         super(props)
         this.state = {
             quantity: 1,
-            bool: true,
             addedToCartMsgClss: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.renderWithReviews = this.renderWithReviews.bind(this)
         this.numberToBuy = this.numberToBuy.bind(this)
-        this.whatCategories = this.whatCategories.bind(this)
     }
 
     render(){
-        const { product, categories, email } = this.props
-        const reviewsForOne = this.props.reviewsForOne
+        const { product, isAdmin } = this.props
         let addToCartMsgClss = 'hidden'
         return (
             <div>
