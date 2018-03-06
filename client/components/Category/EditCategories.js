@@ -73,7 +73,8 @@ const mapState = ({ categories }, ownProps) => {
   const [catTemp] = categories.filter(cat => {
     return cat.id === +ownProps.match.params.id;
   });
-  const category = catTemp ? catTemp : {}
+  const category = catTemp ? catTemp : {description: '', name: ''}
+
   return { category, categories };
 };
 
