@@ -7,7 +7,9 @@ import { editCategory } from '../../store/';
 class AllCategories extends React.Component {
     constructor(props){
         super(props)
-        this.state = {}
+        this.state = {
+
+        }
         this.handleClick = this.handleClick.bind(this)
         
     }
@@ -34,12 +36,14 @@ class AllCategories extends React.Component {
                     this.props.categories === undefined ?
                     <div /> : (
                  <div>
-                     {this.props.categories.map((category)=>
-                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`} 
+                     {this.props.categories.map((category) =>
+                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`}
+                     <Link to= {`/categories/${category.name}`} ><button> Category View </button></Link>
                      <Link to= {`/editcategory/${category.id}`} ><button> Edit </button ></Link >
                      </div>
                 )}
                 <div><Link to = {'/addcategory'}> <button> Add a Category </button> </Link> </div>
+                <div> <Link to = {'/'}><button> All Products </button> </Link></div>
                 <Link to= {'/removecategory'}> <button> Remove Categories </button> </Link >
                 </div>
                     )
