@@ -2,8 +2,9 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-
-import { addProduct } from '../../store'
+import {Link} from 'react-router-dom';
+import {EditCategories, CategoryCreate} from '../'
+import {addProduct} from '../../store'
 
 /**
  * COMPONENT
@@ -132,8 +133,14 @@ class ProductCreate extends React.Component {
                         <div>
                             {
                                 !this.props.categories ?
-                                <p>There is no Category.</p> : this.renderWithCategories()
+                                <p>There is no Category.</p> :
+                                this.renderWithCategories()
                             }
+                        </div>
+                        <div>
+                            <Link to='/addcategory'>
+                                <button>Add Category</button>
+                            </Link>
                         </div>
                     </h3>
                     <button>Add Product</button>
@@ -147,12 +154,9 @@ class ProductCreate extends React.Component {
         return categories.map(category => (
                 <div
                     key={category.id}
-                    name={category.name}
+                    name={category.id}
                 >
-                    <input
-                        type="checkbox"
-                    />
-                    {category.name}
+                    <input type="checkbox" /> {category.name}
                 </div>
             )
         )
