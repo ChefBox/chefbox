@@ -23,16 +23,11 @@ body {
   width: 20rem;
   height: 6rem;
 }
-#cart-container, #login-container {
+.cart-container, #login-container {
   margin: 0 10px;
 }
 .fa-shopping-cart {
   font-size: 20px;
-
-}
-
-a {
-  text-decoration: none;
 }
 
 label {
@@ -61,8 +56,6 @@ form div {
   align-items: center;
   box-shadow: 0 2px 10px rgb(165, 164, 164)
 }
-
-
 
 .cart {
   width: 60vw;
