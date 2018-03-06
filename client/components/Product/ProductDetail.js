@@ -2,8 +2,8 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom';
-import {fetchProduct} from '../../store'
+import { Link } from 'react-router-dom';
+import store, { createItem, fetchProduct } from '../../store'
 
 /**
  * COMPONENT
@@ -12,7 +12,8 @@ class ProductDetail extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            quantity: 0,
+            quantity: 1,
+            addedToCartMsgClss: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -80,6 +81,7 @@ class ProductDetail extends React.Component {
                                             <button onClick={this.handleSubmit}>
                                                 Add to Cart
                                             </button>
+                                            <div className={`add-to-cart${this.state.addedToCartMsgClss}`} >Added to Cart</div>
                                         </form>
                                     ) : (
                                         <div />
@@ -102,22 +104,30 @@ class ProductDetail extends React.Component {
         )
     }
 
+
+
     numberToBuy(){
         const num = this.props.product.numberInStock
         let result = []
-        for (var i = 0; i <= num; i++){
+        for (var i = 1; i <= num; i++){
             result.push(<option key={i} >{i}</option>)
         }
         return result
     }
 
+
     handleChange(event){
-        const quantity = event.target.quantity.value
+        const quantity = event.target.value
         this.setState({ quantity })
     }
 
     handleSubmit(event){
         event.preventDefault()
+
+        store.dispatch(createItem({ productId: this.props.product.id, quantity: this.state.quantity}))
+        this.setState({addedToCartMsgClss: ':active'})
+        const hideMsg = () => this.setState({addedToCartMsgClss: ''})
+        window.setTimeout(hideMsg, 2000)
     }
 
     renderWithReviews(){

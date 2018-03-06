@@ -1,4 +1,5 @@
-# Boilermaker
+# ChefBox
+Project site: https://github.com/ChefBox/chefbox
 
 *Good things come in pairs*
 
