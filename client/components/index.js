@@ -22,3 +22,4 @@ export {default as ProductList} from './Product/ProductList'
 export {default as ProductItem} from './Product/ProductItem'
 export {default as Signup} from './signup';
 export {default as EditCategories} from './Category/EditCategories'
+export {default as ProductReview} from './Product/ProductReview'
