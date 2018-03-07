@@ -13,6 +13,9 @@ router.get('/', (req, res, next) => {
       },
       {
         model: ProductImages
+      },
+      {
+        model: Category
       }
     ]
   })
@@ -71,21 +74,23 @@ router.get('/:productId', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-
-  // Category.findAll({
-  //   where: {
-  //     name: req.body.categoryId
-  // }})
-  // .then(categories => {
-  //   Product.setCategories(categories)
-  // })
-
-  // ProductImages.create(req.body)
-  //   .then(picture => Product.setProduct(picture))
-
+  let updates = [];
+  let productId = null
   Product.create(req.body)
-    .then(product =>
-      Product.findById(product.id, {
+    .then(product => {
+      productId = product.id
+      updates = req.body.categories.map(category => {
+        Category.findById(category.id)
+          .then(category => {
+            return product.setCategories(category)
+          })
+      })
+      updates.push(ProductImages.create(req.body)
+              .then(picture => product.setProductImages(picture)))
+      return Promise.all(updates)
+    })
+    .then(() => {
+      return Product.findById(productId, {
         include: [
           { model: Review },
           { model: ProductImages },
@@ -97,7 +102,7 @@ router.post('/', (req, res, next) => {
             }
           }
         ]
-      })
+      })}
     )
     .then(product => res.status(201).json(product))
     .catch(next)

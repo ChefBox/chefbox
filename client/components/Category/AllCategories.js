@@ -7,7 +7,9 @@ import { editCategory } from '../../store/';
 class AllCategories extends React.Component {
     constructor(props){
         super(props)
-        this.state = {}
+        this.state = {
+
+        }
         this.handleClick = this.handleClick.bind(this)
         
     }
@@ -26,19 +28,37 @@ class AllCategories extends React.Component {
 
 
     render(){
-
+        console.log(this.props.user)
+        const user = this.props.user
         return (
             <div>
+                <h1> Categories </h1>
                 {
                     this.props.categories === undefined ?
                     <div /> : (
                  <div>
-                     {this.props.categories.map((category)=>
-                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`} 
-                     <button> Edit </button>
-                     <Link to= {'/removecategory'} > <button> Remove </button> </Link>
+
+                     {this.props.categories.map((category) =>
+                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`}
+                     <Link to= {`/categories/${category.name}`} ><button> Category View </button></Link>
+                     <Link to= {`/editcategory/${category.id}`} ><button> Edit </button ></Link >
                      </div>
                 )}
+                <div><Link to = {'/addcategory'}> <button> Add a Category </button> </Link> </div>
+                <div> <Link to = {'/'}><button> All Products </button> </Link></div>
+                <Link to= {'/removecategory'}> <button> Remove Categories </button> </Link >
+
+                     {this.props.categories.map((category)=>
+                     <div onClick={this.handleClick} key= {category.id}> {`${category.name}`} 
+                     { user.role !== 'admin' ? null :
+                     <Link to= {`/editcategory/${category.id}`} ><button> Edit </button ></Link >}
+                     </div>
+                )}
+                {user.role !== 'admin' ? null : 
+                <div><Link to = {'/addcategory'}> <button> Add a Category </button> </Link> </div>}
+                {user.role !== 'admin' ? null : 
+                <Link to= {'/removecategory'}> <button> Remove Categories </button> </Link >}
+
                 </div>
                     )
                 }
@@ -47,6 +67,6 @@ class AllCategories extends React.Component {
     }
 }
 
-const mapState = ({categories, products}) => ({categories, products})
+const mapState = ({categories, products, user}) => ({categories, products, user})
 
 export default connect(mapState)(AllCategories)
