@@ -49,9 +49,8 @@ class ProductReview extends React.Component {
                                                 <div>Verified Purchase</div>
                                                 <p>{review.content}</p>
                                             </li>
-                                        ))
-                                    }
-                                })
+                                        )
+                                    )
                             }
                         </ul>
                     </div>
