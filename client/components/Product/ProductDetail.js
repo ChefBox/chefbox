@@ -33,7 +33,7 @@ class ProductDetail extends React.Component {
                     !product.name ?
                     null : (
                     <div>
-                        <img src={product.productImages[0].imageUrl} />
+                    {product.productImages &&  <img src={product.productImages[0].imageUrl} />}
                         <div>
                             <div>
                                 <div>

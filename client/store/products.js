@@ -1,9 +1,11 @@
 import axios from 'axios';
+import history from '../history';
 
 /**
  * ACTION TYPES
  */
 const GET_PRODUCTS = 'GET_PRODUCTS';
+const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
@@ -16,6 +18,13 @@ const getProducts = (products) => {
   return {
     type: GET_PRODUCTS,
     products
+  }
+}
+
+const getSearchResults = (results) => {
+  return {
+    type: GET_SEARCH_RESULTS,
+    results
   }
 }
 
@@ -52,12 +61,24 @@ export function fetchProducts () {
   }
 }
 
-export function addProduct (product, history) {
+export function queryProducts (searchTerm) {
+  console.log('HISTORY', history)
+  return function thunk (dispatch) {
+    console.log('IN THUNK')
+    return axios.get(`/api/products/search?q=${searchTerm}`)
+    .then(res => res.data)
+    .then(products => dispatch(getSearchResults(products)))
+    .then(() => history.push('/'))
+    .catch(err => console.error(`Searching products by ${searchTerm} unsuccesful.`, err))
+  }
+}
+
+export function addProduct (product) {
   //console.log(product)
   return function thunk (dispatch) {
     return axios.post('/api/products', product)
     .then(res => res.data)
-    .then(newProduct => addProductAndRedirect(newProduct, history, dispatch))
+    .then(newProduct => addProductAndRedirect(newProduct, dispatch))
     .catch(err => console.error(`Creating product ${product} unsuccesful.`, err))
   }
 }
@@ -83,6 +104,8 @@ export default function reducer(products = [], action) {
   switch (action.type) {
     case GET_PRODUCTS:
       return action.products;
+    case GET_SEARCH_RESULTS:
+      return action.results;
     case CREATE_PRODUCT:
       return [...products, action.product];
     case UPDATE_PRODUCT:
@@ -97,7 +120,7 @@ export default function reducer(products = [], action) {
 }
 
 // helper function
-function addProductAndRedirect(product, history, dispatch){
+function addProductAndRedirect(product, dispatch){
   dispatch(createProduct(product))
   history.push(`/products/${product.id}`)
 }

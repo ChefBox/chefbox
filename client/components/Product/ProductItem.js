@@ -16,10 +16,13 @@ class ProductItem extends React.Component {
 
     render(){
         const {product, isAdmin, showDeleteButton} = this.props
+        console.log('PRODUCT IMAGES', JSON.stringify(product.id), JSON.stringify(product.productImages[0]))
+        if(product === undefined) return null;
+
         return (
             <div>
                 <Link to={`/products/${product.id}`}>
-                    <img src={product.productImages[0].imageUrl} />
+                <img src={product.productImages[0].imageUrl} />
                     <h3>{product.name}</h3>
                     <p>Ingredients: {product.ingredients}</p>
                 </Link>

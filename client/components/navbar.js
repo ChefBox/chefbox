@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
+import { Search } from './'
 
 const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:8080' : 'https://chef-box.herokuapp.com'
 
@@ -14,6 +15,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <h1>ChefBox</h1>
       </div>
     </Link>
+    <Search />
     <nav>
       {isLoggedIn ? (
         <div className="login-container">
