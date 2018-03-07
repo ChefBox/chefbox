@@ -39,6 +39,7 @@ class AllCategories extends React.Component {
                             this.props.categories.map((category)=>
                                 <div onClick={this.handleClick} key={category.id}>
                                     {category.name}
+                                    <Link to= {`/categories/${category.name}`} ><button> Category View </button ></Link >
                                     {
                                         user.role !== 'admin' ?
                                         null :
