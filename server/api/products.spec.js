@@ -131,21 +131,6 @@ describe('Product routes without a seed data', () => {
                 })
             })
 
-            // it('PUT update a specitic product', () => {
-            //     return request(app)
-            //         .put('/api/products/1', {
-            //             availability: 'available',
-            //             productImages: [{
-            //                 id: 1,
-            //                 imageUrl: 'http://www.amazon.com'
-            //             }],
-            //         })
-            //         .expect(200)
-            //         .expect(res => {
-            //             expect(res.body.availability).to.equal('available')
-            //     })
-            // })
-
             it('DELETE remove a specitic product', () => {
                 return request(app)
                     .delete('/api/products/1')

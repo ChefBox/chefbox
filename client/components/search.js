@@ -9,14 +9,7 @@ class Search extends React.Component {
       searchTerm: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    // this.handleChange = this.handleChange.bind(this)
   }
-
-
-//   handleChange(evt) {
-//     const searchTerm = evt.target.value
-//     this.setState({ searchTerm })
-// }
 
   handleSubmit(evt) {
     evt.preventDefault()

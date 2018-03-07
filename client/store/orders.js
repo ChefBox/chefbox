@@ -68,8 +68,6 @@ export function checkout(price) {
   return function thunk() {
     return axios.post(`/api/cart/checkout`, {price})
       .then(item => {
-        console.log('item: ', item);
-
         history.push('/')
         return undefined
       })

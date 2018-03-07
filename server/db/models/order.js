@@ -13,7 +13,6 @@ const Order = db.define('order', {
 });
 
 Order.cartForUser = function (user) {
-  //console.log('cart for user', user);
   if (!user) {
     return Order.create();
   } else {
