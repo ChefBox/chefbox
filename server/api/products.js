@@ -13,6 +13,9 @@ router.get('/', (req, res, next) => {
       },
       {
         model: ProductImages
+      },
+      {
+        model: Category
       }
     ]
   })
@@ -27,6 +30,7 @@ router.get('/', (req, res, next) => {
     })
     .catch(next)
 })
+
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
@@ -85,12 +89,25 @@ router.post('/', (req, res, next) => {
 router.put('/:productId', (req, res, next) => {
   const paramsId = req.params.productId
   let updateAll = []
-  updateAll.push(ProductImages.update(req.body.productImages[0], {
-    where: { id: req.body.productImages[0].id }
-  }))
-  updateAll.push(Product.update(req.body, { where: { id: paramsId }}))
-
-  Promise.all(updateAll)
+  Product.update(req.body, { 
+      where: { id: paramsId },
+      returning: true,
+    })
+    .then(([rowsUpdate, [product]]) => {
+      updateAll = req.body.categories.map(category => {
+        Category.findAll({
+          where: {name: category.name},
+        })
+          .then(([category]) => {
+              return product.setCategories(category)
+          })
+      })
+      updateAll.push(ProductImages.update(req.body.productImages[0], {
+        where: { id: req.body.productImages[0].id }
+      })
+        .then(picture => product.setProductImages(picture)))
+      return Promise.all(updateAll)
+    })
     .then(() =>
       Product.findById(paramsId, {
         include: [

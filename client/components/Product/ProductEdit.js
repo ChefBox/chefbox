@@ -37,9 +37,8 @@ class ProductEdit extends React.Component {
             'pending',
             'out of stock'
         ]
-        const {product, imageUrl} = this.state
+        const {product} = this.state
         const {categories} = this.props
-        console.log(product, imageUrl)
         return (
             <div>
                 {
@@ -151,7 +150,7 @@ class ProductEdit extends React.Component {
                                     {this.renderWithCategories()}
                                 </div>
                             </h3>
-                            <button name="save">Save Change</button>
+                            <button>Save Change</button>
                         </form>
                     </div>        
                     )
@@ -164,54 +163,30 @@ class ProductEdit extends React.Component {
         const {product} = this.state
         const {categories} = this.props
         return categories.map(category => {
-                const isMatch = product.categories.findIndex(element => {
-                    return !element ? false : element.name === category.name})
-                if (isMatch < 0){
-                    return (
-                        <div
-                            onChange={event => {
-                                if (isMatch < 0){
-                                    this.productUpdate({categories: [...this.state.categories, {id: event.target.name}]})
-                                } else {
-                                    this.productUpdate({
-                                        categories: this.state.categories.slice(0, isMatch).concat(this.state.categories.slice(isMatch+1)) 
-                                    })
-                                }
-                            }}
-                            key={category.id}
-                            name={category.name}
-                        >
-                            <input
-                                type="checkbox"
-                            />
-                            {category.name}
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div
-                            onChange={event => {
-                                if (isMatch < 0){
-                                    this.productUpdate({categories: [...this.state.categories, {id: event.target.name}]})
-                                } else {
-                                    this.productUpdate({
-                                        categories: this.state.categories.slice(0, isMatch).concat(this.state.categories.slice(isMatch+1)) 
-                                    })
-                                }
-                            }}
-                            key={category.id}
-                            name={category.name}
-                        >
-                            <input
-                                type="checkbox"
-                                defaultChecked
-                                // value="check"
-                            />
-                            {category.name}
-                        </div>
-                    )
-                }
-            }
+            const isMatch = product.categories.findIndex(element => 
+                !element ? false : element.name === category.name
+            )
+            return (
+                <div key={category.id}>
+                    <input
+                        onChange={event => {
+                            if (isMatch < 0){
+                                this.productUpdate({
+                                    categories: [...product.categories, {name: event.target.name}]
+                                })
+                            } else {
+                                this.productUpdate({
+                                    categories: product.categories.slice(0, isMatch).concat(product.categories.slice(isMatch+1)) 
+                                })
+                            }
+                        }}
+                        defaultChecked={isMatch < 0 ? false : true}
+                        type="checkbox"
+                        name={category.name}
+                    />
+                    {category.name}
+                </div>
+            )}
         )
     }
 
@@ -225,22 +200,15 @@ class ProductEdit extends React.Component {
         event.preventDefault()
         const { editProduct } = this.props
         const { product } = this.state
-        console.log(event.target.save.value)
-        // if(event.target.save.value)
-        // editProduct(product, product.id)
-        // this.props.history.push(`/products/${product.id}`)
+        editProduct(product, product.id)
+        this.props.history.push(`/products/${product.id}`)
     }
 }
 
 /**
  * CONTAINER
  */
-const mapState = ({ product, categories }, ownProps) => {
-    return {
-        product,
-        categories,
-    }
-}
+const mapState = ({ product, categories }) => ({ product, categories })
 
 const mapDispatch = (dispatch, ownProps) => {
     const paramId = ownProps.match.params.productId
