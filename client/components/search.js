@@ -31,7 +31,6 @@ class Search extends React.Component {
   }
 }
 
-
 const mapDispatch = (dispatch) => (
   {
     queryProducts: term => dispatch(queryProducts(term))

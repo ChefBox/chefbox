@@ -1,11 +1,9 @@
 import axios from 'axios';
 
-
 const GET = 'GET_CATEGORY'
 const CREATE_CATEGORY = 'CREATE_CATEGORY';
 const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 const DELETE = 'DELETE_CATEGORY';
-
 
 const getCategories = (categories) => {
     return {

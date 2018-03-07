@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-
 const ProductImages = db.define('productImages', {
   imageUrl: {
     type: Sequelize.STRING,
