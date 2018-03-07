@@ -23,7 +23,12 @@ body {
   width: 20rem;
   height: 6rem;
 }
-.cart-container, #login-container {
+
+#search-field {
+  margin: 0 6px
+}
+
+#cart-container, #login-container {
   margin: 0 10px;
 }
 .fa-shopping-cart {

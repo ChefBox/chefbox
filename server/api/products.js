@@ -1,5 +1,5 @@
 'use strict ';
-
+const Op = require('sequelize').Op
 const router = require('express').Router()
 const { Product, Review, ProductImages, Category } = require('../db/models')
 module.exports = router
@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
     ]
   })
     .then(products => {
-      for (let product of products){
+      for (let product of products) {
         product.dataValues.averageRating = product.getAverageRating()
       }
       return products
@@ -31,6 +31,28 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/search', (req, res, next) => {
+  console.log('req.query', req.query.q)
+  const searchTerm = req.query.q
+  Product.findAll(
+    { where: {
+       name: {
+            [Op.iLike]: `%${searchTerm}%`
+          }
+      },
+      include: [
+        {
+          attributes: ['rating'],
+          model: Review,
+        },
+        {
+          model: ProductImages
+        }
+      ]
+    })
+      .then(products => res.json(products))
+      .catch(next)
+})
 
 router.get('/:productId', (req, res, next) => {
   const id = req.params.productId
@@ -59,7 +81,7 @@ router.post('/', (req, res, next) => {
       productId = product.id
       updates = req.body.categories.map(category => {
         Category.findById(category.id)
-          .then(category => {            
+          .then(category => {
             return product.setCategories(category)
           })
       })
