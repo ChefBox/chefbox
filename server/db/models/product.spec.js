@@ -59,5 +59,4 @@ describe('Product model', () => {
       })
     })
   })
-
 })

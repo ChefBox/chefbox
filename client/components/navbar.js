@@ -70,9 +70,3 @@ Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }
-
-
-// const cartCounter = function (cart) {
-//   if (!cart) return 0
-//   return cart.lineItems.length
-// }

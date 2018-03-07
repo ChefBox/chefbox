@@ -207,4 +207,3 @@ const mapSignup = (state) => {
 const mapDispatch = {auth}
 
 export default connect(mapSignup, mapDispatch)(Signup)
-

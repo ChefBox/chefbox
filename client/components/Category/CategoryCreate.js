@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-
+import { connect } from 'react-redux'
 import { addCategory } from '../../store'
-
 
 class CreateCategory extends React.Component{
     constructor(props){

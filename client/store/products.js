@@ -1,7 +1,6 @@
 import axios from 'axios';
 import history from '../history';
 
-
 /**
  * ACTION TYPES
  */
@@ -14,7 +13,6 @@ const DELETE_PRODUCT = 'DELETE_PRODUCT';
 /**
  * ACTION CREATORS
  */
-
 const getProducts = (products) => {
   return {
     type: GET_PRODUCTS,
@@ -63,9 +61,7 @@ export function fetchProducts () {
 }
 
 export function queryProducts (searchTerm) {
-  console.log('HISTORY', history)
   return function thunk (dispatch) {
-    console.log('IN THUNK')
     return axios.get(`/api/products/search?q=${searchTerm}`)
     .then(res => res.data)
     .then(products => dispatch(getSearchResults(products)))

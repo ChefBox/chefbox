@@ -87,13 +87,10 @@ router.post('/checkout', (req, res, next) => {
     if (err) {res.send(err)}
     else {
       try {
-        console.log('tickle ');
         // const result = req.user.setOrders(req.cart) //set to user
         const result = req.cart.setUser(req.user)
-        console.log('RESULT', result)
         result.then(() => req.cart.update({status: 'paid'})) //update paid
         .then(() => {
-          console.log('req.cart: ', req.cart);
           req.cart = undefined
           req.session.cartId = undefined
           return res.send(info)
@@ -145,7 +142,6 @@ router.delete('/item/:productId', (req, res, next) => {
 
   LineItem.destroy({ where: { productId, orderId } })
     .then(() => {
-      console.log({productId, orderId})
       res.status(204).send('Item deleted successfully. ' + productId + ' ' + orderId)})
     .catch(next)
 })

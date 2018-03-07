@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { removeProduct } from '../../store'
 
@@ -16,8 +16,7 @@ class ProductItem extends React.Component {
 
     render(){
         const {product, isAdmin, showDeleteButton} = this.props
-        console.log('PRODUCT IMAGES', JSON.stringify(product.id), JSON.stringify(product.productImages[0]))
-        if(product === undefined) return null;
+        if(!product.productImages[0]) return null;
 
         return (
             <div>

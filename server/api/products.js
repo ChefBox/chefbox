@@ -32,7 +32,6 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/search', (req, res, next) => {
-  console.log('req.query', req.query.q)
   const searchTerm = req.query.q
   Product.findAll(
     { where: {

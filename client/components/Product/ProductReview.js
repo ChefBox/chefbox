@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-
 import {ProductItem} from '../'
 import {fetchProduct} from '../../store'
 
@@ -49,9 +48,8 @@ class ProductReview extends React.Component {
                                                 <div>Verified Purchase</div>
                                                 <p>{review.content}</p>
                                             </li>
-                                        ))
-                                    }
-                                })
+                                        )
+                                    )
                             }
                         </ul>
                     </div>

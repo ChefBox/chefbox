@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { removeCategory, fetchCategories } from '../../store'
 
@@ -10,13 +9,15 @@ class RemoveCategory extends React.Component{
         super(props)
         this.handleClick= this.handleClick.bind(this)
     }
+
+    componentDidMount(){
+        this.props.fetchCategories()
+    }
+
     handleClick(event){
         event.preventDefault()
         const {removeCategory, categories} = this.props
         removeCategory(+event.target.value)
-    }
-    componentDidMount(){
-        this.props.fetchCategories()
     }
 
     render(){
