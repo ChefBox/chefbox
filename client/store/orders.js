@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history'
 
 /**
  * ACTION TYPES
@@ -7,6 +8,7 @@ import axios from 'axios';
 const GET_CART = 'GET_CART'
 const ADD_TO_CART = 'ADD_TO_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+
 
 /**
  * ACTION CREATORS
@@ -59,6 +61,18 @@ export function deleteItem(productId) {
   return function thunk(dispatch) {
     return axios.delete(`/api/cart/item/${productId}`)
       .then(item => dispatch(removeFromCart(productId)))
+  }
+}
+
+export function checkout(price) {
+  return function thunk() {
+    return axios.post(`/api/cart/checkout`, {price})
+      .then(item => {
+        console.log('item: ', item);
+
+        history.push('/')
+        return undefined
+      })
   }
 }
 
