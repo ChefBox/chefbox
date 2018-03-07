@@ -27,7 +27,6 @@ class ProductCreate extends React.Component {
     }
 
     render(){
-        console.log(this.state)
         const availability = [
             'pending',
             'available',
@@ -163,17 +162,34 @@ class ProductCreate extends React.Component {
     renderWithCategories(){
         const {categories} = this.props
         return categories.map(category => (
-                <div
-                    onChange={event => this.setState({categories: [...this.state.categories, {id: event.target.name}]})}
-                    key={category.id}
-                    name={category.id}
-                >
-                    <input type="checkbox" name={category.id}/> {category.name}
+                <div key={category.id}>
+                    <input
+                        onChange={event => {
+                            const isMatch = this.state.categories.findIndex(element => element.id === event.target.name)
+                            if (isMatch < 0){
+                                this.setState({
+                                    categories: [...this.state.categories, {id: event.target.name}]
+                                })
+                            } else {
+                                this.setState({
+                                    categories: this.state.categories.slice(0, isMatch).concat(this.state.categories.slice(isMatch+1)) 
+                                })
+                            }
+                        }}
+                        type="checkbox"
+                        name={category.id}
+                    />
+                    {category.name}
                 </div>
             )
         )
     }
 
+    isMatch(){
+        const {categories} = this.props
+
+
+    }
     handleSubmit(event){
         event.preventDefault()
         const { addProduct } = this.props
@@ -186,9 +202,9 @@ class ProductCreate extends React.Component {
  */
 const mapState = ({ categories }) => ({ categories })
 
-const mapDispatch = (dispatch, ownProps) => ({
+const mapDispatch = (dispatch) => ({
     addProduct: (product) =>
-        dispatch(addProduct(product, ownProps.history)
+        dispatch(addProduct(product)
     )
 })
 

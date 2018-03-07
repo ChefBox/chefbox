@@ -74,20 +74,20 @@ router.get('/:productId', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  let updates = [];
+  let createAll = [];
   let productId = null
   Product.create(req.body)
     .then(product => {
       productId = product.id
-      updates = req.body.categories.map(category => {
+      createAll = req.body.categories.map(category => {
         Category.findById(category.id)
           .then(category => {
             return product.setCategories(category)
           })
       })
-      updates.push(ProductImages.create(req.body)
+      createAll.push(ProductImages.create(req.body)
               .then(picture => product.setProductImages(picture)))
-      return Promise.all(updates)
+      return Promise.all(createAll)
     })
     .then(() => {
       return Product.findById(productId, {
@@ -109,13 +109,29 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:productId', (req, res, next) => {
-  const id = req.params.productId
-  Product.update(req.body, {
-    where: { id },
-    returning: true,
-  })
-    .then(() => {
-      return Product.findById(id, {
+  const paramsId = req.params.productId
+  let updateAll = []
+  Product.update(req.body, { 
+      where: { id: paramsId },
+      returning: true,
+    })
+    .then(([rowsUpdate, [product]]) => {
+      updateAll = req.body.categories.map(category => {
+        Category.findAll({
+          where: {name: category.name},
+        })
+          .then(([category]) => {
+              return product.setCategories(category)
+          })
+      })
+      updateAll.push(ProductImages.update(req.body.productImages[0], {
+        where: { id: req.body.productImages[0].id }
+      })
+        .then(picture => product.setProductImages(picture)))
+      return Promise.all(updateAll)
+    })
+    .then(() =>
+      Product.findById(paramsId, {
         include: [
           { model: Review },
           { model: ProductImages },
@@ -129,9 +145,9 @@ router.put('/:productId', (req, res, next) => {
         ]
       })
         .then(product => {
-          res.json(product)
+          res.status(200).json(product)
         })
-    })
+    )
     .catch(next)
 })
 
